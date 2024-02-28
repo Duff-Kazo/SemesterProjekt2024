@@ -35,6 +35,61 @@ public static class ProcedualGenerationAlgorythms
         }
         return corridor;
     }
+
+    public static List<BoundsInt> BinarySpacePartitioning(BoundsInt spaceToSplit, int minWith, int minHeight)
+    {
+        Queue<BoundsInt> roomsQueue = new Queue<BoundsInt>();
+        List<BoundsInt> roomsList = new List<BoundsInt>();
+        roomsQueue.Enqueue(spaceToSplit);
+        while(roomsQueue.Count > 0)
+        {
+            var room = roomsQueue.Dequeue();
+            if(room.size.y >= minHeight && room.size.x >= minWith)
+            {
+                if(Random.value < 0.5f)
+                {
+                    if(room.size.y >= minHeight * 2)
+                    {
+                        SplitHorizontally(minHeight, roomsQueue, room);
+                    }
+                    else if(room.size.x >= minWith * 2)
+                    {
+                        SplitVertically(minWith, roomsQueue, room);
+                    }
+                    else if(room.size.x >= minWith && room.size.y >= minHeight)
+                    {
+                        roomsList.Add(room);
+                    }
+                }
+                else
+                {
+                    if (room.size.x >= minWith * 2)
+                    {
+                        SplitVertically(minWith, roomsQueue, room);
+                    }
+                    else if(room.size.y >= minHeight * 2)
+                    {
+                        SplitHorizontally(minHeight, roomsQueue, room);
+                    }
+                    else if (room.size.x >= minWith && room.size.y >= minHeight)
+                    {
+                        roomsList.Add(room);
+                    }
+                }
+            }
+        }
+        return roomsList;
+    }
+
+    private static void SplitVertically(int minWith, Queue<BoundsInt> roomsQueue, BoundsInt room)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private static void SplitHorizontally(int minHeight, Queue<BoundsInt> roomsQueue, BoundsInt room)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
 public static class Direction2D
