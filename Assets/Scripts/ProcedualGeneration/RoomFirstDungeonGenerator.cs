@@ -14,7 +14,6 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [SerializeField] private int offset = 1;
     [SerializeField] private bool randomWalkRooms = false;
 
-
     protected override void RunProcedualGeneration()
     {
         CreateRooms();
