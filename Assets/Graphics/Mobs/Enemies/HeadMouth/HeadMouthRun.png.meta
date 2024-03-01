@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a10c142c91bd5ad4686dcd7ee2268e9a
+guid: ee815bf7bcbbaa84a8e438aec41e6f3c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,7 +110,70 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerIdle_0
+      name: HeadMouthRun_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 41
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec8e165e40b33504d8a13fc5bc1465d3
+      internalID: -1587765808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HeadMouthRun_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 128
+        width: 41
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3291c3c132d84840a6f205e15a9dc86
+      internalID: 1819001945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HeadMouthRun_2
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 128
+        width: 41
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 978e17e6be806604187f64041efaa5d4
+      internalID: 457394026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HeadMouthRun_3
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a6222242c70cc446b4ee5645dcfb9d1
-      internalID: -1960460952
+      spriteID: 5bbc4f71b6daa4f44b35398ceb295352
+      internalID: -705130800
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerIdle_1
+      name: HeadMouthRun_4
       rect:
         serializedVersion: 2
         x: 41
@@ -145,14 +208,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c94b660fef2adc43abbdecca8b5a188
-      internalID: -1886684271
+      spriteID: d814df4a922540d4a9cd2582ee4c476a
+      internalID: -1538862148
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerIdle_2
+      name: HeadMouthRun_5
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 64
+        width: 41
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76ade58130155d94bb5aa5e375a44eeb
+      internalID: -762899888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HeadMouthRun_6
       rect:
         serializedVersion: 2
         x: 0
@@ -166,14 +250,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 20e8de1275a9b014284551c4495443d6
-      internalID: 1111985147
+      spriteID: fc2fba52bfcb96444bdf4c6d5c3fbf3b
+      internalID: -1018695175
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerIdle_3
+      name: HeadMouthRun_7
       rect:
         serializedVersion: 2
         x: 41
@@ -187,8 +271,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a73b31658fb42dc4a8b209c89c05f64f
-      internalID: 382444001
+      spriteID: 9d899341b2a730746ba7757d019ef63b
+      internalID: -1312934672
       vertices: []
       indices: 
       edges: []
@@ -204,10 +288,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PlayerIdle_0: -1960460952
-      PlayerIdle_1: -1886684271
-      PlayerIdle_2: 1111985147
-      PlayerIdle_3: 382444001
+      HeadMouthRun_0: -1587765808
+      HeadMouthRun_1: 1819001945
+      HeadMouthRun_2: 457394026
+      HeadMouthRun_3: -705130800
+      HeadMouthRun_4: -1538862148
+      HeadMouthRun_5: -762899888
+      HeadMouthRun_6: -1018695175
+      HeadMouthRun_7: -1312934672
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
