@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using CodeMonkey.Utils;
+using Cinemachine;
+using UnityEngine.UI;
+using Slider = UnityEngine.UI.Slider;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,14 +14,18 @@ public class PlayerController : MonoBehaviour
     private float xInput;
     private float yInput;
     private float scaleX;
+
+
+    //Components
     SpriteRenderer spriteRenderer;
+    private CinemachineVirtualCamera virtualCamera;
 
     //Movement
     [Header("Movement")]
     [SerializeField] private float speed;
 
     //Animations
-    private int monsterState = 3;
+    private int monsterState = 0;
     private string currentState = "";
     private Animator playerAnimator;
 
@@ -42,13 +50,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject blood;
 
     //Health System
-    [SerializeField] private float hp = 9;
+    [Header("Health System")]
+    private float health;
+    [SerializeField] private float lerpSpeed = 0.05f;
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider easeHealthBarSlider;
+    [SerializeField] private float maxHealth = 10;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
         scaleX = transform.localScale.x;
+        health = maxHealth;
     }
     void Update()
     {
@@ -112,17 +127,29 @@ public class PlayerController : MonoBehaviour
         {
             transform.localScale = new Vector3(-scaleX, transform.localScale.y, transform.localScale.z);
         }
+
+
+        //HEALTHBAR
+        if (healthSlider.value != health)
+        {
+            healthSlider.value = health;
+        }
+
+        if(healthSlider.value != easeHealthBarSlider.value)
+        {
+            easeHealthBarSlider.value = Mathf.Lerp(easeHealthBarSlider.value, health, lerpSpeed);
+        }
     }
 
     public void TakeDamage(float damage)
     {
-        if(hp > 0)
+        if(health > 1)
         {
             StartCoroutine(DamageAnimation());
             Instantiate(blood, transform.position, Quaternion.identity);
-            hp--;
+            health--;
         }
-        else if(hp <= 0)
+        else if(health <= 1)
         {
             Die();
         }

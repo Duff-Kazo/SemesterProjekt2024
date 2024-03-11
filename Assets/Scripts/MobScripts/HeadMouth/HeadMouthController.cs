@@ -100,8 +100,11 @@ public class HeadMouthController : MonoBehaviour
 
     private void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-        bullet.transform.up = -dirToPlayer;
+        if(playerInSight)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+            bullet.transform.up = -dirToPlayer;
+        }
     }
 
     private void Die()
