@@ -9,20 +9,24 @@ public class PlayerBulletScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+
     }
 
     void Update()
     {
         rb.velocity = transform.up * speed;
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Walls"))
         {
             Destroy(gameObject);
         }
-        else
+        else if (collision.gameObject.CompareTag("HeadMouth"))
         {
+            HeadMouthController headMouth = collision.gameObject.GetComponent<HeadMouthController>();
+            headMouth.TakeDamage(1);
             Destroy(gameObject);
         }
     }
