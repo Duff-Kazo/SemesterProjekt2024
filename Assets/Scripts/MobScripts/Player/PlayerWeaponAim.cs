@@ -12,11 +12,14 @@ public class PlayerWeaponAim : MonoBehaviour
     private Transform aimGunEndPointPosition;
     private Transform gun;
     private SpriteRenderer gunSpriteRenderer;
+    private PlayerController player;
     [SerializeField] private GameObject bulletPrefab;
-
-    private bool canShoot = true;
+    public bool canShoot = true;
+    public float bulletDamage = 1;
+    public bool fullAuto = false;
     private void Start()
     {
+        player = FindObjectOfType<PlayerController>();
         aimTransform = FindObjectOfType<Aim>().transform;
         aimGunEndPointPosition = aimTransform.Find("GunEndPointPosition");
         gun = aimTransform.Find("Gun");
@@ -48,11 +51,34 @@ public class PlayerWeaponAim : MonoBehaviour
 
     private void HandleShooting()
     {
-        if(Input.GetMouseButtonDown(0) && canShoot)
+        if(fullAuto)
         {
+            if (Input.GetMouseButton(0) && canShoot && !player.isReloading)
+            {
+                Shoot();
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0) && canShoot && !player.isReloading)
+            {
+                Shoot();
+            }
+        }
+        
+    }
+
+    private void Shoot()
+    {
+        if (player.bulletCount > 0)
+        {
+            player.bulletCount -= 1;
             GameObject bullet = Instantiate(bulletPrefab, aimGunEndPointPosition.position, Quaternion.identity);
+            PlayerBulletScript bulletDamageControll = bullet.gameObject.GetComponent<PlayerBulletScript>();
+            bulletDamageControll.playerBulletDamage = bulletDamage;
             bullet.transform.up = aimTransform.up;
             bullet.transform.Rotate(new Vector3(0, 0, -90));
+
             StartCoroutine(ShootCoolDown());
         }
     }

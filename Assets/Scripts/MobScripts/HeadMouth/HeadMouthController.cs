@@ -109,6 +109,7 @@ public class HeadMouthController : MonoBehaviour
 
     private void Die()
     {
+        player.GetBlood(15);
         Destroy(gameObject);
     }
 
