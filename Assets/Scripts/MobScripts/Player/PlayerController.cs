@@ -72,6 +72,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float lerpSpeed = 0.05f;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider easeHealthBarSlider;
+    [SerializeField] private TextMeshProUGUI maxHealthText;
+    [SerializeField] private TextMeshProUGUI currentHealthText;
     private float maxHealth = 10;
 
     //Shop System
@@ -170,6 +172,8 @@ public class PlayerController : MonoBehaviour
 
 
         //HEALTHBAR
+        maxHealthText.text = ("" + maxHealth);
+        currentHealthText.text = (health + "/");
         if (healthSlider.value != health)
         {
             healthSlider.value = health;
