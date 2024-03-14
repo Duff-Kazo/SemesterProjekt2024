@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ShopButtons : MonoBehaviour
 {
     private PlayerController player;
+    public static bool fullAutoBought = false;
+    public static float bulletDamage = 1;
+    [SerializeField] private GameObject fullAutoButton;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
@@ -20,11 +24,15 @@ public class ShopButtons : MonoBehaviour
     }
     public void FullAuto()
     {
-        if (player.bloodPoints >= 200)
+        if(!fullAutoBought)
         {
-            player.bloodPoints -= 200;
-            Debug.Log("FullAuto");
-            player.BuyItem("FullAuto", 200);
+            if (player.bloodPoints >= 200)
+            {
+                player.bloodPoints -= 200;
+                Debug.Log("FullAuto");
+                player.BuyItem("FullAuto", 200);
+                fullAutoButton.SetActive(false);
+            }
         }
     }
     public void MagUpgrade()

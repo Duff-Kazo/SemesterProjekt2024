@@ -15,7 +15,6 @@ public class PlayerWeaponAim : MonoBehaviour
     private PlayerController player;
     [SerializeField] private GameObject bulletPrefab;
     public bool canShoot = true;
-    public float bulletDamage = 1;
     public bool fullAuto = false;
     private void Start()
     {
@@ -51,7 +50,7 @@ public class PlayerWeaponAim : MonoBehaviour
 
     private void HandleShooting()
     {
-        if(fullAuto)
+        if(ShopButtons.fullAutoBought)
         {
             if (Input.GetMouseButton(0) && canShoot && !player.isReloading)
             {
@@ -74,8 +73,6 @@ public class PlayerWeaponAim : MonoBehaviour
         {
             player.bulletCount -= 1;
             GameObject bullet = Instantiate(bulletPrefab, aimGunEndPointPosition.position, Quaternion.identity);
-            PlayerBulletScript bulletDamageControll = bullet.gameObject.GetComponent<PlayerBulletScript>();
-            bulletDamageControll.playerBulletDamage = bulletDamage;
             bullet.transform.up = aimTransform.up;
             bullet.transform.Rotate(new Vector3(0, 0, -90));
 

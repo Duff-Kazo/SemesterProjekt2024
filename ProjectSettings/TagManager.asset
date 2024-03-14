@@ -61,3 +61,6 @@ TagManager:
   - name: enemies
     uniqueID: 2568335769
     locked: 0
+  - name: WorldSpaceUI
+    uniqueID: 3440271929
+    locked: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerBulletScript : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float playerBulletDamage = 1;
     [SerializeField] private float speed;
     void Start()
     {
@@ -25,7 +24,7 @@ public class PlayerBulletScript : MonoBehaviour
         else if (collision.gameObject.CompareTag("HeadMouth"))
         {
             HeadMouthController headMouth = collision.gameObject.GetComponent<HeadMouthController>();
-            headMouth.TakeDamage(playerBulletDamage);
+            headMouth.TakeDamage(ShopButtons.bulletDamage);
             Destroy(gameObject);
         }
     }

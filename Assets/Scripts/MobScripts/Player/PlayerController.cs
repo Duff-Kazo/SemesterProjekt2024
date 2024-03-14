@@ -92,6 +92,10 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
+        if (Interactable.inShop)
+        {
+            return;
+        }
         xInput = Input.GetAxis("Horizontal");
         yInput = Input.GetAxis("Vertical");
 
@@ -104,6 +108,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        bloodPointsText.text = ("" + bloodPoints);
+        if (Interactable.inShop)
+        {
+            return;
+        }
         rb.velocity = new Vector2 (xInput * speed, yInput * speed);
         if(xInput == 0 && yInput == 0)
         {
@@ -179,10 +188,6 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(ReloadWeapon());
         }
-
-
-        //ShopSystem
-        bloodPointsText.text = ("" + bloodPoints);
     }
 
     public void TakeDamage(float damage)
@@ -254,7 +259,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(itemName == "FullAuto")
         {
-            playerWeapon.fullAuto = true;
+            ShopButtons.fullAutoBought = true;
         }
         else if (itemName == "MoreMags")
         {
@@ -274,7 +279,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(itemName == "UpDamage")
         {
-            playerWeapon.bulletDamage += 1 * 0.2f;
+            ShopButtons.bulletDamage += 1 * 0.5f;
         }
     }
 }

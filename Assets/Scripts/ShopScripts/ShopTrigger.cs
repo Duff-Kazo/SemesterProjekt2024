@@ -10,19 +10,13 @@ public class ShopTrigger : MonoBehaviour
     {
         shop.SetActive(false);
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OpenShop()
     {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            shop.SetActive(true);
-        }
+        shop.SetActive(true);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void CloseShop()
     {
-        if(shop != null)
-        {
-            shop.SetActive(false);
-        }
+        shop.SetActive(false);
     }
 }

@@ -36,6 +36,12 @@ public class HeadMouthController : MonoBehaviour
 
     private void Update()
     {
+        if (Interactable.inShop)
+        {
+            agent.isStopped = true;
+            return;
+        }
+        agent.isStopped = false;
         Vector2 direction = player.transform.position - bulletSpawn.position;
         RaycastHit2D hit = Physics2D.Raycast(bulletSpawn.position, direction, 15, layerMask);
         if (hit)
@@ -54,7 +60,13 @@ public class HeadMouthController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(isAggro)
+        if (Interactable.inShop)
+        {
+            agent.isStopped = true;
+            return;
+        }
+        agent.isStopped = false;
+        if (isAggro)
         {
             dirToPlayer = player.transform.position - bulletSpawn.transform.position;
             if (dirToPlayer.magnitude > 5)
