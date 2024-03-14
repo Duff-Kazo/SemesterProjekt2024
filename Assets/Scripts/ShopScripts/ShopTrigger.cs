@@ -12,11 +12,15 @@ public class ShopTrigger : MonoBehaviour
     }
     public void OpenShop()
     {
+        Interactable.inShop = true;
+        Interactable.wasActivated = true;
         shop.SetActive(true);
     }
 
     public void CloseShop()
     {
+        Interactable.inShop = false;
+        Interactable.wasActivated = false;
         shop.SetActive(false);
     }
 }
