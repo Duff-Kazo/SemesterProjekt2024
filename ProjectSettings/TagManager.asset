@@ -55,6 +55,9 @@ TagManager:
   - name: particles
     uniqueID: 1706701071
     locked: 0
+  - name: Items
+    uniqueID: 1098483329
+    locked: 0
   - name: player
     uniqueID: 2823025277
     locked: 0

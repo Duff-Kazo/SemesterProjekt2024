@@ -286,4 +286,21 @@ public class PlayerController : MonoBehaviour
             ShopButtons.bulletDamage += 1 * 0.5f;
         }
     }
+
+
+    public void ActivateMonsterItems(string itemName)
+    {
+        if(itemName == "Shield")
+        {
+            Debug.Log("Activate Shield");
+        }
+        else if (itemName == "Orbs")
+        {
+            Debug.Log("Activate Orbs");
+        }
+        if (itemName == "Plague")
+        {
+            Debug.Log("Activate Plague");
+        }
+    }
 }
