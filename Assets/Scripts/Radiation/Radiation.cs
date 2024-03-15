@@ -3,24 +3,24 @@ using System.Collections;
 
 public class Radiation : MonoBehaviour
 {
-    public GameObject radiationEffect;
+    [SerializeField] private GameObject radiationEffect;
     // Use this for initialization
     void Start()
     {
-
+        radiationEffect.SetActive(false);
     }
 
-    // Update is called once per frame
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             radiationEffect.SetActive(true);
         }
     }
-    void OnTriggerExit(Collider other)
+
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (other.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player")
         {
             radiationEffect.SetActive(false);
         }
