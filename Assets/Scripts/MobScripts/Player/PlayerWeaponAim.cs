@@ -14,8 +14,10 @@ public class PlayerWeaponAim : MonoBehaviour
     private SpriteRenderer gunSpriteRenderer;
     private PlayerController player;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private float offset;
     public bool canShoot = true;
     public bool fullAuto = false;
+    private bool flipped = true;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
@@ -36,10 +38,20 @@ public class PlayerWeaponAim : MonoBehaviour
         if(angle < 89 && angle > -89)
         {
             gunSpriteRenderer.flipY = false;
+            if (!flipped)
+            {
+                flipped = true;
+                gunSpriteRenderer.transform.position += new Vector3(offset, 0);
+            }
         }
         else
         {
             gunSpriteRenderer.flipY = true;
+            if (flipped)
+            {
+                flipped = false;
+                gunSpriteRenderer.transform.position += new Vector3(-offset, 0);
+            }
         }
     }
     private void Update()

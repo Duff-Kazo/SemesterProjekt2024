@@ -160,7 +160,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1726631527
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -1175997212, guid: 720599edbbf2d4e438c7a1653938b3a0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -261,6 +261,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 264
+  bloodDropAmount: 15
   bulletSpawn: {fileID: 5621674898163264195}
   bulletPrefab: {fileID: 9038354214125085454, guid: 2b22ff57ef9b6eb4187d1a0500951db8, type: 3}
 --- !u!61 &432009945039063708

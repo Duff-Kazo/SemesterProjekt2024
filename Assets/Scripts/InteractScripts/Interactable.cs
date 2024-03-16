@@ -13,6 +13,9 @@ public class Interactable : MonoBehaviour
     public UnityEvent interactAction1;
     public static bool inShop = false;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private float rayDistance;
+    [SerializeField] private LayerMask layerMask;
+    private PlayerController player;
 
 
     // Start is called before the first frame update
@@ -20,11 +23,23 @@ public class Interactable : MonoBehaviour
     {
         canvas.enabled = false;
         wasActivated = false;
+        player = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector2 direction = player.transform.position - transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, rayDistance, layerMask);
+        if(hit)
+        {
+            isInRange = true;
+        }
+        else
+        {
+            isInRange = false;
+        }
+        
         if (isInRange && !wasActivated)
         {
             canvas.enabled = true;
@@ -51,21 +66,5 @@ public class Interactable : MonoBehaviour
         }
 
         canvas.transform.rotation = Quaternion.identity;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            isInRange = true;
-            Debug.Log("Player is in range");
-        }
-
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        isInRange = false;
-        Debug.Log("Player is out of range");
     }
 }

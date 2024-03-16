@@ -15,6 +15,7 @@ public class HeadMouthController : MonoBehaviour
     [SerializeField] private float health = 5;
     [SerializeField] private float bulletCoolDown;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private int bloodDropAmount;
 
     //Components
     private NavMeshAgent agent;
@@ -121,7 +122,7 @@ public class HeadMouthController : MonoBehaviour
 
     private void Die()
     {
-        player.GetBlood(15);
+        player.GetBlood(bloodDropAmount);
         Destroy(gameObject);
     }
 
