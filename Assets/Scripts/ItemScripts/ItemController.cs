@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class ItemController : MonoBehaviour
 {
     private PlayerController player;
-    private GameObject enemyLight;
+    [SerializeField] private GameObject enemyLight;
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
-        enemyLight = transform.Find("EnemyLight").gameObject;
         enemyLight.SetActive(false);
     }
 

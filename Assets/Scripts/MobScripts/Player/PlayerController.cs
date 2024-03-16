@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.color = Color.white;
     }
 
-    private void Die()
+    public void Die()
     {
         SceneManager.LoadScene("Dungeons");
     }
