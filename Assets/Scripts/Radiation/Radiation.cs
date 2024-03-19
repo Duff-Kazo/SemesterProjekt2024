@@ -5,7 +5,6 @@ public class Radiation : MonoBehaviour
 {
     [SerializeField] private GameObject radiationEffect;
     private RadiationTimer radiationTimer;
-    private GameObject radiationtimeRemaining;
     // Use this for initialization
     void Start()
     {

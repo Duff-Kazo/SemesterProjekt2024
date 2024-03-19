@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TransparencyScript : MonoBehaviour
 {
     private float alphaStart = 0.0f;
-    private float alphaEnd = 0.01f;
+    private float alphaEnd = 0.015f;
     private float duration = 0.75f;
     private Image thisImage;
     [SerializeField] private CanvasGroup radiationEffect;

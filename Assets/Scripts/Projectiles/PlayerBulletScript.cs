@@ -27,5 +27,11 @@ public class PlayerBulletScript : MonoBehaviour
             headMouth.TakeDamage(ShopButtons.bulletDamage);
             Destroy(gameObject);
         }
+        else if (collision.gameObject.CompareTag("Crawler"))
+        {
+            CrawlerController crawler = collision.gameObject.GetComponent<CrawlerController>();
+            crawler.TakeDamage(ShopButtons.bulletDamage);
+            Destroy(gameObject);
+        }
     }
 }
