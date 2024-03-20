@@ -15,6 +15,9 @@ public class Interactable : MonoBehaviour
     [SerializeField] private Canvas canvas;
     [SerializeField] private float rayDistance;
     [SerializeField] private LayerMask layerMask;
+
+    [Header("ShopSpecific")]
+    [SerializeField] private AudioSource shopEnter;
     private PlayerController player;
 
 
@@ -45,6 +48,7 @@ public class Interactable : MonoBehaviour
             canvas.enabled = true;
             if (Input.GetKeyDown(interactKey))
             {
+                shopEnter.Play();
                 interactAction.Invoke();
                 inShop = true;
                 wasActivated = true;
