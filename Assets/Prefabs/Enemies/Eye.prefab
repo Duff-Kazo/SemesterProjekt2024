@@ -275,7 +275,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1000
-  m_LinearDrag: 0
+  m_LinearDrag: 20
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 3693916176428167781}
   - component: {fileID: 7831764164840492515}
   - component: {fileID: 241745033802002425}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: SightRadius
   m_TagString: Untagged
   m_Icon: {fileID: 0}

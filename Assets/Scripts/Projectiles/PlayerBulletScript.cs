@@ -39,5 +39,11 @@ public class PlayerBulletScript : MonoBehaviour
             eye.TakeDamage(ShopButtons.bulletDamage);
             Destroy(gameObject);
         }
+        else if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossController boss = collision.gameObject.GetComponent<BossController>();
+            boss.TakeDamage(ShopButtons.bulletDamage);
+            Destroy(gameObject);
+        }
     }
 }

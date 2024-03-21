@@ -21,6 +21,7 @@ public class EyeSightRadius : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             eye.isAggro = true;
+            Debug.Log("Player Detected");
         }
     }
 }

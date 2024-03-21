@@ -8,6 +8,7 @@ TagManager:
   - HeadMouth
   - Crawler
   - Eye
+  - Boss
   layers:
   - Default
   - TransparentFX
