@@ -10,11 +10,11 @@ public class BossController : MonoBehaviour
     private PlayerController player;
     private float scaleX;
     private Vector2 dirToPlayer;
-    private float counter = 0;
+    private float shootCounter = 0;
     private bool playerInSight = false;
     [SerializeField] private float bulletCoolDown;
-    [SerializeField] private LayerMask layerMask;
     [SerializeField] private int bloodDropAmount;
+    [SerializeField] private GameObject deathParticles;
 
     [Header("BossBar")]
     [SerializeField] private Image bossBar;
@@ -22,6 +22,34 @@ public class BossController : MonoBehaviour
     [SerializeField] private float MaxHp = 100;
     [SerializeField] private float health = 100;
     private float lerpSpeed = 0.05f;
+
+
+    [Header("LaserAttack")]
+    [SerializeField] private Transform laser1;
+    [SerializeField] private Transform laser2;
+    [SerializeField] private Transform laser3;
+    [SerializeField] private Transform laser4;
+    [SerializeField] private Transform laser5;
+    [SerializeField] private Transform laser6;
+    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMaskVisor;
+    [SerializeField] private float damage = 3;
+
+    [Header("SpawnEnemies")]
+    [SerializeField] private Transform centerPoint;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private GameObject headMouthPrefab;
+    [SerializeField] private GameObject crawlerPrefab;
+    [SerializeField] private GameObject eyePrefab;
+    [SerializeField] private float spawnPhaseTime = 10;
+    [SerializeField] private float laserPhaseTime = 10;
+    private bool isSpawningEnemies = false;
+    private bool isLaserAttacking = false;
+    private float spawnPhaseCounter = 0;
+    private float laserPhaseCounter = 0;
+
+    private bool phase1 = true;
 
     //Components
     private NavMeshAgent agent;
@@ -57,7 +85,6 @@ public class BossController : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("Player"))
             {
                 playerInSight = true;
-                Debug.Log("Hit Player");
             }
             else
             {
@@ -68,40 +95,18 @@ public class BossController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Interactable.inShop)
-        {
-            agent.isStopped = true;
-            return;
-        }
-        agent.isStopped = false;
         if (isAggro)
         {
-            dirToPlayer = player.transform.position - bulletSpawn.transform.position;
-            if (dirToPlayer.magnitude > 5)
+            agent.isStopped = false;
+            if (phase1)
             {
-                agent.isStopped = false;
-                agent.SetDestination(player.transform.position);
+                Phase1();
             }
             else
             {
-                agent.isStopped = true;
+                Phase2();
             }
-
-
-            if (counter < bulletCoolDown)
-            {
-                counter += Time.deltaTime;
-            }
-            else
-            {
-                counter = 0;
-                Shoot();
-            }
-
         }
-
-        //maxHealthText.text = ("" + maxHealth);
-        //currentHealthText.text = (health + "/");
         if (bossBar.fillAmount != health)
         {
             bossBar.fillAmount = health / MaxHp;
@@ -111,8 +116,6 @@ public class BossController : MonoBehaviour
         {
             easeBossBar.fillAmount = Mathf.Lerp(easeBossBar.fillAmount, health / MaxHp, lerpSpeed);
         }
-
-
         if (dirToPlayer.x > 0)
         {
             transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
@@ -120,6 +123,93 @@ public class BossController : MonoBehaviour
         else if (dirToPlayer.x < 0)
         {
             transform.localScale = new Vector3(-scaleX, transform.localScale.y, transform.localScale.z);
+        }
+
+        if (health <= MaxHp / 2)
+        {
+            phase1 = false;
+        }
+
+        if (Interactable.inShop)
+        {
+            agent.isStopped = true;
+            return;
+        }
+    }
+
+    private void Phase2()
+    {
+        if (isSpawningEnemies || isLaserAttacking)
+        {
+            return;
+        }
+        bulletCoolDown = 0.25f;
+        dirToPlayer = player.transform.position - bulletSpawn.transform.position;
+        if (dirToPlayer.magnitude > 2)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(player.transform.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector2.zero;
+        }
+        if (shootCounter < bulletCoolDown)
+        {
+            shootCounter += Time.deltaTime;
+        }
+        else
+        {
+            shootCounter = 0;
+            Shoot();
+        }
+        if (laserPhaseCounter < laserPhaseTime)
+        {
+            laserPhaseCounter += Time.deltaTime;
+        }
+        else
+        {
+            laserPhaseCounter = 0;
+            StartCoroutine(LaserAttack());
+        }
+    }
+
+
+    private void Phase1()
+    {
+        if (isSpawningEnemies || isLaserAttacking)
+        {
+            return;
+        }
+        dirToPlayer = player.transform.position - bulletSpawn.transform.position;
+        if (dirToPlayer.magnitude > 5)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(player.transform.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector2.zero;
+        }
+        if (shootCounter < bulletCoolDown)
+        {
+            shootCounter += Time.deltaTime;
+        }
+        else
+        {
+            shootCounter = 0;
+            Shoot();
+        }
+        if (spawnPhaseCounter < spawnPhaseTime)
+        {
+            spawnPhaseCounter += Time.deltaTime;
+        }
+        else
+        {
+            spawnPhaseCounter = 0;
+            StartCoroutine(SpawnEnemies());
         }
     }
 
@@ -141,6 +231,7 @@ public class BossController : MonoBehaviour
     private void Die()
     {
         player.GetBlood(bloodDropAmount);
+        Instantiate(deathParticles, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
@@ -162,5 +253,118 @@ public class BossController : MonoBehaviour
         {
             Die();
         }
+    }
+
+
+    private IEnumerator SpawnEnemies()
+    {
+        isSpawningEnemies = true;
+        agent.velocity = Vector3.zero;
+        agent.isStopped = false;
+        agent.SetDestination(centerPoint.position);
+        yield return new WaitForSeconds(2f);
+        float enemyCount = 0;
+        while (true)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                float randomEnemyIndex = Random.Range(1, 3);
+                if (randomEnemyIndex == 1)
+                {
+                    Instantiate(headMouthPrefab, spawnPoint.position, Quaternion.identity);
+                }
+                else if (randomEnemyIndex == 2)
+                {
+                    Instantiate(crawlerPrefab, spawnPoint.position, Quaternion.identity);
+                }
+                else if (randomEnemyIndex == 3)
+                {
+                    Instantiate(eyePrefab, spawnPoint.position, Quaternion.identity);
+                }
+                enemyCount++;
+                yield return new WaitForSeconds(1f);
+            }
+            if(enemyCount >= 3)
+            {
+                break;
+            }
+        }
+        
+        isSpawningEnemies =false;
+    }
+
+    private IEnumerator LaserAttack()
+    {
+        isLaserAttacking = true;
+        agent.velocity = Vector3.zero;
+        agent.isStopped = false;
+        agent.SetDestination(centerPoint.position);
+        yield return new WaitForSeconds(2f);
+
+        for (int i = 1; i <= 6; i++)
+        {
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(FireSingleLaser(i));
+            Debug.Log(i);
+        }
+        yield return new WaitForSeconds(1f);
+        isLaserAttacking = false;
+    }
+
+    IEnumerator FireSingleLaser(int LaserIndex)
+    {
+        Transform selectedLaser = laser1;
+        if(LaserIndex == 1)
+        {
+            selectedLaser = laser1;
+        }
+        else if(LaserIndex == 2)
+        {
+            selectedLaser = laser2;
+        }
+        else if (LaserIndex == 3)
+        {
+            selectedLaser = laser3;
+        }
+        else if (LaserIndex == 4)
+        {
+            selectedLaser = laser4;
+        }
+        else if (LaserIndex == 5)
+        {
+            selectedLaser = laser5;
+        }
+        else if (LaserIndex == 6)
+        {
+            selectedLaser = laser6;
+        }
+
+        lineRenderer.enabled = true;
+        lineRenderer.startWidth = 0.025f;
+        lineRenderer.endWidth = 0.025f;
+        Vector3 playerPos = player.transform.position;
+        Vector3 direction = playerPos - selectedLaser.transform.position;
+        RaycastHit2D hit1 = Physics2D.Raycast(selectedLaser.position, direction, 999, layerMaskVisor);
+        if (hit1)
+        {
+            lineRenderer.SetPosition(0, selectedLaser.transform.position);
+            lineRenderer.SetPosition(1, hit1.point);
+        }
+        yield return new WaitForSeconds(0.5f);
+        RaycastHit2D hit = Physics2D.Raycast(selectedLaser.position, direction, 15, layerMask);
+        if (hit)
+        {
+            lineRenderer.startWidth = 0.1f;
+            lineRenderer.endWidth = 0.1f;
+            lineRenderer.SetPosition(0, selectedLaser.transform.position);
+            lineRenderer.SetPosition(1, hit.point);
+            if (hit.transform.gameObject.CompareTag("Player"))
+            {
+                player.TakeDamage(damage);
+                Debug.Log("LaserHit");
+            }
+        }
+        yield return new WaitForSeconds(0.1f);
+        lineRenderer.enabled = false;
     }
 }

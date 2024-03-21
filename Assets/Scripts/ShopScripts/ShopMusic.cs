@@ -19,7 +19,7 @@ public class ShopMusic : MonoBehaviour
     {
         Vector2 vecToPlayer = transform.position - player.transform.position;
 
-        if(vecToPlayer.magnitude < 25 && !Interactable.inShop)
+        if(vecToPlayer.magnitude < 30 && !Interactable.inShop)
         {
             shopMusic.volume = 0;
             shopMusicDamped.volume = 2f / vecToPlayer.magnitude;
