@@ -40,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1098893127257820946}
+  - component: {fileID: 4218304838360418976}
   m_Layer: 7
   m_Name: WallCollision
   m_TagString: Untagged
@@ -56,12 +57,47 @@ Transform:
   m_GameObject: {fileID: 465978742460897125}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.9252741, y: -0.64663315, z: -0.05212156}
+  m_LocalPosition: {x: 0.037, y: -0.826, z: -0.05212156}
   m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3518733792492269846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &4218304838360418976
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 465978742460897125}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.06460816, y: 0.10229623}
+  serializedVersion: 2
+  m_Radius: 0.3007915
 --- !u!1 &728459262130228645
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,11 +227,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAggro: 1
   health: 5
-  laserCoolDown: 0
+  bloodDropAmount: 30
+  laserCoolDown: 3
   layerMask:
     serializedVersion: 2
     m_Bits: 264
-  bloodDropAmount: 30
+  layerMaskVisor:
+    serializedVersion: 2
+    m_Bits: 256
+  damage: 3
   bulletSpawn: {fileID: 7268122679013342498}
   bulletPrefab: {fileID: 9038354214125085454, guid: 2b22ff57ef9b6eb4187d1a0500951db8, type: 3}
   lineRenderer: {fileID: 1717215609176866844}
@@ -234,7 +274,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0

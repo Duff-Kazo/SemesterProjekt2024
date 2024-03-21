@@ -196,13 +196,10 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if(health > 1)
-        {
-            StartCoroutine(DamageAnimation());
-            Instantiate(blood, transform.position, Quaternion.identity);
-            health--;
-        }
-        else if(health <= 1)
+        StartCoroutine(DamageAnimation());
+        Instantiate(blood, transform.position, Quaternion.identity);
+        health -= damage;
+        if (health <= 0)
         {
             Die();
         }

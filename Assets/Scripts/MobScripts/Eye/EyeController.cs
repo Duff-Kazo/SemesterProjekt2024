@@ -12,12 +12,18 @@ public class EyeController : MonoBehaviour
     private float laserCounter = 0;
     private bool playerInSight = false;
     private bool isShooting = false;
+    [Header("Health")]
     [SerializeField] private float health = 5;
-    [SerializeField] private float laserCoolDown;
-    [SerializeField] private LayerMask layerMask;
     [SerializeField] private int bloodDropAmount;
 
+    [Header("Laser")]
+    [SerializeField] private float laserCoolDown;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask layerMaskVisor;
+    [SerializeField] private float damage;
+
     //Components
+    [Header("Components")]
     private NavMeshAgent agent;
     private Rigidbody2D rb;
     private Animator animator;
@@ -35,46 +41,47 @@ public class EyeController : MonoBehaviour
         scaleX = transform.localScale.x;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        lineRenderer.enabled = false;
     }
 
     private void Update()
     {
-        if (Interactable.inShop)
-        {
-            agent.isStopped = true;
-            return;
-        }
+        //if (Interactable.inShop || isShooting || !isAggro)
+        //{
+        //    agent.isStopped = true;
+        //    return;
+        //}
 
-        agent.isStopped = false;
-        Vector2 direction = player.transform.position - bulletSpawn.position;
-        RaycastHit2D hit = Physics2D.Raycast(bulletSpawn.position, direction, 15, layerMask);
-        if (hit)
-        {
-            //lineRenderer.enabled = true;
-            if (hit.transform.gameObject.CompareTag("Player"))
-            {
-                playerInSight = true;
-            }
-            else
-            {
-                playerInSight = false;
-            }
-        }
-        else
-        {
-            //lineRenderer.enabled = false;
-        }
+        //agent.isStopped = false;
+        //Vector2 direction = player.transform.position - bulletSpawn.position;
+        //RaycastHit2D hit = Physics2D.Raycast(bulletSpawn.position, direction, 15, layerMask);
+        //if (hit)
+        //{
+        //    //lineRenderer.enabled = true;
+        //    if (hit.transform.gameObject.CompareTag("Player"))
+        //    {
+        //        playerInSight = true;
+        //    }
+        //    else
+        //    {
+        //        playerInSight = false;
+        //    }
+        //}
+        //else
+        //{
+        //    //lineRenderer.enabled = false;
+        //}
     }
 
     private void FixedUpdate()
     {
-        if (Interactable.inShop || !isAggro)
+        if (Interactable.inShop || !isAggro || isShooting)
         {
             agent.isStopped = true;
             return;
         }
 
-        if (!isShooting)
+        if (isAggro)
         {
             agent.isStopped = false;
             dirToPlayer = player.transform.position - bulletSpawn.transform.position;
@@ -124,24 +131,40 @@ public class EyeController : MonoBehaviour
         {
             transform.localScale = new Vector3(-scaleX, transform.localScale.y, transform.localScale.z);
         }
+        else if(dirToPlayer.x == 0)
+        {
+            transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     private IEnumerator Shoot()
     {
         isShooting = true;
-        Transform playerPos = player.transform;
-        yield return new WaitForSeconds(2f);
+        agent.isStopped = true;
+        Vector3 playerPos = player.transform.position;
         lineRenderer.enabled = true;
+        lineRenderer.startWidth = 0.025f;
+        lineRenderer.endWidth = 0.025f;
 
-        Vector2 direction = playerPos.position - bulletSpawn.transform.position;
+
+        Vector3 direction = playerPos - bulletSpawn.transform.position;
+        RaycastHit2D hit1 = Physics2D.Raycast(bulletSpawn.position, direction, 999, layerMaskVisor);
+        if(hit1)
+        {
+            lineRenderer.SetPosition(0, laserOrigin.transform.position);
+            lineRenderer.SetPosition(1, hit1.point);
+        }
+        yield return new WaitForSeconds(1f);
         RaycastHit2D hit = Physics2D.Raycast(bulletSpawn.position, direction, 15, layerMask);
         if (hit)
         {
+            lineRenderer.startWidth = 0.1f;
+            lineRenderer.endWidth = 0.1f;
             lineRenderer.SetPosition(0, laserOrigin.transform.position);
-            lineRenderer.SetPosition(1, hit.transform.position);
+            lineRenderer.SetPosition(1, hit.point);
             if (hit.transform.gameObject.CompareTag("Player"))
             {
-                player.TakeDamage(3f);
+                player.TakeDamage(damage);
                 Debug.Log("LaserHit");
             }
 
