@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private PlayerWeaponAim playerWeapon;
     public int bulletCount = 0;
     public int magazinesCount = 4;
-    private int maxMagazines = 4;
+    [SerializeField] private int maxMagazines = 4;
     private int maxBullets = 16;
 
 
