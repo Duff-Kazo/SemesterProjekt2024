@@ -9,6 +9,7 @@ TagManager:
   - Crawler
   - Eye
   - Boss
+  - PlayerBullet
   layers:
   - Default
   - TransparentFX

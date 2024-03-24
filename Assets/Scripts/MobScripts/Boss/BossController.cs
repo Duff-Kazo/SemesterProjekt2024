@@ -34,7 +34,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private LayerMask layerMaskVisor;
-    [SerializeField] private float damage = 3;
+    [SerializeField] private float damage = 4;
 
     [Header("SpawnEnemies")]
     [SerializeField] private Transform centerPoint;

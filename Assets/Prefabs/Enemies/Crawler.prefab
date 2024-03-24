@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAggro: 0
-  bulletCoolDown: 1
+  bulletCoolDown: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 264
@@ -560,7 +560,7 @@ MonoBehaviour:
   bloodDropAmount: 30
   healthBarCanvas: {fileID: 937566857726522379}
   bulletSpawn: {fileID: 5955628752254623786}
-  bulletPrefab: {fileID: 9038354214125085454, guid: 2b22ff57ef9b6eb4187d1a0500951db8, type: 3}
+  bulletPrefab: {fileID: 6270929811461782835, guid: 41bda4b6fe4456b4f80b12f6fbe4e762, type: 3}
 --- !u!50 &4014756513844923337
 Rigidbody2D:
   serializedVersion: 4

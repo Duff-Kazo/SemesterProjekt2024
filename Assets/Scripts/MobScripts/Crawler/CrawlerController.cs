@@ -58,7 +58,6 @@ public class CrawlerController : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("Player"))
             {
                 playerInSight = true;
-                Debug.Log("Hit Player");
             }
             else
             {
