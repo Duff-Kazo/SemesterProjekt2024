@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
-public struct RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
+public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
 {
     public Vector2Int pos;
     public bool topConnected;
@@ -51,19 +51,32 @@ public struct RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
 }
 public class Versuch : MonoBehaviour
 {
-    [SerializeField] private GameObject map;
     [SerializeField] private int walkLength;
+    [Header("Corner Tiles")]
+    [SerializeField] private GameObject topLeftTile;
+    [SerializeField] private GameObject topRightTile;
+    [SerializeField] private GameObject bottomLeftTile;
+    [SerializeField] private GameObject bottomRightTile;
+    [Header("Corridor Tiles")]
+    [SerializeField] private GameObject topBottomTile;
+    [SerializeField] private GameObject leftRightTile;
+    [Header("DeadEnds")]
+    [SerializeField] private GameObject topTile;
+    [SerializeField] private GameObject bottomTile;
+    [SerializeField] private GameObject leftTile;
+    [SerializeField] private GameObject rightTile;
     SimpleRandomWalkSO dings;
     void Start()
     {
         dings = new SimpleRandomWalkSO();
         dings.walkLength = 15;
         dings.startRandomlyEachIteration = false;
-        HashSet<RoomType> roomPositions = new HashSet<RoomType>();
+        HashSet<RoomType> rooms = new HashSet<RoomType>();
+        HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
+        var previousRoom = new RoomType(0, 0);
 
-        var startRoom = new RoomType(0, 0);
-        roomPositions.Add(startRoom);
-        var previousRoom = startRoom;
+        rooms.Add(previousRoom);
+        roomPositions.Add(previousRoom.pos);
 
         for (int i = 0; i < walkLength; i++)
         {
@@ -76,19 +89,19 @@ public class Versuch : MonoBehaviour
             leftRoom.rightConnected = true;
             RoomType rightRoom = new RoomType(previousRoom.x + 1, previousRoom.y);
             rightRoom.leftConnected = true;
-            if(!roomPositions.Contains(upRoom))
+            if(!roomPositions.Contains(upRoom.pos))
             {
                 validNextRooms.Add(upRoom);
             }
-            if (!roomPositions.Contains(downRoom))
+            if (!roomPositions.Contains(downRoom.pos))
             {
                 validNextRooms.Add(downRoom);
             }
-            if (!roomPositions.Contains(leftRoom))
+            if (!roomPositions.Contains(leftRoom.pos))
             {
                 validNextRooms.Add(leftRoom);
             }
-            if (!roomPositions.Contains(rightRoom))
+            if (!roomPositions.Contains(rightRoom.pos))
             {
                 validNextRooms.Add(rightRoom);
             }
@@ -119,18 +132,61 @@ public class Versuch : MonoBehaviour
                 previousRoom.rightConnected = true;
             }
 
-            roomPositions.Add(nextRoom);
+            rooms.Add(nextRoom);
+            roomPositions.Add(nextRoom.pos);
             previousRoom = nextRoom;
         }
 
-
-        foreach (var pos in roomPositions)
+        foreach (var pos in rooms)
         {
-            Instantiate(map, new Vector3(pos.x * 12, pos.y * 12, 0), Quaternion.identity);
+            Instantiate(ChooseTile(pos), new Vector3(pos.x * 12, pos.y * 12, 0), Quaternion.identity);
         }
     }
 
-
+    private GameObject ChooseTile(RoomType room)
+    {
+        if(room.leftConnected && room.rightConnected && !room.topConnected && !room.bottomConnected)
+        {
+            return leftRightTile;
+        }
+        if (!room.leftConnected && !room.rightConnected && room.topConnected && room.bottomConnected)
+        {
+            return topBottomTile;
+        }
+        if (room.leftConnected && !room.rightConnected && room.topConnected && !room.bottomConnected)
+        {
+            return topLeftTile;
+        }
+        if (!room.leftConnected && room.rightConnected && room.topConnected && !room.bottomConnected)
+        {
+            return topRightTile;
+        }
+        if (room.leftConnected && !room.rightConnected && !room.topConnected && room.bottomConnected)
+        {
+            return bottomLeftTile;
+        }
+        if (!room.leftConnected && room.rightConnected && !room.topConnected && room.bottomConnected)
+        {
+            return bottomRightTile;
+        }
+        if (room.leftConnected && !room.rightConnected && !room.topConnected && !room.bottomConnected)
+        {
+            return leftTile;
+        }
+        if (!room.leftConnected && room.rightConnected && !room.topConnected && !room.bottomConnected)
+        {
+            return rightTile;
+        }
+        if (!room.leftConnected && !room.rightConnected && room.topConnected && !room.bottomConnected)
+        {
+            return topTile;
+        }
+        if (!room.leftConnected && !room.rightConnected && !room.topConnected && room.bottomConnected)
+        {
+            return bottomTile;
+        }
+        throw new Exception("Das jetzt kaka");
+    }
 
     private HashSet<Vector2Int> RunRandomWalk(SimpleRandomWalkSO parameters, Vector2Int position)
     {

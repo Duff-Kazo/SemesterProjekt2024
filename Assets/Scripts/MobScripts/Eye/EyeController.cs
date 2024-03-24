@@ -2,19 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EyeController : MonoBehaviour
 {
     public bool isAggro = false;
     private PlayerController player;
     private float scaleX;
+    private float healthBarScalex;
+    private float healthBarScaley;
     private Vector2 dirToPlayer;
     private float laserCounter = 0;
     private bool playerInSight = false;
     private bool isShooting = false;
     [Header("Health")]
     [SerializeField] private float health = 5;
+    [SerializeField] private float maxHealth = 5;
     [SerializeField] private int bloodDropAmount;
+
+    [Header("HealthBar")]
+    [SerializeField] private GameObject healthBarCanvas;
+    private FloatingHealthBar healthBar;
 
     [Header("Laser")]
     [SerializeField] private float laserCoolDown;
@@ -44,6 +52,10 @@ public class EyeController : MonoBehaviour
         agent.updateUpAxis = false;
         lineRenderer.enabled = false;
         isAggro = false;
+        health = maxHealth;
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
+        healthBarScalex = scaleX * 0.5f;
+        healthBarScaley = transform.localScale.y * 0.5f;
     }
 
     private void Update()
@@ -73,6 +85,7 @@ public class EyeController : MonoBehaviour
         {
             //lineRenderer.enabled = false;
         }
+        healthBar.updateHealthBar(health, maxHealth);
     }
 
     private void FixedUpdate()
@@ -94,6 +107,7 @@ public class EyeController : MonoBehaviour
             else
             {
                 agent.isStopped = true;
+                agent.ResetPath();
                 agent.velocity = Vector2.zero;
             }
 
@@ -110,17 +124,23 @@ public class EyeController : MonoBehaviour
                 }
             }
         }
+
+        healthBarCanvas.SetActive(isAggro);
+
         if (dirToPlayer.x > 0)
         {
             transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
+            healthBarCanvas.transform.localScale = new Vector3(healthBarScalex, healthBarScaley, transform.localScale.z);
         }
         else if (dirToPlayer.x < 0)
         {
             transform.localScale = new Vector3(-scaleX, transform.localScale.y, transform.localScale.z);
+            healthBarCanvas.transform.localScale = new Vector3(-healthBarScalex, healthBarScaley, transform.localScale.z);
         }
         else if(dirToPlayer.x == 0)
         {
             transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
+            healthBarCanvas.transform.localScale = new Vector3(healthBarScalex, healthBarScaley, transform.localScale.z);
         }
     }
 
@@ -142,7 +162,7 @@ public class EyeController : MonoBehaviour
             lineRenderer.SetPosition(0, laserOrigin.transform.position);
             lineRenderer.SetPosition(1, hit1.point);
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         RaycastHit2D hit = Physics2D.Raycast(bulletSpawn.position, direction, 15, layerMask);
         if (hit)
         {

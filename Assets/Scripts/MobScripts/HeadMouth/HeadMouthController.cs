@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using UnityEngine.Windows;
 
 public class HeadMouthController : MonoBehaviour
@@ -12,10 +13,19 @@ public class HeadMouthController : MonoBehaviour
     private Vector2 dirToPlayer;
     private float counter = 0;
     private bool playerInSight = false;
-    [SerializeField] private float health = 5;
     [SerializeField] private float bulletCoolDown;
     [SerializeField] private LayerMask layerMask;
+
+    [Header("Health")]
+    [SerializeField] private float health = 5;
+    [SerializeField] private float maxHealth = 5;
     [SerializeField] private int bloodDropAmount;
+
+    [Header("HealthBar")]
+    [SerializeField] private GameObject healthBarCanvas;
+    private FloatingHealthBar healthBar;
+
+    
 
     //Components
     private NavMeshAgent agent;
@@ -33,6 +43,8 @@ public class HeadMouthController : MonoBehaviour
         scaleX = transform.localScale.x;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        health = maxHealth;
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
     }
 
     private void Update()
@@ -57,6 +69,7 @@ public class HeadMouthController : MonoBehaviour
                 playerInSight = false;
             }
         }
+        healthBar.updateHealthBar(health, maxHealth);
     }
 
     private void FixedUpdate()
@@ -78,6 +91,8 @@ public class HeadMouthController : MonoBehaviour
             else
             {
                 agent.isStopped = true;
+                agent.ResetPath();
+                agent.velocity = Vector2.zero;
             }
             
             
@@ -93,7 +108,9 @@ public class HeadMouthController : MonoBehaviour
 
         }
 
-        if(agent.velocity.magnitude > 0)
+        healthBarCanvas.SetActive(isAggro);
+
+        if (agent.velocity.magnitude > 0)
         {
             animator.SetBool("IsRunning", true);
         }
@@ -104,10 +121,12 @@ public class HeadMouthController : MonoBehaviour
         if (dirToPlayer.x > 0)
         {
             transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
+            healthBarCanvas.transform.localScale = new Vector3(scaleX, transform.localScale.y, transform.localScale.z);
         }
         else if (dirToPlayer.x < 0)
         {
             transform.localScale = new Vector3(-scaleX, transform.localScale.y, transform.localScale.z);
+            healthBarCanvas.transform.localScale = new Vector3(-scaleX, transform.localScale.y, transform.localScale.z);
         }
     }
 

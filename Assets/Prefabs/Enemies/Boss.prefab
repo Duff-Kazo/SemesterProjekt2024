@@ -404,7 +404,7 @@ MonoBehaviour:
   crawlerPrefab: {fileID: 3264608680582603137, guid: fb757bd81a9c755438e6e77c589be7b1, type: 3}
   eyePrefab: {fileID: 728459262130228645, guid: bb34bb3a770fbc04cb6624a3461fe5cb, type: 3}
   spawnPhaseTime: 10
-  laserPhaseTime: 10
+  specialPhaseTimer2: 8
   bulletSpawn: {fileID: 1420298291466540222}
   bulletPrefab: {fileID: 9038354214125085454, guid: 2b22ff57ef9b6eb4187d1a0500951db8, type: 3}
   collider: {fileID: 3318027407617028530}

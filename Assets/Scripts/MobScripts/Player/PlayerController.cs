@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        SceneManager.LoadScene("Dungeons");
+        SceneManager.LoadScene("DeathScreen");
     }
 
     private void ChangeAnimationState(string newState)

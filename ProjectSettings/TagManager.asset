@@ -67,6 +67,9 @@ TagManager:
   - name: player
     uniqueID: 2823025277
     locked: 0
+  - name: boss
+    uniqueID: 1792559867
+    locked: 0
   - name: WorldSpaceUI
     uniqueID: 3440271929
     locked: 0

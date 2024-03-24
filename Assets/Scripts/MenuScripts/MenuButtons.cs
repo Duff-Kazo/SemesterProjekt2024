@@ -9,12 +9,10 @@ public class MenuButtons : MonoBehaviour
     {
         SceneManager.LoadScene("Dungeons");
     }
-
     public void CreditsButton()
     {
         SceneManager.LoadScene("Credits");
     }
-
     public void ExitCreditsButton()
     {
         SceneManager.LoadScene("Menu");

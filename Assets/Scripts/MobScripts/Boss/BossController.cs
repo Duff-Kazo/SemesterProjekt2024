@@ -43,13 +43,13 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject crawlerPrefab;
     [SerializeField] private GameObject eyePrefab;
     [SerializeField] private float spawnPhaseTime = 10;
-    [SerializeField] private float laserPhaseTime = 10;
+    [SerializeField] private float specialPhaseTimer2 = 10;
     private bool isSpawningEnemies = false;
     private bool isLaserAttacking = false;
     private bool isGattlingGunAttacking = false;
     private bool deathBite = false;
     private float spawnPhaseCounter = 0;
-    private float laserPhaseCounter = 0;
+    private float specialPhaseCounter2 = 0;
 
     private bool phase1 = true;
     private bool isInvinvible = false;
@@ -234,13 +234,13 @@ public class BossController : MonoBehaviour
             shootCounter = 0;
             Shoot();
         }
-        if (laserPhaseCounter < laserPhaseTime)
+        if (specialPhaseCounter2 < specialPhaseTimer2)
         {
-            laserPhaseCounter += Time.deltaTime;
+            specialPhaseCounter2 += Time.deltaTime;
         }
         else
         {
-            laserPhaseCounter = 0;
+            specialPhaseCounter2 = 0;
             int random = Random.Range(1, 5);
             Debug.Log(random);
             if(random == 1)

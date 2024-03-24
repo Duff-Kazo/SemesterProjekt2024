@@ -25,8 +25,11 @@ public class Radiation : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            radiationEffect.SetActive(false);
-            radiationTimer.enabled = false;
+            if(radiationTimer != null)
+            {
+                radiationEffect.SetActive(false);
+                radiationTimer.enabled = false;
+            }
         }
     }
 }
