@@ -30,12 +30,18 @@ public class EyeController : MonoBehaviour
     [SerializeField] private LayerMask layerMaskVisor;
     [SerializeField] private float damage;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource shootSound;
+    [SerializeField] private AudioSource chargeSound;
+    [SerializeField] private AudioSource hitSound;
+
     //Components
     [Header("Components")]
     private NavMeshAgent agent;
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private GameManager gameManager;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private LineRenderer lineRenderer;
@@ -56,22 +62,23 @@ public class EyeController : MonoBehaviour
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         healthBarScalex = scaleX * 0.5f;
         healthBarScaley = transform.localScale.y * 0.5f;
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update()
     {
-        //if (Interactable.inShop || isShooting || !isAggro)
-        //{
-        //    agent.isStopped = true;
-        //    return;
-        //}
+        if (Interactable.inShop || isShooting || !isAggro)
+        {
+            agent.isStopped = true;
+            return;
+        }
 
         agent.isStopped = false;
+        dirToPlayer = player.transform.position - bulletSpawn.transform.position;
         Vector2 direction = player.transform.position - bulletSpawn.position;
         RaycastHit2D hit = Physics2D.Raycast(bulletSpawn.position, direction, 15, layerMask);
         if (hit)
         {
-            //lineRenderer.enabled = true;
             if (hit.transform.gameObject.CompareTag("Player"))
             {
                 playerInSight = true;
@@ -98,17 +105,24 @@ public class EyeController : MonoBehaviour
         }
         if (isAggro)
         {
-            dirToPlayer = player.transform.position - bulletSpawn.transform.position;
-            if (dirToPlayer.magnitude > 5 && !isShooting)
+            if (playerInSight)
             {
-                agent.isStopped = false;
-                agent.SetDestination(player.transform.position);
+                if (dirToPlayer.magnitude > 5)
+                {
+                    agent.isStopped = false;
+                    agent.SetDestination(player.transform.position);
+                }
+                else
+                {
+                    agent.isStopped = true;
+                    agent.ResetPath();
+                    agent.velocity = Vector2.zero;
+                }
             }
             else
             {
-                agent.isStopped = true;
-                agent.ResetPath();
-                agent.velocity = Vector2.zero;
+                agent.isStopped = false;
+                agent.SetDestination(player.transform.position);
             }
 
             if (!isShooting && playerInSight)
@@ -154,7 +168,7 @@ public class EyeController : MonoBehaviour
         lineRenderer.startWidth = 0.025f;
         lineRenderer.endWidth = 0.025f;
 
-
+        chargeSound.Play();
         Vector3 direction = playerPos - bulletSpawn.transform.position;
         RaycastHit2D hit1 = Physics2D.Raycast(bulletSpawn.position, direction, 999, layerMaskVisor);
         if(hit1)
@@ -166,6 +180,7 @@ public class EyeController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(bulletSpawn.position, direction, 15, layerMask);
         if (hit)
         {
+            shootSound.Play();
             lineRenderer.startWidth = 0.1f;
             lineRenderer.endWidth = 0.1f;
             lineRenderer.SetPosition(0, laserOrigin.transform.position);
@@ -197,13 +212,16 @@ public class EyeController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        isAggro = true;
         if (health > 0)
         {
+            hitSound.Play();
             StartCoroutine(DamageAnimation());
             health -= damage;
         }
         else if (health <= 0)
         {
+            gameManager.PlayEnemyDeathSound();
             Die();
         }
     }

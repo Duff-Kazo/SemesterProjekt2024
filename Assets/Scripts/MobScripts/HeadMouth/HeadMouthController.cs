@@ -25,6 +25,9 @@ public class HeadMouthController : MonoBehaviour
     [SerializeField] private GameObject healthBarCanvas;
     private FloatingHealthBar healthBar;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource shootSound;
+    [SerializeField] private AudioSource hitSound;
     
 
     //Components
@@ -32,6 +35,7 @@ public class HeadMouthController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private GameManager gameManager;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
     void Start()
@@ -45,6 +49,7 @@ public class HeadMouthController : MonoBehaviour
         agent.updateUpAxis = false;
         health = maxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update()
@@ -55,6 +60,7 @@ public class HeadMouthController : MonoBehaviour
             return;
         }
         agent.isStopped = false;
+        dirToPlayer = player.transform.position - bulletSpawn.transform.position;
         Vector2 direction = player.transform.position - bulletSpawn.position;
         RaycastHit2D hit = Physics2D.Raycast(bulletSpawn.position, direction, 15, layerMask);
         if (hit)
@@ -62,7 +68,6 @@ public class HeadMouthController : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("Player"))
             {
                 playerInSight = true;
-                Debug.Log("Hit Player");
             }
             else
             {
@@ -82,20 +87,25 @@ public class HeadMouthController : MonoBehaviour
         agent.isStopped = false;
         if (isAggro)
         {
-            dirToPlayer = player.transform.position - bulletSpawn.transform.position;
-            if (dirToPlayer.magnitude > 5)
+            if(playerInSight)
+            {
+                if (dirToPlayer.magnitude > 5)
+                {
+                    agent.isStopped = false;
+                    agent.SetDestination(player.transform.position);
+                }
+                else
+                {
+                    agent.isStopped = true;
+                    agent.ResetPath();
+                    agent.velocity = Vector2.zero;
+                }
+            }
+            else
             {
                 agent.isStopped = false;
                 agent.SetDestination(player.transform.position);
             }
-            else
-            {
-                agent.isStopped = true;
-                agent.ResetPath();
-                agent.velocity = Vector2.zero;
-            }
-            
-            
             if(counter < bulletCoolDown)
             {
                 counter += Time.deltaTime;
@@ -134,6 +144,7 @@ public class HeadMouthController : MonoBehaviour
     {
         if(playerInSight)
         {
+            shootSound.Play();
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
             bullet.transform.up = -dirToPlayer;
         }
@@ -154,13 +165,16 @@ public class HeadMouthController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if(health > 0)
+        isAggro = true;
+        if (health > 0)
         {
+            hitSound.Play();
             StartCoroutine(DamageAnimation());
             health -= damage;
         }
         else if(health <= 0)
         {
+            gameManager.PlayEnemyDeathSound();
             Die();
         }
     }

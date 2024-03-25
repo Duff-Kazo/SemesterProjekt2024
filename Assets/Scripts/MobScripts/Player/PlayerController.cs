@@ -79,6 +79,11 @@ public class PlayerController : MonoBehaviour
     //Shop System
     [Header("ShopSystem")]
     [SerializeField] private TextMeshProUGUI bloodPointsText;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioSource reload;
+    [SerializeField] private AudioSource loaded;
+    [SerializeField] private AudioSource damageSound;
     public int bloodPoints = 0;
     void Start()
     {
@@ -196,6 +201,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        damageSound.Play();
         StartCoroutine(DamageAnimation());
         Instantiate(blood, transform.position, Quaternion.identity);
         health -= damage;
@@ -214,7 +220,9 @@ public class PlayerController : MonoBehaviour
             playerWeapon.canShoot = false;
             bulletCount = 0;
             reloadAnimation.value = reloadAnimation.minValue;
+            reload.Play();
             yield return new WaitForSeconds(reloadTime);
+            loaded.Play();
             reloadAnimation.value = reloadAnimation.maxValue;
             bulletCount = maxBullets;
             playerWeapon.canShoot = true;

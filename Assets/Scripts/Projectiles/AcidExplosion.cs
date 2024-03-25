@@ -8,8 +8,11 @@ public class AcidExplosion : MonoBehaviour
     [SerializeField] private float distance = 2;
     [SerializeField] private float damage = 5;
     private bool wasNotActivated = true;
+    GameManager gameManager;
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.PlayExplosionSound();
         StartCoroutine(KillOnAnimationFinished());
     }
 

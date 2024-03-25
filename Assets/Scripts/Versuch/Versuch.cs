@@ -65,6 +65,13 @@ public class Versuch : MonoBehaviour
     [SerializeField] private GameObject bottomTile;
     [SerializeField] private GameObject leftTile;
     [SerializeField] private GameObject rightTile;
+    [Header("T-Cross")]
+    [SerializeField] private GameObject topRightDown;
+    [SerializeField] private GameObject rightDownLeft;
+    [SerializeField] private GameObject DownLeftTop;
+    [SerializeField] private GameObject LeftTopRight;
+    [Header("Cross")]
+    [SerializeField] private GameObject cross;
     SimpleRandomWalkSO dings;
     void Start()
     {
@@ -184,6 +191,26 @@ public class Versuch : MonoBehaviour
         if (!room.leftConnected && !room.rightConnected && !room.topConnected && room.bottomConnected)
         {
             return bottomTile;
+        }
+        if (!room.leftConnected && room.rightConnected && room.topConnected && room.bottomConnected)
+        {
+            return topRightDown;
+        }
+        if (room.leftConnected && !room.rightConnected && room.topConnected && room.bottomConnected)
+        {
+            return DownLeftTop;
+        }
+        if (room.leftConnected && room.rightConnected && !room.topConnected && room.bottomConnected)
+        {
+            return rightDownLeft;
+        }
+        if (room.leftConnected && room.rightConnected && room.topConnected && !room.bottomConnected)
+        {
+            return LeftTopRight;
+        }
+        if (room.leftConnected && room.rightConnected && room.topConnected && room.bottomConnected)
+        {
+            return cross;
         }
         throw new Exception("Das jetzt kaka");
     }

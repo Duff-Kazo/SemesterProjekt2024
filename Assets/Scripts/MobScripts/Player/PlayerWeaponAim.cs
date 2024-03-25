@@ -17,6 +17,10 @@ public class PlayerWeaponAim : MonoBehaviour
     public bool canShoot = true;
     public bool fullAuto = false;
     private bool flipped = false;
+    private float shootCoolDown;
+
+    [Header("Sounds")]
+    [SerializeField] private AudioSource playerShot;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
@@ -53,6 +57,18 @@ public class PlayerWeaponAim : MonoBehaviour
     }
     private void Update()
     {
+        if(Interactable.inShop)
+        {
+            return;
+        }
+        if(ShopButtons.fullAutoBought)
+        {
+            shootCoolDown = 0.1f;
+        }
+        else
+        {
+            shootCoolDown = 0.2f;
+        }
         HandleAiming();
         HandleShooting();
     }
@@ -81,6 +97,7 @@ public class PlayerWeaponAim : MonoBehaviour
         if (player.bulletCount > 0)
         {
             player.bulletCount -= 1;
+            playerShot.Play();
             GameObject bullet = Instantiate(bulletPrefab, aimGunEndPointPosition.position, Quaternion.identity);
             bullet.transform.up = aimTransform.up;
             bullet.transform.Rotate(new Vector3(0, 0, -90));
@@ -92,7 +109,7 @@ public class PlayerWeaponAim : MonoBehaviour
     private IEnumerator ShootCoolDown()
     {
         canShoot = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(shootCoolDown);
         canShoot = true;
     }
 

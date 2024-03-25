@@ -205,5 +205,5 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8
-  distance: 3
+  distance: 2
   damage: 3

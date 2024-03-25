@@ -11,6 +11,7 @@ public class Description : MonoBehaviour
 {
     private Image background;
     private TextMeshProUGUI description;
+    [SerializeField] private AudioSource hoverSound;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class Description : MonoBehaviour
 
     public void EnableDescription()
     {
+        hoverSound.Play();
         description.enabled = true;
         background.enabled = true;
     }

@@ -54,11 +54,19 @@ public class BossController : MonoBehaviour
     private bool phase1 = true;
     private bool isInvinvible = false;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioSource shootSound;
+    [SerializeField] private AudioSource laserSound;
+    [SerializeField] private AudioSource chargeSound;
+    [SerializeField] private AudioSource hitSound;
+    [SerializeField] private AudioSource bite;
+
     //Components
     private NavMeshAgent agent;
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private GameManager gameManager;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private BoxCollider2D collider;
@@ -72,6 +80,7 @@ public class BossController : MonoBehaviour
         scaleX = transform.localScale.x;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        gameManager = FindObjectOfType<GameManager>();
         StartCoroutine(WaitForStart());
     }
 
@@ -275,6 +284,7 @@ public class BossController : MonoBehaviour
     {
         if (playerInSight)
         {
+            shootSound.Play();
             GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
             bullet.transform.up = -dirToPlayer;
         }
@@ -305,6 +315,7 @@ public class BossController : MonoBehaviour
             }
             else if (health <= 0)
             {
+                gameManager.PlayEnemyDeathSound();
                 Die();
             }
         }
@@ -396,7 +407,7 @@ public class BossController : MonoBehaviour
         {
             selectedLaser = laser6;
         }
-
+        chargeSound.Play();
         lineRenderer.enabled = true;
         lineRenderer.startWidth = 0.025f;
         lineRenderer.endWidth = 0.025f;
@@ -412,6 +423,7 @@ public class BossController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(selectedLaser.position, direction, 15, layerMask);
         if (hit)
         {
+            laserSound.Play();
             lineRenderer.startWidth = 0.1f;
             lineRenderer.endWidth = 0.1f;
             lineRenderer.SetPosition(0, selectedLaser.transform.position);
@@ -454,17 +466,20 @@ public class BossController : MonoBehaviour
         agent.velocity = Vector3.zero;
         agent.SetDestination(centerPoint.position);
         yield return new WaitForSeconds(2f);
+        
         agent.speed = 40;
         
         for(int i = 0; i < 5; i++)
         {
+            gameManager.PlayBossTeleport();
             agent.isStopped = false;
-            Vector2 bitePoint = player.transform.position + new Vector3(0, 3.5f, 0);
+            Vector2 bitePoint = player.transform.position + new Vector3(0, 2.3f, 0);
             agent.SetDestination(bitePoint);
             yield return new WaitForSeconds(0.4f);
             agent.isStopped = true;
             agent.velocity = Vector2.zero;
             animator.SetTrigger("IsAttacking");
+            bite.Play();
             yield return new WaitForSeconds(1);
         }
         Physics2D.IgnoreCollision(collider, player.GetComponentInChildren<CircleCollider2D>(), false);
