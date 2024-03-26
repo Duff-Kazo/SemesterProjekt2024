@@ -7,12 +7,14 @@ public class ShopMusic : MonoBehaviour
     PlayerController player;
     [SerializeField] AudioSource shopMusic;
     [SerializeField] AudioSource shopMusicDamped;
-    
+    [SerializeField] AudioSource ambience;
+
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
         shopMusic.volume = 0;
         shopMusicDamped.volume = 0;
+        ambience.volume = 1;
     }
 
     void Update()
@@ -23,16 +25,19 @@ public class ShopMusic : MonoBehaviour
         {
             shopMusic.volume = 0;
             shopMusicDamped.volume = 2f / vecToPlayer.magnitude;
+            ambience.volume = 1;
         }
         else if(vecToPlayer.magnitude < 10 && Interactable.inShop)
         {
             shopMusicDamped.volume = 0;
             shopMusic.volume = 1;
+            ambience.volume = 0;
         }
         else
         {
             shopMusicDamped.volume = 0;
             shopMusic.volume = 0;
+            ambience.volume = 1;
         }
     }
 }

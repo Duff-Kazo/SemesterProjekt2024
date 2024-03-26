@@ -39,10 +39,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int maxMagazines = 4;
     private int maxBullets = 16;
 
+    //MonsterItems
+    public static bool eyesActivated;
+    public static bool shieldActivated = false;
+    public static bool orbsActivated = false;
+    public static bool plagueActivated;
+
 
     //Animations
     [Header("Animations")]
-    [SerializeField] private int monsterState = 0;
+    [SerializeField] public int monsterState = 0;
     private string currentState = "";
     private Animator playerAnimator;
 
@@ -80,6 +86,7 @@ public class PlayerController : MonoBehaviour
     [Header("ShopSystem")]
     [SerializeField] private TextMeshProUGUI bloodPointsText;
 
+    //Sounds
     [Header("Sounds")]
     [SerializeField] private AudioSource reload;
     [SerializeField] private AudioSource loaded;
@@ -289,23 +296,6 @@ public class PlayerController : MonoBehaviour
         else if(itemName == "UpDamage")
         {
             ShopButtons.bulletDamage += 1 * 0.5f;
-        }
-    }
-
-
-    public void ActivateMonsterItems(string itemName)
-    {
-        if(itemName == "Shield")
-        {
-            Debug.Log("Activate Shield");
-        }
-        else if (itemName == "Orbs")
-        {
-            Debug.Log("Activate Orbs");
-        }
-        if (itemName == "Plague")
-        {
-            Debug.Log("Activate Plague");
         }
     }
 }

@@ -36,6 +36,10 @@ public class CrawlerController : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
+
+    //ItemEffects
+    [Header("ItemEffects")]
+    [SerializeField] private GameObject light;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -52,6 +56,7 @@ public class CrawlerController : MonoBehaviour
 
     private void Update()
     {
+        light.SetActive(PlayerController.eyesActivated);
         if (Interactable.inShop)
         {
             agent.isStopped = true;

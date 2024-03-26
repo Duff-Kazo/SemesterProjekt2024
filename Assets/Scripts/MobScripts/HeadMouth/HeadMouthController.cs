@@ -38,6 +38,10 @@ public class HeadMouthController : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
+
+    //ItemEffects
+    [Header("ItemEffects")]
+    [SerializeField] private GameObject light;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -54,6 +58,7 @@ public class HeadMouthController : MonoBehaviour
 
     private void Update()
     {
+        light.SetActive(PlayerController.eyesActivated);
         if (Interactable.inShop)
         {
             agent.isStopped = true;

@@ -46,6 +46,10 @@ public class EyeController : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform laserOrigin;
+
+    //ItemEffects
+    [Header("ItemEffects")]
+    [SerializeField] private GameObject light;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,6 +71,7 @@ public class EyeController : MonoBehaviour
 
     private void Update()
     {
+        light.SetActive(PlayerController.eyesActivated);
         if (Interactable.inShop || isShooting || !isAggro)
         {
             agent.isStopped = true;
