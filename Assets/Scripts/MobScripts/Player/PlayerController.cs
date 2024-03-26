@@ -35,9 +35,10 @@ public class PlayerController : MonoBehaviour
     public bool isReloading = false;
     private PlayerWeaponAim playerWeapon;
     public int bulletCount = 0;
-    public int magazinesCount = 4;
     [SerializeField] private int maxMagazines = 4;
     private int maxBullets = 16;
+    private int magazinesCount;
+    private int magazineBullets;
 
     //MonsterItems
     public static bool eyesActivated;
@@ -103,6 +104,7 @@ public class PlayerController : MonoBehaviour
         bulletCount = maxBullets;
         playerWeapon = FindObjectOfType<PlayerWeaponAim>();
         magazinesCount = maxMagazines;
+        magazineBullets = magazinesCount * maxBullets;
     }
     void Update()
     {
@@ -122,6 +124,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         bloodPointsText.text = ("" + bloodPoints);
+        
         if (Interactable.inShop)
         {
             return;
@@ -197,8 +200,22 @@ public class PlayerController : MonoBehaviour
 
 
         //Bullets
-        bulletText.text = ("x" + bulletCount);
-        magazinesText.text = ("" + magazinesCount);
+        if(bulletCount >= 10)
+        {
+            bulletText.text = ("x" + bulletCount);
+        }
+        else
+        {
+            bulletText.text = ("x0" + bulletCount);
+        }
+        if(magazineBullets >= 10)
+        {
+            magazinesText.text = ("" + magazineBullets);
+        }
+        else
+        {
+            magazinesText.text = ("0" + magazineBullets);
+        }
         if(bulletCount <= 0 && !isReloading)
         {
             StartCoroutine(ReloadWeapon());
@@ -219,19 +236,26 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ReloadWeapon()
     {
-        if(magazinesCount > 0 && bulletCount != maxBullets)
+        if(magazineBullets > 0 && bulletCount != maxBullets)
         {
-            Debug.Log(bulletCount + " " + maxBullets);
             magazinesCount -= 1;
             isReloading = true;
             playerWeapon.canShoot = false;
-            bulletCount = 0;
             reloadAnimation.value = reloadAnimation.minValue;
             reload.Play();
             yield return new WaitForSeconds(reloadTime);
             loaded.Play();
             reloadAnimation.value = reloadAnimation.maxValue;
-            bulletCount = maxBullets;
+            if(magazineBullets > maxBullets)
+            {
+                magazineBullets -= maxBullets - bulletCount;
+                bulletCount += maxBullets - bulletCount;
+            }
+            else
+            {
+                bulletCount += magazineBullets;
+                magazineBullets = 0;
+            }
             playerWeapon.canShoot = true;
             isReloading = false;
         }
@@ -271,7 +295,11 @@ public class PlayerController : MonoBehaviour
         if(itemName == "MagUpgrade")
         {
             maxBullets += 4;
-            bulletCount = maxBullets;
+            magazineBullets = magazinesCount * maxBullets;
+            if (magazinesCount > 0 && bulletCount > 0)
+            {
+                bulletCount += 4;
+            }
         }
         else if(itemName == "FullAuto")
         {
@@ -281,6 +309,7 @@ public class PlayerController : MonoBehaviour
         {
             magazinesCount += 1;
             maxMagazines += 1;
+            magazineBullets += maxBullets;
         }
         else if (itemName == "LegMods")
         {

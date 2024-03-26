@@ -4147,7 +4147,6 @@ MonoBehaviour:
   reloadTime: 1.5
   isReloading: 0
   bulletCount: 0
-  magazinesCount: 4
   maxMagazines: 4
   monsterState: 0
   blood: {fileID: 7789945669554595880, guid: 8f79a35a5bcf8444da154a09a0556e96, type: 3}
@@ -4160,7 +4159,7 @@ MonoBehaviour:
   reload: {fileID: 610252416}
   loaded: {fileID: 610252417}
   damageSound: {fileID: 610252418}
-  bloodPoints: 0
+  bloodPoints: 1000
 --- !u!95 &610252410
 Animator:
   serializedVersion: 5

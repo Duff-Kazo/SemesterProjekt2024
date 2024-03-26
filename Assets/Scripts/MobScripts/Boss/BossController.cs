@@ -50,12 +50,13 @@ public class BossController : MonoBehaviour
     private bool deathBite = false;
     private float spawnPhaseCounter = 0;
     private float specialPhaseCounter2 = 0;
-
+    private int specialBulletCount = 0;
     private bool phase1 = true;
     private bool isInvinvible = false;
 
     [Header("Sounds")]
     [SerializeField] private AudioSource shootSound;
+    [SerializeField] private AudioSource shootExplosive;
     [SerializeField] private AudioSource laserSound;
     [SerializeField] private AudioSource chargeSound;
     [SerializeField] private AudioSource hitSound;
@@ -69,6 +70,7 @@ public class BossController : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject explosionBulletPrefab;
     [SerializeField] private BoxCollider2D collider;
     [SerializeField] private GameObject shieldSprite;
     void Start()
@@ -284,9 +286,22 @@ public class BossController : MonoBehaviour
     {
         if (playerInSight)
         {
-            shootSound.Play();
-            GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
-            bullet.transform.up = -dirToPlayer;
+            if(specialBulletCount < 5)
+            {
+                dirToPlayer = player.transform.position - bulletSpawn.transform.position;
+                specialBulletCount++;
+                shootSound.Play();
+                GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+                bullet.transform.up = -dirToPlayer;
+            }
+            else
+            {
+                dirToPlayer = player.transform.position - bulletSpawn.transform.position;
+                specialBulletCount = 0;
+                shootExplosive.Play();
+                GameObject bullet = Instantiate(explosionBulletPrefab, bulletSpawn.position, Quaternion.identity);
+                bullet.transform.up = -dirToPlayer;
+            }
         }
     }
 
@@ -327,6 +342,7 @@ public class BossController : MonoBehaviour
         isSpawningEnemies = true;
         isInvinvible = true;
         agent.velocity = Vector3.zero;
+        agent.ResetPath();
         agent.isStopped = false;
         agent.SetDestination(centerPoint.position);
         yield return new WaitForSeconds(2f);
@@ -365,6 +381,7 @@ public class BossController : MonoBehaviour
         isLaserAttacking = true;
         isInvinvible = true;
         agent.velocity = Vector3.zero;
+        agent.ResetPath();
         agent.isStopped = false;
         agent.SetDestination(centerPoint.position);
         yield return new WaitForSeconds(2f);
@@ -443,6 +460,7 @@ public class BossController : MonoBehaviour
         isGattlingGunAttacking = true;
         isInvinvible = true;
         agent.velocity = Vector3.zero;
+        agent.ResetPath();
         agent.isStopped = false;
         agent.SetDestination(centerPoint.position);
         float originalShootingSpeed = bulletCoolDown;

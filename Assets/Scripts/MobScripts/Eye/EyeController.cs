@@ -182,6 +182,7 @@ public class EyeController : MonoBehaviour
         isShooting = true;
         rb.velocity = Vector3.zero;
         agent.velocity = Vector2.zero;
+        agent.ResetPath();
         Vector3 playerPos = player.transform.position;
         lineRenderer.enabled = true;
         lineRenderer.startWidth = 0.025f;
