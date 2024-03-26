@@ -8,6 +8,7 @@ using Cinemachine;
 using UnityEngine.UI;
 using Slider = UnityEngine.UI.Slider;
 using TMPro;
+using Image = UnityEngine.UI.Image;
 
 public class PlayerController : MonoBehaviour
 {
@@ -31,9 +32,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bulletText;
     [SerializeField] private TextMeshProUGUI magazinesText;
     [SerializeField] private Slider reloadAnimation;
+    [SerializeField] private GameObject bulletUI;
+    [SerializeField] private GameObject acidUI;
+    [SerializeField] private GameObject aim;
     [SerializeField] private float reloadTime = 2;
     public bool isReloading = false;
     private PlayerWeaponAim playerWeapon;
+    private PlayerAcidBall playerAcidBall;
     public int bulletCount = 0;
     [SerializeField] private int maxMagazines = 4;
     private int maxBullets = 16;
@@ -93,6 +98,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource loaded;
     [SerializeField] private AudioSource damageSound;
     public int bloodPoints = 0;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -103,8 +110,13 @@ public class PlayerController : MonoBehaviour
         health = maxHealth;
         bulletCount = maxBullets;
         playerWeapon = FindObjectOfType<PlayerWeaponAim>();
+        playerAcidBall = FindObjectOfType<PlayerAcidBall>();
+        playerAcidBall.enabled = false;
         magazinesCount = maxMagazines;
         magazineBullets = magazinesCount * maxBullets;
+        acidUI.SetActive(false);
+        bulletUI.SetActive(true);
+        aim.SetActive(true);
     }
     void Update()
     {
@@ -124,7 +136,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         bloodPointsText.text = ("" + bloodPoints);
-        
         if (Interactable.inShop)
         {
             return;
@@ -152,8 +163,6 @@ public class PlayerController : MonoBehaviour
                 ChangeAnimationState(idle3);
                 rb.velocity = Vector2.zero;
             }
-
-
         }
         else
         {
@@ -184,6 +193,15 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(-scaleX, transform.localScale.y, transform.localScale.z);
         }
 
+        //HandleWeaponSelect
+        if(monsterState == 3)
+        {
+            playerWeapon.enabled = false;
+            playerAcidBall.enabled = true;
+            bulletUI.SetActive(false);
+            acidUI.SetActive(true);
+            aim.SetActive(false);
+        }
 
         //HEALTHBAR
         maxHealthText.text = ("" + maxHealth);
