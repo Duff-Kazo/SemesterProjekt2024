@@ -516,6 +516,7 @@ Transform:
   - {fileID: 907937587945165645}
   - {fileID: 8861262544436695385}
   - {fileID: 7916027827959267125}
+  - {fileID: 2064073735772938639}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8150604531137191663
@@ -665,6 +666,7 @@ MonoBehaviour:
   hitSound: {fileID: 7194173474122191007}
   bulletSpawn: {fileID: 5621674898163264195}
   bulletPrefab: {fileID: 9038354214125085454, guid: 2b22ff57ef9b6eb4187d1a0500951db8, type: 3}
+  plagueZone: {fileID: 8730118134704836434}
   light: {fileID: 5259317913076872307}
 --- !u!61 &432009945039063708
 BoxCollider2D:
@@ -1264,6 +1266,73 @@ MonoBehaviour:
   target: {fileID: 2916143817962503475}
   offset: {x: 0.09, y: 0.8294, z: 0}
   healthBarSlider: {fileID: 5107105472239045390}
+--- !u!1 &8730118134704836434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2064073735772938639}
+  - component: {fileID: 7687188972041197649}
+  m_Layer: 0
+  m_Name: PlagueZone
+  m_TagString: HeadMouthPlagueZone
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2064073735772938639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730118134704836434}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.12, z: -0.01637156}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2916143817962503475}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &7687188972041197649
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730118134704836434}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.5
 --- !u!1 &9041533490144986619
 GameObject:
   m_ObjectHideFlags: 0

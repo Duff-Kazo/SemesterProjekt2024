@@ -4,20 +4,20 @@ using System.Collections;
 public class Radiation : MonoBehaviour
 {
     [SerializeField] private GameObject radiationEffect;
+    public static bool radiationTimerActive = false;
     private RadiationTimer radiationTimer;
     // Use this for initialization
     void Start()
     {
         radiationEffect.SetActive(false);
         radiationTimer = FindObjectOfType<RadiationTimer>();
-        radiationTimer.enabled = false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             radiationEffect.SetActive(true);
-            radiationTimer.enabled = true;
+            Radiation.radiationTimerActive = true;
         }
     }
 
@@ -28,7 +28,7 @@ public class Radiation : MonoBehaviour
             if(radiationTimer != null)
             {
                 radiationEffect.SetActive(false);
-                radiationTimer.enabled = false;
+                Radiation.radiationTimerActive = false;
             }
         }
     }

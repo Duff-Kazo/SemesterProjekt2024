@@ -46,10 +46,12 @@ public class EyeController : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform laserOrigin;
+    [SerializeField] private GameObject plagueZone;
 
     //ItemEffects
     [Header("ItemEffects")]
     [SerializeField] private GameObject light;
+    private bool plagueActivated = false;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -67,6 +69,7 @@ public class EyeController : MonoBehaviour
         healthBarScalex = scaleX * 0.5f;
         healthBarScaley = transform.localScale.y * 0.5f;
         gameManager = FindObjectOfType<GameManager>();
+        plagueZone.SetActive(false);
     }
 
     private void Update()
@@ -162,6 +165,17 @@ public class EyeController : MonoBehaviour
             healthBarCanvas.transform.localScale = new Vector3(healthBarScalex, healthBarScaley, transform.localScale.z);
         }
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("HeadMouthPlagueZone") || (collision.gameObject.CompareTag("CrawlerPlagueZone")))
+        {
+            if (PlayerController.plagueActivated && !plagueActivated)
+            {
+                plagueActivated = true;
+                StartCoroutine(PlagueEffect());
+            }
+        }
+    }
 
     private IEnumerator Shoot()
     {
@@ -223,11 +237,39 @@ public class EyeController : MonoBehaviour
             hitSound.Play();
             StartCoroutine(DamageAnimation());
             health -= damage;
+            if (health <= 0)
+            {
+                gameManager.PlayEnemyDeathSound();
+                Die();
+            }
         }
         else if (health <= 0)
         {
             gameManager.PlayEnemyDeathSound();
             Die();
+        }
+
+        if (PlayerController.plagueActivated &&! plagueActivated)
+        {
+            plagueActivated = true;
+            StartCoroutine(PlagueEffect());
+        }
+    }
+
+    private IEnumerator PlagueEffect()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            yield return new WaitForSeconds(2f);
+            if (health > 1)
+            {
+                TakeDamage(1f);
+                plagueZone.SetActive(true);
+            }
+            else
+            {
+                plagueZone.SetActive(false);
+            }
         }
     }
 }

@@ -10,6 +10,10 @@ TagManager:
   - Eye
   - Boss
   - PlayerBullet
+  - Orb
+  - HeadMouthPlagueZone
+  - CrawlerPlagueZone
+  - EyePlagueZone
   layers:
   - Default
   - TransparentFX

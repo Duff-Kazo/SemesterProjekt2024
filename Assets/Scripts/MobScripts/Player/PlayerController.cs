@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     public static bool eyesActivated;
     public static bool shieldActivated = false;
     public static bool orbsActivated = false;
-    public static bool plagueActivated;
+    public static bool plagueActivated = false;
 
 
     //Animations
@@ -115,7 +115,6 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R) && !isReloading)
         {
-            bulletCount = 0;
             StartCoroutine(ReloadWeapon());
         }
     }
@@ -220,8 +219,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ReloadWeapon()
     {
-        if(magazinesCount > 0)
+        if(magazinesCount > 0 && bulletCount != maxBullets)
         {
+            Debug.Log(bulletCount + " " + maxBullets);
             magazinesCount -= 1;
             isReloading = true;
             playerWeapon.canShoot = false;
