@@ -1,26 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Description : MonoBehaviour
+public class LeaveDescription : MonoBehaviour
 {
-
     private Image background;
     private TextMeshProUGUI description;
     [SerializeField] private AudioSource hoverSound;
-    private Button button;
     private PlayerController player;
+    [SerializeField] private GameObject dialogue;
 
     private void Start()
     {
         background = transform.Find("Background").GetComponent<Image>();
         description = transform.Find("Description").GetComponent<TextMeshProUGUI>();
-        button = transform.GetComponent<Button>();
         description.enabled = false;
         background.enabled = false;
         player = FindObjectOfType<PlayerController>();
@@ -30,8 +25,11 @@ public class Description : MonoBehaviour
     {
         if(player.monsterState == 3)
         {
-            button.interactable = false;
-            description.text = "Fuck off";
+            dialogue.SetActive(true);
+        }
+        else
+        {
+            dialogue.SetActive(false);
         }
     }
 
