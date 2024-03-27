@@ -12,7 +12,10 @@ public class PlayerAcidBall : MonoBehaviour
     private bool canShoot = true;
     void Update()
     {
-        HandleShooting();
+        if(!Interactable.inShop)
+        {
+            HandleShooting();
+        }
     }
 
     private void HandleShooting()

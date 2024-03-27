@@ -264,15 +264,19 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(reloadTime);
             loaded.Play();
             reloadAnimation.value = reloadAnimation.maxValue;
-            if(magazineBullets > maxBullets)
+            if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
             {
-                magazineBullets -= maxBullets - bulletCount;
-                bulletCount += maxBullets - bulletCount;
-            }
-            else
-            {
-                bulletCount += magazineBullets;
-                magazineBullets = 0;
+                int test = magazineBullets - (maxBullets - bulletCount);
+                if (test < 0)
+                {
+                    bulletCount += magazineBullets;
+                    magazineBullets = 0;
+                }
+                else
+                {
+                    magazineBullets -= maxBullets - bulletCount;
+                    bulletCount += maxBullets - bulletCount;
+                }
             }
             playerWeapon.canShoot = true;
             isReloading = false;

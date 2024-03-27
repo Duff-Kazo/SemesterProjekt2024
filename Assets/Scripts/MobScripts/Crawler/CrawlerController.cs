@@ -18,6 +18,7 @@ public class CrawlerController : MonoBehaviour
     [SerializeField] private float health = 5;
     [SerializeField] private float maxHealth = 5;
     [SerializeField] private int bloodDropAmount;
+    [SerializeField] private GameObject bloodParticles;
 
     [Header("HealthBar")]
     [SerializeField] private GameObject healthBarCanvas;
@@ -172,6 +173,7 @@ public class CrawlerController : MonoBehaviour
     private void Die()
     {
         player.GetBlood(bloodDropAmount);
+        Instantiate(bloodParticles, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

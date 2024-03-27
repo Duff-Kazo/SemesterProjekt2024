@@ -562,6 +562,7 @@ MonoBehaviour:
   health: 5
   maxHealth: 5
   bloodDropAmount: 30
+  bloodParticles: {fileID: 7789945669554595880, guid: 8f79a35a5bcf8444da154a09a0556e96, type: 3}
   healthBarCanvas: {fileID: 937566857726522379}
   shootSound: {fileID: 2006806277858070605}
   hitSound: {fileID: 3200049798615861039}
