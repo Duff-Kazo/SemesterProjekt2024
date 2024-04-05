@@ -88,7 +88,7 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        if (Interactable.inShop)
+        if (Interactable.gamePaused)
         {
             agent.isStopped = true;
             return;
@@ -157,7 +157,7 @@ public class BossController : MonoBehaviour
             phase1 = false;
         }
 
-        if (Interactable.inShop)
+        if (Interactable.gamePaused)
         {
             agent.isStopped = true;
             return;
@@ -308,6 +308,7 @@ public class BossController : MonoBehaviour
     private void Die()
     {
         player.GetBlood(bloodDropAmount);
+        player.GetXp(1850);
         Instantiate(deathParticles, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
@@ -327,6 +328,11 @@ public class BossController : MonoBehaviour
             {
                 StartCoroutine(DamageAnimation());
                 health -= damage;
+                if (health <= 0)
+                {
+                    gameManager.PlayEnemyDeathSound();
+                    Die();
+                }
             }
             else if (health <= 0)
             {

@@ -7,13 +7,21 @@ public class AcidExplosion : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float distance = 2;
     [SerializeField] private float damage = 5;
-    private bool wasNotActivated = true;
     GameManager gameManager;
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
         gameManager.PlayExplosionSound();
         StartCoroutine(KillOnAnimationFinished());
+        Collider2D hit = Physics2D.OverlapCircle(transform.position, distance, layerMask);
+        if (hit != null)
+        {
+            if (hit.transform.gameObject.CompareTag("Player"))
+            {
+                PlayerController player = hit.transform.gameObject.GetComponent<PlayerController>();
+                player.TakeDamage(damage);
+            }
+        }
     }
 
     IEnumerator KillOnAnimationFinished()
@@ -21,25 +29,4 @@ public class AcidExplosion : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         Destroy(gameObject);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Collider2D hit = Physics2D.OverlapCircle(transform.position, distance, layerMask);
-        if(hit != null)
-        {
-            if(hit.transform.gameObject.CompareTag("Player"))
-            {
-                if(wasNotActivated)
-                {
-                    wasNotActivated = false;
-                    PlayerController player = hit.transform.gameObject.GetComponent<PlayerController>();
-                    player.TakeDamage(damage);
-                }
-                
-            }
-        }
-    }
-
-    
 }

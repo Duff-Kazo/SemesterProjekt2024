@@ -57,7 +57,7 @@ public class PlayerWeaponAim : MonoBehaviour
     }
     private void Update()
     {
-        if(Interactable.inShop)
+        if(Interactable.gamePaused)
         {
             return;
         }

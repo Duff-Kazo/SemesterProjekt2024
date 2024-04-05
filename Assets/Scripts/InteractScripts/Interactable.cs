@@ -11,7 +11,7 @@ public class Interactable : MonoBehaviour
     public KeyCode interactKey1;
     public UnityEvent interactAction;
     public UnityEvent interactAction1;
-    public static bool inShop = false;
+    public static bool gamePaused = false;
     [SerializeField] private Canvas canvas;
     [SerializeField] private float rayDistance;
     [SerializeField] private LayerMask layerMask;
@@ -50,7 +50,7 @@ public class Interactable : MonoBehaviour
             {
                 shopEnter.Play();
                 interactAction.Invoke();
-                inShop = true;
+                gamePaused = true;
                 wasActivated = true;
             }
         }
@@ -60,7 +60,7 @@ public class Interactable : MonoBehaviour
             if (Input.GetKeyDown(interactKey) || Input.GetKeyDown(interactKey1))
             {
                 interactAction1.Invoke();
-                inShop = false;
+                gamePaused = false;
                 wasActivated = false;
             }
         }

@@ -733,6 +733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4f35a0745c47488294769e6a7a927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
 --- !u!114 &229496726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,7 +1715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9881965a114eda043980c16df68d073f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  remainingTime: 300
   radiationText: {fileID: 1214637488}
 --- !u!1 &524513198
 GameObject:
@@ -1815,6 +1815,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4f35a0745c47488294769e6a7a927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
 --- !u!114 &524513202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1987,6 +1988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4f35a0745c47488294769e6a7a927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
 --- !u!114 &567237301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2207,6 +2209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4f35a0745c47488294769e6a7a927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
 --- !u!114 &647430239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4591,6 +4594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullAutoButton: {fileID: 567237298}
+  click: {fileID: 0}
 --- !u!4 &1109996770
 Transform:
   m_ObjectHideFlags: 0
@@ -6216,10 +6220,12 @@ MonoBehaviour:
   bulletText: {fileID: 1792579806}
   magazinesText: {fileID: 1868694136}
   reloadAnimation: {fileID: 1936250503}
+  bulletUI: {fileID: 0}
+  acidUI: {fileID: 0}
+  aim: {fileID: 0}
   reloadTime: 1.5
   isReloading: 0
   bulletCount: 0
-  magazinesCount: 4
   maxMagazines: 999
   monsterState: 0
   blood: {fileID: 7789945669554595880, guid: 8f79a35a5bcf8444da154a09a0556e96, type: 3}
@@ -6229,6 +6235,7 @@ MonoBehaviour:
   maxHealthText: {fileID: 1671130054}
   currentHealthText: {fileID: 2011661915}
   bloodPointsText: {fileID: 1052829666}
+  pauseMenu: {fileID: 0}
   reload: {fileID: 1438621005}
   loaded: {fileID: 1438621004}
   damageSound: {fileID: 1438621003}
@@ -7878,6 +7885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4f35a0745c47488294769e6a7a927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
 --- !u!114 &1756255589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8074,6 +8082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4f35a0745c47488294769e6a7a927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
 --- !u!114 &1764353609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8923,6 +8932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4f35a0745c47488294769e6a7a927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
 --- !u!114 &1842263259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9328,6 +9338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6e4f35a0745c47488294769e6a7a927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
 --- !u!114 &1886755986
 MonoBehaviour:
   m_ObjectHideFlags: 0

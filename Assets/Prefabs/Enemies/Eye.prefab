@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1098893127257820946}
   - component: {fileID: 4218304838360418976}
   m_Layer: 7
-  m_Name: WallCollision
+  m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -7,7 +7,6 @@ public class HeadMouthSightRadius : MonoBehaviour
     private HeadMouthController headmouth;
     private PlayerController player;
     private CircleCollider2D range;
-    private bool playerInSight = false;
     [SerializeField] private Transform headPosition;
 
     private void Start()

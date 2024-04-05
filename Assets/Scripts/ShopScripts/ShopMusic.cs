@@ -21,13 +21,13 @@ public class ShopMusic : MonoBehaviour
     {
         Vector2 vecToPlayer = transform.position - player.transform.position;
 
-        if(vecToPlayer.magnitude < 30 && !Interactable.inShop)
+        if(vecToPlayer.magnitude < 30 && !Interactable.gamePaused)
         {
             shopMusic.volume = 0;
             shopMusicDamped.volume = 2f / vecToPlayer.magnitude;
             ambience.volume = 1;
         }
-        else if(vecToPlayer.magnitude < 10 && Interactable.inShop)
+        else if(vecToPlayer.magnitude < 10 && Interactable.gamePaused)
         {
             shopMusicDamped.volume = 0;
             shopMusic.volume = 1;

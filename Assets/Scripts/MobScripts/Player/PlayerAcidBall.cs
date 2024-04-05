@@ -8,11 +8,11 @@ public class PlayerAcidBall : MonoBehaviour
     [SerializeField] private Transform bulletOrigin;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private AudioSource shootSound;
-    [SerializeField] private float shootCoolDown = 0.1f;
+    public float shootCoolDown = 0.2f;
     private bool canShoot = true;
     void Update()
     {
-        if(!Interactable.inShop)
+        if(!Interactable.gamePaused)
         {
             HandleShooting();
         }

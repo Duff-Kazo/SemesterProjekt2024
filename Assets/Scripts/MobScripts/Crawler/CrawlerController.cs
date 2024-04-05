@@ -61,7 +61,7 @@ public class CrawlerController : MonoBehaviour
     private void Update()
     {
         light.SetActive(PlayerController.eyesActivated);
-        if (Interactable.inShop)
+        if (Interactable.gamePaused)
         {
             agent.isStopped = true;
             return;
@@ -86,7 +86,7 @@ public class CrawlerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Interactable.inShop)
+        if (Interactable.gamePaused)
         {
             agent.isStopped = true;
             return;
@@ -173,6 +173,10 @@ public class CrawlerController : MonoBehaviour
     private void Die()
     {
         player.GetBlood(bloodDropAmount);
+        if (player.monsterState == 3)
+        {
+            player.GetXp(25);
+        }
         Instantiate(bloodParticles, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
@@ -214,7 +218,7 @@ public class CrawlerController : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
             if (health > 1)
             {
                 TakeDamage(1f);
