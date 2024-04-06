@@ -38,6 +38,7 @@ public class CrawlerController : MonoBehaviour
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject plagueZone;
+    [SerializeField] private GameObject corpse;
 
     //ItemEffects
     [Header("ItemEffects")]
@@ -178,6 +179,7 @@ public class CrawlerController : MonoBehaviour
             player.GetXp(25);
         }
         Instantiate(bloodParticles, transform.position, Quaternion.identity);
+        Instantiate(corpse, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

@@ -438,6 +438,9 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   canvas: {fileID: 2761893006879918256}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 264
 --- !u!61 &4791887335008532428
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -48,6 +48,7 @@ public class EyeController : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private Transform laserOrigin;
     [SerializeField] private GameObject plagueZone;
+    [SerializeField] private GameObject corpse;
 
     //ItemEffects
     [Header("ItemEffects")]
@@ -226,6 +227,7 @@ public class EyeController : MonoBehaviour
             player.GetXp(25);
         }
         Instantiate(bloodParticles, transform.position, Quaternion.identity);
+        Instantiate(corpse, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

@@ -569,6 +569,7 @@ MonoBehaviour:
   bulletSpawn: {fileID: 5955628752254623786}
   bulletPrefab: {fileID: 6270929811461782835, guid: 41bda4b6fe4456b4f80b12f6fbe4e762, type: 3}
   plagueZone: {fileID: 8824893733671757702}
+  corpse: {fileID: 3709867432617548808, guid: 6dbd5fb7eeacf1049b9526e676a7ec6b, type: 3}
   light: {fileID: 8006477757407168094}
 --- !u!50 &4014756513844923337
 Rigidbody2D:

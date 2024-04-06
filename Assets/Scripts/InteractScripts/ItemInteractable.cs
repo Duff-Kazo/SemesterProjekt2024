@@ -10,11 +10,14 @@ public class ItemInteractable : MonoBehaviour
     public KeyCode interactKey;
     public UnityEvent interactAction;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private LayerMask layerMask;
+    private PlayerController player;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        player = FindObjectOfType<PlayerController>();
         canvas.enabled = false;
         wasActivated = false;
     }
@@ -22,6 +25,24 @@ public class ItemInteractable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, 1.5f, layerMask);
+        if(hit)
+        {
+            if(hit.transform.gameObject.CompareTag("Player"))
+            {
+                isInRange = true;
+            }
+            else
+            {
+                isInRange = false;
+            }
+        }
+        else
+        {
+            isInRange = false;
+        }
+        
+        
         if (isInRange && !wasActivated)
         {
             canvas.enabled = true;

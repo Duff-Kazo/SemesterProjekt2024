@@ -356,6 +356,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 1717215609176866844}
   laserOrigin: {fileID: 7097528276184284978}
   plagueZone: {fileID: 3502167001828708863}
+  corpse: {fileID: 5929014031026230856, guid: 5fc7b8531040b624fa5813757386c61b, type: 3}
   light: {fileID: 3173864882598736750}
 --- !u!195 &5320543845865896491
 NavMeshAgent:

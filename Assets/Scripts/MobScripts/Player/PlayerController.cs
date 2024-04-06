@@ -94,13 +94,13 @@ public class PlayerController : MonoBehaviour
 
     //Health System
     [Header("Health System")]
-    private float health;
+    public float health;
     [SerializeField] private float lerpSpeed = 0.05f;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Slider easeHealthBarSlider;
     [SerializeField] private TextMeshProUGUI maxHealthText;
     [SerializeField] private TextMeshProUGUI currentHealthText;
-    private float maxHealth = 10;
+    public float maxHealth = 10;
 
     //Xp System
     [Header("Xp System")]
@@ -122,6 +122,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform bulletSpawn;
     public bool explosionBulletEnabled;
     private bool canShootExplosionBullet = true;
+
+    //AcidFullAuto
+    [Header("AcidFullAuto")]
+    [SerializeField] private GameObject acidFullAutoText;
+    public bool AcidFullAutoEnabled = false;
 
     //Shop System
     [Header("ShopSystem")]
@@ -223,6 +228,7 @@ public class PlayerController : MonoBehaviour
         explosionIcon.SetActive(canShootExplosionBullet);
         dashUI.SetActive(dashEnabled);
         dashIcon.SetActive(canDash);
+        acidFullAutoText.SetActive(AcidFullAutoEnabled);
         if (Interactable.gamePaused || isDashing)
         {
             return;
