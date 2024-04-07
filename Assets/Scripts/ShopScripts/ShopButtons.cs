@@ -16,12 +16,12 @@ public class ShopButtons : MonoBehaviour
     }
     public void MoreMags()
     {
-        if(player.bloodPoints >= 30)
+        if(player.bloodPoints >= 10)
         {
             PlayClickSound();
-            player.bloodPoints -= 30;
+            player.bloodPoints -= 10;
             Debug.Log("MoreMags");
-            player.BuyItem("MoreMags", 30);
+            player.BuyItem("MoreMags", 10);
         }
     }
     public void FullAuto()

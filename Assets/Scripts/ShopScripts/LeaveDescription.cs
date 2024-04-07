@@ -10,7 +10,7 @@ public class LeaveDescription : MonoBehaviour
     private TextMeshProUGUI description;
     [SerializeField] private AudioSource hoverSound;
     private PlayerController player;
-    [SerializeField] private GameObject dialogue;
+    [SerializeField] private TextMeshProUGUI dialogue;
 
     private void Start()
     {
@@ -25,11 +25,19 @@ public class LeaveDescription : MonoBehaviour
     {
         if(player.monsterState == 3)
         {
-            dialogue.SetActive(true);
+            dialogue.text = "I dont sell shit to monsters";
         }
-        else
+        else if(player.monsterState == 2)
         {
-            dialogue.SetActive(false);
+            dialogue.text = "Are you okay man? Doesn't look like it";
+        }
+        else if (player.monsterState == 1)
+        {
+            dialogue.text = "Be careful out there";
+        }
+        else if (player.monsterState == 0)
+        {
+            dialogue.text = "Take your pick";
         }
     }
 

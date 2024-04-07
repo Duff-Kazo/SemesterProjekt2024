@@ -335,8 +335,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAggro: 1
-  health: 5
-  maxHealth: 5
+  health: 10
+  maxHealth: 10
   bloodDropAmount: 30
   bloodParticles: {fileID: 7789945669554595880, guid: 8f79a35a5bcf8444da154a09a0556e96, type: 3}
   healthBarCanvas: {fileID: 534347140807189660}

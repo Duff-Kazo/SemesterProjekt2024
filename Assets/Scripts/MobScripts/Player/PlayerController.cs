@@ -500,7 +500,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(itemName == "UpDamage")
         {
-            ShopButtons.bulletDamage += 1 * 0.5f;
+            ShopButtons.bulletDamage += 1 * 0.25f;
         }
     }
 

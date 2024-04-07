@@ -24938,7 +24938,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 30
+  m_text: 10
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
   m_sharedMaterial: {fileID: -4120092739136832317, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
@@ -25759,7 +25759,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'description:
 
-    +50% damage per bullet'
+    +25% damage per bullet'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
   m_sharedMaterial: {fileID: -4120092739136832317, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
@@ -28207,7 +28207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hoverSound: {fileID: 1562900929}
-  dialogue: {fileID: 869213658}
+  dialogue: {fileID: 869213660}
 --- !u!1 &1584206660
 GameObject:
   m_ObjectHideFlags: 0
