@@ -7,6 +7,11 @@ public class MenuButtons : MonoBehaviour
 {
     public void StartButton()
     {
+        PlayerController.orbsActivated = false;
+        PlayerController.eyesActivated = false;
+        PlayerController.plagueActivated = false;
+        PlayerController.shieldActivated = false;
+        ShopButtons.fullAutoBought = false;
         SceneManager.LoadScene("Dungeons");
     }
     public void CreditsButton()
