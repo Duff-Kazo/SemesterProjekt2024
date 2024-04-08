@@ -49,15 +49,17 @@ public class PlayerController : MonoBehaviour
     [Header("Dash")]
     [SerializeField] private bool isDashing = false;
     [SerializeField] private float dashLength;
-    [SerializeField] private float dashCoolDown;
+    [SerializeField] private float dashCount = 3;
+    [SerializeField] private float baseDashCount = 3;
     [SerializeField] private float dashSpeed;
     [SerializeField] private float dashDuration;
     [SerializeField] private GameObject dashUI;
     [SerializeField] private GameObject dashIcon;
+    [SerializeField] private TextMeshProUGUI dashCoolDownText;
     private bool canDash = true;
     private Vector2 moveDirection;
     public bool dashEnabled;
-    
+    private float dashTimer = 0;
 
     //MonsterItems
     public static bool eyesActivated;
@@ -120,8 +122,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject explosionBulletUI;
     [SerializeField] private GameObject explosionIcon;
     [SerializeField] private Transform bulletSpawn;
+    [SerializeField] private TextMeshProUGUI explosionBulletCoolDownText;
     public bool explosionBulletEnabled;
     private bool canShootExplosionBullet = true;
+
+    [SerializeField] private float explosionBulletCount = 5;
+    [SerializeField] private float baseExplosionBulletCount = 5;
+    private float explosionBulletTimer = 0;
 
     //AcidFullAuto
     [Header("AcidFullAuto")]
@@ -178,6 +185,7 @@ public class PlayerController : MonoBehaviour
         }
         if(isDashing)
         {
+            DashCoolDown();
             return;
         }
         xInput = Input.GetAxis("Horizontal");
@@ -195,29 +203,41 @@ public class PlayerController : MonoBehaviour
             pauseMenu.SetActive(true);
         }
 
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (canShootExplosionBullet)
         {
-            if (explosionBulletEnabled)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                if (canShootExplosionBullet)
+                if (explosionBulletEnabled)
                 {
-                    StartCoroutine(ShootExplosionBullet());
+                    ShootExplosionBullet();
                 }
             }
         }
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+        else
         {
-            if(dashEnabled)
+            ExplosionBulletCoolDown();
+        }
+        if(canDash)
+        {
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (dashEnabled)
                 {
-                    if (!isDashing && canDash)
+                    if (Input.GetKeyDown(KeyCode.Space))
                     {
-                        StartCoroutine(Dash());
+                        if (!isDashing)
+                        {
+                            StartCoroutine(Dash());
+                        }
                     }
                 }
             }
         }
+        else
+        {
+            DashCoolDown();
+        }
+
     }
 
     private void FixedUpdate()
@@ -415,13 +435,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator ShootExplosionBullet()
+    private void ShootExplosionBullet()
     {
-        canShootExplosionBullet = false;
         GameObject bullet = Instantiate(explosionBullet, bulletSpawn.position, Quaternion.identity);
         bullet.transform.up = -(GetMouseWorldPosition() - bulletSpawn.transform.position);
-        yield return new WaitForSeconds(5);
-        canShootExplosionBullet = true;
+        canShootExplosionBullet = false;
     }
 
     private IEnumerator DamageAnimation()
@@ -546,15 +564,42 @@ public class PlayerController : MonoBehaviour
                 Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<CircleCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
             }
         }
-        StartCoroutine(DashCoolDown());
+        canDash = false;
         isDashing = false;
     }
 
-    private IEnumerator DashCoolDown()
+    private void DashCoolDown()
     {
         canDash = false;
-        yield return new WaitForSeconds(dashCoolDown);
-        canDash = true;
+        if(dashCount > dashTimer)
+        {
+            dashCount -= Time.deltaTime;
+            dashCoolDownText.text = dashCount.ToString("0");
+            canDash = false;
+        }
+        else
+        {
+            dashCount = baseDashCount;
+            canDash = true;
+            dashCoolDownText.text = "";
+        }
+    }
+
+    private void ExplosionBulletCoolDown()
+    {
+        canShootExplosionBullet = false;
+        if (explosionBulletCount > explosionBulletTimer)
+        {
+            explosionBulletCount -= Time.deltaTime;
+            explosionBulletCoolDownText.text = explosionBulletCount.ToString("0");
+            canShootExplosionBullet = false;
+        }
+        else
+        {
+            explosionBulletCount = baseExplosionBulletCount;
+            canShootExplosionBullet = true;
+            explosionBulletCoolDownText.text = "";
+        }
     }
 
     public static Vector3 GetMouseWorldPosition()

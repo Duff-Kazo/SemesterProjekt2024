@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodParticles: {fileID: 7789945669554595880, guid: 8f79a35a5bcf8444da154a09a0556e96, type: 3}
+  corpseText: {fileID: 5778589069432220651}
 --- !u!61 &2561960239861830509
 BoxCollider2D:
   m_ObjectHideFlags: 0
