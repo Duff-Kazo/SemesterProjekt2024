@@ -27,7 +27,7 @@ TagManager:
   - Enemy
   - EnemyBullet
   - Corpse
-  - 
+  - Map
   - 
   - 
   - 
@@ -66,11 +66,17 @@ TagManager:
   - name: Items
     uniqueID: 1098483329
     locked: 0
+  - name: props
+    uniqueID: 2160519163
+    locked: 0
   - name: enemies
     uniqueID: 2568335769
     locked: 0
   - name: player
     uniqueID: 2823025277
+    locked: 0
+  - name: mobs
+    uniqueID: 2156088093
     locked: 0
   - name: boss
     uniqueID: 1792559867

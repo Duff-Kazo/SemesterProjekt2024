@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     private float baseSpeed = 6;
     [SerializeField] private float speed;
-
+    
     //Combat
     [Header("CombatSystem")]
     [SerializeField] private TextMeshProUGUI bulletText;
@@ -149,6 +149,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource damageSound;
     public int bloodPoints = 0;
 
+    //Map
+    [Header("Map")]
+    [SerializeField] private GameObject largeMap;
+    [SerializeField] private GameObject miniMap;
+    private bool largeMapOpen = false;
+
 
     void Start()
     {
@@ -168,7 +174,8 @@ public class PlayerController : MonoBehaviour
         bulletUI.SetActive(true);
         aim.SetActive(true);
         xpRequirement = baseXpRequirement;
-        
+        largeMapOpen = false;
+        CloseLargeMap();
     }
     void Update()
     {
@@ -238,6 +245,17 @@ public class PlayerController : MonoBehaviour
             DashCoolDown();
         }
 
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            if(!largeMapOpen)
+            {
+                OpenLargeMap();
+            }
+            else
+            {
+                CloseLargeMap();
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -600,6 +618,20 @@ public class PlayerController : MonoBehaviour
             canShootExplosionBullet = true;
             explosionBulletCoolDownText.text = "";
         }
+    }
+
+    private void OpenLargeMap()
+    {
+        largeMapOpen = true;
+        miniMap.SetActive(false);
+        largeMap.SetActive(true);
+    }
+
+    private void CloseLargeMap()
+    {
+        largeMapOpen = false;
+        miniMap.SetActive(true);
+        largeMap.SetActive(false);
     }
 
     public static Vector3 GetMouseWorldPosition()

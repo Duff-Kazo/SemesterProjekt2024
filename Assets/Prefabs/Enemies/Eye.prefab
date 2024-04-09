@@ -288,7 +288,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1726631527
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -764787292, guid: 99e90453eca1ef740a81a6d6e4e59a4a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -367,7 +367,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 728459262130228645}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.640625
+  m_Radius: 0.3
   m_Speed: 4
   m_Acceleration: 100
   avoidancePriority: 50
@@ -376,8 +376,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1.38
+  m_Height: 1.12
+  m_BaseOffset: 0.95
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!50 &8093687075347812033
@@ -1214,7 +1214,7 @@ LineRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1726631527
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Positions:
   - {x: 0, y: 0, z: 0}
