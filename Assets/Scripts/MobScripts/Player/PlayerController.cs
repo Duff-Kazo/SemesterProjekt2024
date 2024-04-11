@@ -424,32 +424,35 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ReloadWeapon()
     {
-        if(magazineBullets > 0 && bulletCount != maxBullets)
+        if(playerWeapon.enabled)
         {
-            magazinesCount -= 1;
-            isReloading = true;
-            playerWeapon.canShoot = false;
-            reloadAnimation.value = reloadAnimation.minValue;
-            reload.Play();
-            yield return new WaitForSeconds(reloadTime);
-            loaded.Play();
-            reloadAnimation.value = reloadAnimation.maxValue;
-            if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
+            if (magazineBullets > 0 && bulletCount != maxBullets)
             {
-                int test = magazineBullets - (maxBullets - bulletCount);
-                if (test < 0)
+                magazinesCount -= 1;
+                isReloading = true;
+                playerWeapon.canShoot = false;
+                reloadAnimation.value = reloadAnimation.minValue;
+                reload.Play();
+                yield return new WaitForSeconds(reloadTime);
+                loaded.Play();
+                reloadAnimation.value = reloadAnimation.maxValue;
+                if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
                 {
-                    bulletCount += magazineBullets;
-                    magazineBullets = 0;
+                    int test = magazineBullets - (maxBullets - bulletCount);
+                    if (test < 0)
+                    {
+                        bulletCount += magazineBullets;
+                        magazineBullets = 0;
+                    }
+                    else
+                    {
+                        magazineBullets -= maxBullets - bulletCount;
+                        bulletCount += maxBullets - bulletCount;
+                    }
                 }
-                else
-                {
-                    magazineBullets -= maxBullets - bulletCount;
-                    bulletCount += maxBullets - bulletCount;
-                }
+                playerWeapon.canShoot = true;
+                isReloading = false;
             }
-            playerWeapon.canShoot = true;
-            isReloading = false;
         }
     }
 

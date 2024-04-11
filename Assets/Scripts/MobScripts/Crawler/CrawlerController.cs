@@ -43,6 +43,7 @@ public class CrawlerController : MonoBehaviour
     //ItemEffects
     [Header("ItemEffects")]
     [SerializeField] private GameObject light;
+    [SerializeField] private GameObject mapIcon;
     private bool plagueActivated = false;
     void Start()
     {
@@ -62,6 +63,7 @@ public class CrawlerController : MonoBehaviour
     private void Update()
     {
         light.SetActive(PlayerController.eyesActivated);
+        mapIcon.SetActive(PlayerController.eyesActivated);
         if (Interactable.gamePaused)
         {
             agent.isStopped = true;

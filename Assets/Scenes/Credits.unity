@@ -601,7 +601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0027008, y: -9}
+  m_AnchoredPosition: {x: 0.0027008, y: 7}
   m_SizeDelta: {x: 839.85, y: 318.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1607597894
@@ -625,8 +625,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Programming - Otto Daubner\n\nArt - Otto Daubner\n\nSoundDesign - Otto
-    Daubner\n\nGameDesign - Otto Daubner\n\n\n\nProgramms: Unity, Aseprite, \nSoundly,
-    Photoshop"
+    Daubner\n\nGameDesign - Otto Daubner\n\nAOS Fog of war: https://assetstore.unity.com/packages/vfx/shaders/fullscreen-camera-effects/aos-fog-of-war-249249\n\nProgramms:
+    Unity, Aseprite, \nSoundly, Photoshop"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
   m_sharedMaterial: {fileID: -4120092739136832317, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}

@@ -53,6 +53,7 @@ public class EyeController : MonoBehaviour
     //ItemEffects
     [Header("ItemEffects")]
     [SerializeField] private GameObject light;
+    [SerializeField] private GameObject mapIcon;
     private bool plagueActivated = false;
     void Start()
     {
@@ -77,6 +78,7 @@ public class EyeController : MonoBehaviour
     private void Update()
     {
         light.SetActive(PlayerController.eyesActivated);
+        mapIcon.SetActive(PlayerController.eyesActivated);
         if (Interactable.gamePaused || isShooting || !isAggro)
         {
             agent.isStopped = true;
