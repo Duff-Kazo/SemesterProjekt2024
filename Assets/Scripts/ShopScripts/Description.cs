@@ -15,6 +15,7 @@ public class Description : MonoBehaviour
     [SerializeField] private AudioSource hoverSound;
     private Button button;
     private PlayerController player;
+    InstantiateButtons buttonController;
 
     private void Start()
     {
@@ -24,6 +25,7 @@ public class Description : MonoBehaviour
         description.enabled = false;
         background.enabled = false;
         player = FindObjectOfType<PlayerController>();
+        buttonController = GetComponentInParent<InstantiateButtons>();
     }
 
     private void Update()
@@ -33,6 +35,8 @@ public class Description : MonoBehaviour
             button.interactable = false;
             description.text = "Fuck off";
         }
+        description.transform.position = buttonController.descriptionPosition.position;
+        background.transform.position = buttonController.descriptionPosition.position;
     }
 
     public void EnableDescription()

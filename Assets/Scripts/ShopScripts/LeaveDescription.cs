@@ -39,6 +39,11 @@ public class LeaveDescription : MonoBehaviour
         {
             dialogue.text = "Take your pick";
         }
+
+        if(player.monsterState != 3 && ShopButtons.soldOutCount == 3)
+        {
+            dialogue.text = "We have sold out buddy. Happy hunting";
+        }
     }
 
     public void EnableDescription()
