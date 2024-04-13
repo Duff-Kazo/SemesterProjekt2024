@@ -25,7 +25,7 @@ public class Description : MonoBehaviour
         description.enabled = false;
         background.enabled = false;
         player = FindObjectOfType<PlayerController>();
-        buttonController = GetComponentInParent<InstantiateButtons>();
+        buttonController = FindObjectOfType<InstantiateButtons>();
     }
 
     private void Update()
