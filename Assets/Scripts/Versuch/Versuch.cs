@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -88,125 +89,14 @@ public class Versuch : MonoBehaviour
 
         rooms.Add(currentRoom);
         roomPositions.Add(currentRoom.pos);
+        GenerateBranch(currentRoom, previousRoomPos, roomPositions, rooms);
 
-        for (int i = 0; i < walkLength; i++)
-        {
-            List<RoomType> validNextRooms = new List<RoomType>(4);
-            RoomType upRoom = new RoomType(currentRoom.x, currentRoom.y + 1);
-            upRoom.bottomConnected = true;
-            RoomType downRoom = new RoomType(currentRoom.x, currentRoom.y - 1);
-            downRoom.topConnected = true;
-            RoomType leftRoom = new RoomType(currentRoom.x - 1, currentRoom.y);
-            leftRoom.rightConnected = true;
-            RoomType rightRoom = new RoomType(currentRoom.x + 1, currentRoom.y);
-            rightRoom.leftConnected = true;
-            if (!roomPositions.Contains(upRoom.pos))
-            {
-                if(previousRoomPos == downRoom.pos)
-                {
-                    for (int y = 0; y < straights; y++)
-                    {
-                        validNextRooms.Add(upRoom);
-                    }
-                }
-                else
-                {
-                    for (int y = 0; y < turns; y++)
-                    {
-                        validNextRooms.Add(upRoom);
-                    }
-                }
-            }
-            if (!roomPositions.Contains(downRoom.pos))
-            {
-                if (previousRoomPos == upRoom.pos)
-                {
-                    for (int y = 0; y < straights; y++)
-                    {
-                        validNextRooms.Add(downRoom);
-                    }
-                }
-                else
-                {
-                    for (int y = 0; y < turns; y++)
-                    {
-                        validNextRooms.Add(downRoom);
-                    }
-                }
-            }
-            if (!roomPositions.Contains(leftRoom.pos))
-            {
-                if (previousRoomPos == rightRoom.pos)
-                {
-                    for (int y = 0; y < straights; y++)
-                    {
-                        validNextRooms.Add(leftRoom);
-                    }
-                }
-                else
-                {
-                    for (int y = 0; y < turns; y++)
-                    {
-                        validNextRooms.Add(leftRoom);
-                    }
-                }
-            }
-            if (!roomPositions.Contains(rightRoom.pos))
-            {
-                if (previousRoomPos == leftRoom.pos)
-                {
-                    for (int y = 0; y < straights; y++)
-                    {
-                        validNextRooms.Add(rightRoom);
-                    }
-                }
-                else
-                {
-                    for (int y = 0; y < turns; y++)
-                    {
-                        validNextRooms.Add(rightRoom);
-                    }
-                }
-            }
-
-            if (validNextRooms.Count == 0)
-            {
-                Debug.Log("GABUD");
-                return;
-            }
-
-            int nextRoomIndex = Random.Range(0, validNextRooms.Count);
-            var nextRoom = validNextRooms[nextRoomIndex];
-
-            if(nextRoom.topConnected)
-            {
-                currentRoom.bottomConnected = true;
-            }
-            if(nextRoom.bottomConnected)
-            {
-                currentRoom.topConnected = true;
-            }
-            if(nextRoom.rightConnected)
-            {
-                currentRoom.leftConnected = true;
-            }
-            if(nextRoom.leftConnected)
-            {
-                currentRoom.rightConnected = true;
-            }
-
-            rooms.Add(nextRoom);
-            roomPositions.Add(nextRoom.pos);
-            previousRoomPos = currentRoom.pos;
-            currentRoom = nextRoom;
-        }
 
         foreach (var pos in rooms)
         {
             Instantiate(ChooseTile(pos), new Vector3(pos.x * 12, pos.y * 12, 0), Quaternion.identity);
         }
     }
-
 
     //Tatsächliches tile platzieren
     private GameObject ChooseTile(RoomType room)
@@ -288,5 +178,120 @@ public class Versuch : MonoBehaviour
             }
         }
         return floorPositions;
+    }
+
+    private void GenerateBranch(RoomType currentRoom,Vector2Int previousRoomPos, HashSet<Vector2Int> roomPositions, HashSet<RoomType> rooms)
+    {
+        for (int i = 0; i < walkLength; i++)
+        {
+            List<RoomType> validNextRooms = new List<RoomType>(4);
+            RoomType upRoom = new RoomType(currentRoom.x, currentRoom.y + 1);
+            upRoom.bottomConnected = true;
+            RoomType downRoom = new RoomType(currentRoom.x, currentRoom.y - 1);
+            downRoom.topConnected = true;
+            RoomType leftRoom = new RoomType(currentRoom.x - 1, currentRoom.y);
+            leftRoom.rightConnected = true;
+            RoomType rightRoom = new RoomType(currentRoom.x + 1, currentRoom.y);
+            rightRoom.leftConnected = true;
+            if (!roomPositions.Contains(upRoom.pos))
+            {
+                if (previousRoomPos == downRoom.pos)
+                {
+                    for (int y = 0; y < straights; y++)
+                    {
+                        validNextRooms.Add(upRoom);
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < turns; y++)
+                    {
+                        validNextRooms.Add(upRoom);
+                    }
+                }
+            }
+            if (!roomPositions.Contains(downRoom.pos))
+            {
+                if (previousRoomPos == upRoom.pos)
+                {
+                    for (int y = 0; y < straights; y++)
+                    {
+                        validNextRooms.Add(downRoom);
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < turns; y++)
+                    {
+                        validNextRooms.Add(downRoom);
+                    }
+                }
+            }
+            if (!roomPositions.Contains(leftRoom.pos))
+            {
+                if (previousRoomPos == rightRoom.pos)
+                {
+                    for (int y = 0; y < straights; y++)
+                    {
+                        validNextRooms.Add(leftRoom);
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < turns; y++)
+                    {
+                        validNextRooms.Add(leftRoom);
+                    }
+                }
+            }
+            if (!roomPositions.Contains(rightRoom.pos))
+            {
+                if (previousRoomPos == leftRoom.pos)
+                {
+                    for (int y = 0; y < straights; y++)
+                    {
+                        validNextRooms.Add(rightRoom);
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < turns; y++)
+                    {
+                        validNextRooms.Add(rightRoom);
+                    }
+                }
+            }
+
+            if (validNextRooms.Count == 0)
+            {
+                Debug.Log("GABUD");
+                return;
+            }
+
+            int nextRoomIndex = Random.Range(0, validNextRooms.Count);
+            var nextRoom = validNextRooms[nextRoomIndex];
+
+            if (nextRoom.topConnected)
+            {
+                currentRoom.bottomConnected = true;
+            }
+            if (nextRoom.bottomConnected)
+            {
+                currentRoom.topConnected = true;
+            }
+            if (nextRoom.rightConnected)
+            {
+                currentRoom.leftConnected = true;
+            }
+            if (nextRoom.leftConnected)
+            {
+                currentRoom.rightConnected = true;
+            }
+
+            rooms.Add(nextRoom);
+            roomPositions.Add(nextRoom.pos);
+            previousRoomPos = currentRoom.pos;
+            currentRoom = nextRoom;
+        }
     }
 }

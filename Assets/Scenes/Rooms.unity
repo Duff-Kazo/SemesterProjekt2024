@@ -9879,6 +9879,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e219c326434594d9b0d4fe8830e3bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turns: 3
+  straights: 5
   walkLength: 10
   topLeftTile: {fileID: 6460230389132486428, guid: 23088414873f1764ea3840bce7242dda, type: 3}
   topRightTile: {fileID: 6460230389132486428, guid: 81ce6bc5a4d2122469acaaeca64821bb, type: 3}
