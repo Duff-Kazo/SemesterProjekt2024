@@ -10,6 +10,7 @@ public class ShopTrigger : MonoBehaviour
     private void Start()
     {
         shop.SetActive(false);
+        
     }
     public void OpenShop()
     {

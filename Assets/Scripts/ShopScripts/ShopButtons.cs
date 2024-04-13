@@ -4,6 +4,8 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 public class ShopButtons : MonoBehaviour
 {
@@ -39,10 +41,26 @@ public class ShopButtons : MonoBehaviour
                 Debug.Log("MoreMags");
                 player.BuyItem("MoreMags", 10);
             }
+            if (usesMoreMags <= 0)
+            {
+                button.interactable = false;
+                GameObject description = button.transform.Find("Description").gameObject;
+                description.SetActive(false);
+                GameObject background = button.transform.Find("Background").gameObject;
+                background.SetActive(false);
+                GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+                SoldOutbutton.SetActive(true);
+                usesText.text = "0";
+                ShopButtons.soldOutCount++;
+            }
         }
         else
         {
             button.interactable = false;
+            GameObject description = button.transform.Find("Description").gameObject;
+            description.SetActive(false);
+            GameObject background = button.transform.Find("Background").gameObject;
+            background.SetActive(false);
             GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
             SoldOutbutton.SetActive(true);
             usesText.text = "0";
@@ -54,7 +72,7 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesFullAuto > 1)
+        if (usesFullAuto >= 1)
         {
             usesFullAuto--;
             usesText.text = usesFullAuto.ToString();
@@ -65,10 +83,26 @@ public class ShopButtons : MonoBehaviour
                 Debug.Log("FullAuto");
                 player.BuyItem("FullAuto", 200);
             }
+            if (usesFullAuto <= 0)
+            {
+                button.interactable = false;
+                GameObject description = button.transform.Find("Description").gameObject;
+                description.SetActive(false);
+                GameObject background = button.transform.Find("Background").gameObject;
+                background.SetActive(false);
+                GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+                SoldOutbutton.SetActive(true);
+                usesText.text = "0";
+                ShopButtons.soldOutCount++;
+            }
         }
         else
         {
             button.interactable = false;
+            GameObject description = button.transform.Find("Description").gameObject;
+            description.SetActive(false);
+            GameObject background = button.transform.Find("Background").gameObject;
+            background.SetActive(false);
             GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
             SoldOutbutton.SetActive(true);
             usesText.text = "0";
@@ -79,7 +113,7 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesMagUpgrade > 1)
+        if (usesMagUpgrade >= 1)
         {
             usesMagUpgrade--;
             usesText.text = usesMagUpgrade.ToString();
@@ -90,10 +124,26 @@ public class ShopButtons : MonoBehaviour
                 Debug.Log("MagUpgrade");
                 player.BuyItem("MagUpgrade", 125);
             }
+            if (usesMagUpgrade <= 0)
+            {
+                button.interactable = false;
+                GameObject description = button.transform.Find("Description").gameObject;
+                description.SetActive(false);
+                GameObject background = button.transform.Find("Background").gameObject;
+                background.SetActive(false);
+                GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+                SoldOutbutton.SetActive(true);
+                usesText.text = "0";
+                ShopButtons.soldOutCount++;
+            }
         }
         else
         {
             button.interactable = false;
+            GameObject description = button.transform.Find("Description").gameObject;
+            description.SetActive(false);
+            GameObject background = button.transform.Find("Background").gameObject;
+            background.SetActive(false);
             GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
             SoldOutbutton.SetActive(true);
             usesText.text = "0";
@@ -105,7 +155,7 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesMaxHealth > 1)
+        if (usesMaxHealth >= 1)
         {
             usesMaxHealth--;
             usesText.text = usesMaxHealth.ToString();
@@ -115,10 +165,26 @@ public class ShopButtons : MonoBehaviour
                 player.bloodPoints -= 80;
                 player.BuyItem("Health", 80);
             }
+            if (usesMaxHealth <= 0)
+            {
+                button.interactable = false;
+                GameObject description = button.transform.Find("Description").gameObject;
+                description.SetActive(false);
+                GameObject background = button.transform.Find("Background").gameObject;
+                background.SetActive(false);
+                GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+                SoldOutbutton.SetActive(true);
+                usesText.text = "0";
+                ShopButtons.soldOutCount++;
+            }
         }
         else
         {
             button.interactable = false;
+            GameObject description = button.transform.Find("Description").gameObject;
+            description.SetActive(false);
+            GameObject background = button.transform.Find("Background").gameObject;
+            background.SetActive(false);
             GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
             SoldOutbutton.SetActive(true);
             usesText.text = "0";
@@ -130,7 +196,7 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesUpDamage > 1)
+        if (usesUpDamage >= 1)
         {
             usesUpDamage--;
             usesText.text = usesUpDamage.ToString();
@@ -141,10 +207,26 @@ public class ShopButtons : MonoBehaviour
                 Debug.Log("UpDamage");
                 player.BuyItem("UpDamage", 110);
             }
+            if (usesUpDamage <= 0)
+            {
+                button.interactable = false;
+                GameObject description = button.transform.Find("Description").gameObject;
+                description.SetActive(false);
+                GameObject background = button.transform.Find("Background").gameObject;
+                background.SetActive(false);
+                GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+                SoldOutbutton.SetActive(true);
+                usesText.text = "0";
+                ShopButtons.soldOutCount++;
+            }
         }
         else
         {
             button.interactable = false;
+            GameObject description = button.transform.Find("Description").gameObject;
+            description.SetActive(false);
+            GameObject background = button.transform.Find("Background").gameObject;
+            background.SetActive(false);
             GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
             SoldOutbutton.SetActive(true);
             usesText.text = "0";
@@ -156,7 +238,7 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesLegMods > 1)
+        if (usesLegMods >= 1)
         {
             usesLegMods--;
             usesText.text = usesLegMods.ToString();
@@ -167,10 +249,26 @@ public class ShopButtons : MonoBehaviour
                 Debug.Log("LegMods");
                 player.BuyItem("LegMods", 100);
             }
+            if(usesLegMods <= 0)
+            {
+                button.interactable = false;
+                GameObject description = button.transform.Find("Description").gameObject;
+                description.SetActive(false);
+                GameObject background = button.transform.Find("Background").gameObject;
+                background.SetActive(false);
+                GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+                SoldOutbutton.SetActive(true);
+                usesText.text = "0";
+                ShopButtons.soldOutCount++;
+            }
         }
         else
         {
             button.interactable = false;
+            GameObject description = button.transform.Find("Description").gameObject;
+            description.SetActive(false);
+            GameObject background = button.transform.Find("Background").gameObject;
+            background.SetActive(false);
             GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
             SoldOutbutton.SetActive(true);
             usesText.text = "0";

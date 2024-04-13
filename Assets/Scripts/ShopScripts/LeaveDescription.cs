@@ -40,9 +40,14 @@ public class LeaveDescription : MonoBehaviour
             dialogue.text = "Take your pick";
         }
 
-        if(player.monsterState != 3 && ShopButtons.soldOutCount == 3)
+        if(player.monsterState != 3 && ShopButtons.soldOutCount == 4)
         {
-            dialogue.text = "We have sold out buddy. Happy hunting";
+            dialogue.text = "We're sold out man. Happy hunting";
+        }
+
+        if(!Interactable.gamePaused)
+        {
+            DissableDescription();
         }
     }
 
