@@ -51,6 +51,9 @@ public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
 }
 public class Versuch : MonoBehaviour
 {
+    [SerializeField] private int turns;
+    [SerializeField] private int straights;
+
     [SerializeField] private int walkLength;
     [Header("Corner Tiles")]
     [SerializeField] private GameObject topLeftTile;
@@ -80,37 +83,90 @@ public class Versuch : MonoBehaviour
         dings.startRandomlyEachIteration = false;
         HashSet<RoomType> rooms = new HashSet<RoomType>();
         HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
-        var previousRoom = new RoomType(0, 0);
+        var currentRoom = new RoomType(0, 0);
+        Vector2Int previousRoomPos = currentRoom.pos;
 
-        rooms.Add(previousRoom);
-        roomPositions.Add(previousRoom.pos);
+        rooms.Add(currentRoom);
+        roomPositions.Add(currentRoom.pos);
 
         for (int i = 0; i < walkLength; i++)
         {
             List<RoomType> validNextRooms = new List<RoomType>(4);
-            RoomType upRoom = new RoomType(previousRoom.x, previousRoom.y + 1);
+            RoomType upRoom = new RoomType(currentRoom.x, currentRoom.y + 1);
             upRoom.bottomConnected = true;
-            RoomType downRoom = new RoomType(previousRoom.x, previousRoom.y - 1);
+            RoomType downRoom = new RoomType(currentRoom.x, currentRoom.y - 1);
             downRoom.topConnected = true;
-            RoomType leftRoom = new RoomType(previousRoom.x - 1, previousRoom.y);
+            RoomType leftRoom = new RoomType(currentRoom.x - 1, currentRoom.y);
             leftRoom.rightConnected = true;
-            RoomType rightRoom = new RoomType(previousRoom.x + 1, previousRoom.y);
+            RoomType rightRoom = new RoomType(currentRoom.x + 1, currentRoom.y);
             rightRoom.leftConnected = true;
-            if(!roomPositions.Contains(upRoom.pos))
+            if (!roomPositions.Contains(upRoom.pos))
             {
-                validNextRooms.Add(upRoom);
+                if(previousRoomPos == downRoom.pos)
+                {
+                    for (int y = 0; y < straights; y++)
+                    {
+                        validNextRooms.Add(upRoom);
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < turns; y++)
+                    {
+                        validNextRooms.Add(upRoom);
+                    }
+                }
             }
             if (!roomPositions.Contains(downRoom.pos))
             {
-                validNextRooms.Add(downRoom);
+                if (previousRoomPos == upRoom.pos)
+                {
+                    for (int y = 0; y < straights; y++)
+                    {
+                        validNextRooms.Add(downRoom);
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < turns; y++)
+                    {
+                        validNextRooms.Add(downRoom);
+                    }
+                }
             }
             if (!roomPositions.Contains(leftRoom.pos))
             {
-                validNextRooms.Add(leftRoom);
+                if (previousRoomPos == rightRoom.pos)
+                {
+                    for (int y = 0; y < straights; y++)
+                    {
+                        validNextRooms.Add(leftRoom);
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < turns; y++)
+                    {
+                        validNextRooms.Add(leftRoom);
+                    }
+                }
             }
             if (!roomPositions.Contains(rightRoom.pos))
             {
-                validNextRooms.Add(rightRoom);
+                if (previousRoomPos == leftRoom.pos)
+                {
+                    for (int y = 0; y < straights; y++)
+                    {
+                        validNextRooms.Add(rightRoom);
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < turns; y++)
+                    {
+                        validNextRooms.Add(rightRoom);
+                    }
+                }
             }
 
             if (validNextRooms.Count == 0)
@@ -124,24 +180,25 @@ public class Versuch : MonoBehaviour
 
             if(nextRoom.topConnected)
             {
-                previousRoom.bottomConnected = true;
+                currentRoom.bottomConnected = true;
             }
             if(nextRoom.bottomConnected)
             {
-                previousRoom.topConnected = true;
+                currentRoom.topConnected = true;
             }
             if(nextRoom.rightConnected)
             {
-                previousRoom.leftConnected = true;
+                currentRoom.leftConnected = true;
             }
             if(nextRoom.leftConnected)
             {
-                previousRoom.rightConnected = true;
+                currentRoom.rightConnected = true;
             }
 
             rooms.Add(nextRoom);
             roomPositions.Add(nextRoom.pos);
-            previousRoom = nextRoom;
+            previousRoomPos = currentRoom.pos;
+            currentRoom = nextRoom;
         }
 
         foreach (var pos in rooms)
@@ -150,6 +207,8 @@ public class Versuch : MonoBehaviour
         }
     }
 
+
+    //Tatsächliches tile platzieren
     private GameObject ChooseTile(RoomType room)
     {
         if(room.leftConnected && room.rightConnected && !room.topConnected && !room.bottomConnected)

@@ -16,7 +16,10 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        orbs.transform.gameObject.SetActive(PlayerController.orbsActivated);
+        if(orbs != null)
+        {
+            orbs.transform.gameObject.SetActive(PlayerController.orbsActivated);
+        }
     }
     public void PlayExplosionSound()
     {
