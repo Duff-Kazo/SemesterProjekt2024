@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -54,6 +55,20 @@ public class BossController : MonoBehaviour
     private bool phase1 = true;
     private bool isInvinvible = false;
 
+    [Header("ShootRapidFire")]
+    [SerializeField] private Transform direction1;
+    [SerializeField] private Transform direction2;
+    [SerializeField] private Transform direction3;
+    [SerializeField] private Transform direction4;
+
+    [Header("Mines")]
+    [SerializeField] private float minX;
+    [SerializeField] private float maxX;
+    [SerializeField] private float minY;
+    [SerializeField] private float maxY;
+    [SerializeField] private GameObject minePrefab;
+
+
     [Header("Sounds")]
     [SerializeField] private AudioSource shootSound;
     [SerializeField] private AudioSource shootExplosive;
@@ -73,6 +88,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject explosionBulletPrefab;
     [SerializeField] private BoxCollider2D collider;
     [SerializeField] private GameObject shieldSprite;
+    private bool switchPhase = true;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -155,8 +171,21 @@ public class BossController : MonoBehaviour
         if (health <= MaxHp / 2)
         {
             phase1 = false;
+            if(switchPhase)
+            {
+                switchPhase = false;
+                int random = Random.Range(1, 3);
+                Debug.Log(random);
+                if (random == 1)
+                {
+                    StartCoroutine(MachineGunAttack());
+                }
+                else if (random == 2)
+                {
+                    StartCoroutine(DeathBite());
+                }
+            }
         }
-
         if (Interactable.gamePaused)
         {
             agent.isStopped = true;
@@ -197,23 +226,15 @@ public class BossController : MonoBehaviour
         else
         {
             spawnPhaseCounter = 0;
-            int random = Random.Range(1, 5);
+            int random = Random.Range(1, 3);
             Debug.Log(random);
             if (random == 1)
             {
-                StartCoroutine(MachineGunAttack());
+                StartCoroutine(SpawnEnemies());
             }
             else if (random == 2)
             {
                 StartCoroutine(LaserAttack());
-            }
-            else if (random == 3)
-            {
-                StartCoroutine(SpawnEnemies());
-            }
-            else if (random == 4)
-            {
-                StartCoroutine(DeathBite());
             }
         }
     }
@@ -252,21 +273,12 @@ public class BossController : MonoBehaviour
         else
         {
             specialPhaseCounter2 = 0;
-            int random = Random.Range(1, 5);
-            Debug.Log(random);
-            if(random == 1)
+            int random = Random.Range(1, 3);
+            if (random == 1)
             {
                 StartCoroutine(MachineGunAttack());
             }
-            else if(random == 2)
-            {
-                StartCoroutine(LaserAttack());
-            }
-            else if(random == 3)
-            {
-                StartCoroutine(SpawnEnemies());
-            }
-            else if(random == 4)
+            else if (random == 2)
             {
                 StartCoroutine(DeathBite());
             }
@@ -289,7 +301,7 @@ public class BossController : MonoBehaviour
             if(specialBulletCount < 5)
             {
                 dirToPlayer = player.transform.position - bulletSpawn.transform.position;
-                specialBulletCount++;
+                //insert specialBulletCount++ if you want a specialBullet to be in shooting
                 shootSound.Play();
                 GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
                 bullet.transform.up = -dirToPlayer;
@@ -303,6 +315,13 @@ public class BossController : MonoBehaviour
                 bullet.transform.up = -dirToPlayer;
             }
         }
+    }
+
+    private void ShootRapidFire(Vector2 dirToPlayer)
+    {
+        shootSound.Play();
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
+        bullet.transform.up = -dirToPlayer;
     }
 
     private void Die()
@@ -474,7 +493,10 @@ public class BossController : MonoBehaviour
         bulletCoolDown = 0.1f;
         for (int i = 0; i < 100; i++)
         {
-            Shoot();
+            ShootRapidFire(direction1.position - bulletSpawn.position);
+            ShootRapidFire(direction2.position - bulletSpawn.position);
+            ShootRapidFire(direction3.position - bulletSpawn.position);
+            ShootRapidFire(direction4.position - bulletSpawn.position);
             yield return new WaitForSeconds(bulletCoolDown);
         }
         bulletCoolDown = originalShootingSpeed;
@@ -496,6 +518,10 @@ public class BossController : MonoBehaviour
         for(int i = 0; i < 5; i++)
         {
             gameManager.PlayBossTeleport();
+            for(int x = 0; x < 5; x++)
+            {
+                Instantiate(minePrefab, new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY)), Quaternion.identity);
+            }
             agent.isStopped = false;
             Vector2 bitePoint = player.transform.position + new Vector3(0, 2.3f, 0);
             agent.SetDestination(bitePoint);

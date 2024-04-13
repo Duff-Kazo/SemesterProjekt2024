@@ -3553,7 +3553,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.8, y: 14.97, z: -10}
+  m_LocalPosition: {x: -22.84, y: 30.87, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4201,7 +4201,7 @@ MonoBehaviour:
   reloadTime: 1.5
   isReloading: 0
   bulletCount: 0
-  maxMagazines: 4
+  maxMagazines: 999
   isDashing: 0
   dashLength: 100
   dashCount: 0
@@ -4325,7 +4325,7 @@ Transform:
   m_GameObject: {fileID: 610252406}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.8, y: 14.97, z: 0}
+  m_LocalPosition: {x: -22.84, y: 30.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7125,7 +7125,7 @@ Transform:
   m_GameObject: {fileID: 837571089}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.8, y: 14.97, z: -10}
+  m_LocalPosition: {x: -22.84, y: 30.87, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9293,8 +9293,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1625036354122004666, guid: 29dc624bbb870354085df4beca1b567d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2200612301427247522, guid: 29dc624bbb870354085df4beca1b567d, type: 3}
+      propertyPath: maxX
+      value: -11.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200612301427247522, guid: 29dc624bbb870354085df4beca1b567d, type: 3}
+      propertyPath: maxY
+      value: 42.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200612301427247522, guid: 29dc624bbb870354085df4beca1b567d, type: 3}
+      propertyPath: minX
+      value: -33.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200612301427247522, guid: 29dc624bbb870354085df4beca1b567d, type: 3}
+      propertyPath: minY
+      value: 26.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2200612301427247522, guid: 29dc624bbb870354085df4beca1b567d, type: 3}
+      propertyPath: minePrefab
+      value: 
+      objectReference: {fileID: 6270929811461782835, guid: e78e6d09f25c0d946ae25dabd1d7fc16, type: 3}
     - target: {fileID: 2200612301427247522, guid: 29dc624bbb870354085df4beca1b567d, type: 3}
       propertyPath: centerPoint
       value: 
