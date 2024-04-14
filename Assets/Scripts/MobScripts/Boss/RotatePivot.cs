@@ -9,8 +9,7 @@ public class RotatePivot : MonoBehaviour
     [SerializeField] private float rotateSpeed;
     private int rotateDirection = 1;
 
-
-    void Update()
+    private void FixedUpdate()
     {
         isRotating = true;
         transform.Rotate(new Vector3(0, 0, rotateDirection) * rotateSpeed);

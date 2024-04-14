@@ -67,6 +67,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private float minY;
     [SerializeField] private float maxY;
     [SerializeField] private GameObject minePrefab;
+    [SerializeField] private GameObject arrowPrefab;
 
 
     [Header("Sounds")]
@@ -89,6 +90,11 @@ public class BossController : MonoBehaviour
     [SerializeField] private BoxCollider2D collider;
     [SerializeField] private GameObject shieldSprite;
     private bool switchPhase = true;
+
+    private int chanceToMachineGun = 1;
+    private int chanceToDeathBite = 1;
+    private int chanceToLaser = 1;
+    private int chanceToSpawn = 1;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -171,16 +177,16 @@ public class BossController : MonoBehaviour
         if (health <= MaxHp / 2)
         {
             phase1 = false;
+            animator.SetBool("SecondPhase", true);
             if(switchPhase)
             {
                 switchPhase = false;
-                int random = Random.Range(1, 3);
-                Debug.Log(random);
-                if (random == 1)
+                int random = Random.Range(1, 6);
+                if (random <= chanceToMachineGun)
                 {
                     StartCoroutine(MachineGunAttack());
                 }
-                else if (random == 2)
+                else if (random >= chanceToDeathBite)
                 {
                     StartCoroutine(DeathBite());
                 }
@@ -228,11 +234,11 @@ public class BossController : MonoBehaviour
             spawnPhaseCounter = 0;
             int random = Random.Range(1, 3);
             Debug.Log(random);
-            if (random == 1)
+            if (random <= chanceToSpawn)
             {
                 StartCoroutine(SpawnEnemies());
             }
-            else if (random == 2)
+            else if (random >= chanceToLaser)
             {
                 StartCoroutine(LaserAttack());
             }
@@ -274,11 +280,11 @@ public class BossController : MonoBehaviour
         {
             specialPhaseCounter2 = 0;
             int random = Random.Range(1, 3);
-            if (random == 1)
+            if (random <= chanceToMachineGun)
             {
                 StartCoroutine(MachineGunAttack());
             }
-            else if (random == 2)
+            else if (random >= chanceToDeathBite)
             {
                 StartCoroutine(DeathBite());
             }
@@ -364,6 +370,14 @@ public class BossController : MonoBehaviour
 
     private IEnumerator SpawnEnemies()
     {
+        if(chanceToSpawn > 0)
+        {
+            chanceToSpawn--;
+            if (chanceToLaser < 2)
+            {
+                chanceToLaser++;
+            }
+        }
         isSpawningEnemies = true;
         isInvinvible = true;
         agent.velocity = Vector3.zero;
@@ -403,6 +417,14 @@ public class BossController : MonoBehaviour
 
     private IEnumerator LaserAttack()
     {
+        if (chanceToLaser > 0)
+        {
+            chanceToLaser--;
+            if (chanceToSpawn < 2)
+            {
+                chanceToSpawn++;
+            }
+        }
         isLaserAttacking = true;
         isInvinvible = true;
         agent.velocity = Vector3.zero;
@@ -482,6 +504,14 @@ public class BossController : MonoBehaviour
 
     private IEnumerator MachineGunAttack()
     {
+        if (chanceToMachineGun > 0)
+        {
+            chanceToMachineGun--;
+            if (chanceToDeathBite < 2)
+            {
+                chanceToDeathBite++;
+            }
+        }
         isGattlingGunAttacking = true;
         isInvinvible = true;
         agent.velocity = Vector3.zero;
@@ -506,22 +536,26 @@ public class BossController : MonoBehaviour
 
     private IEnumerator DeathBite()
     {
+        if (chanceToDeathBite > 0)
+        {
+            chanceToDeathBite--;
+            if(chanceToMachineGun < 2)
+            {
+                chanceToMachineGun++;
+            }
+        }
         deathBite = true;
         isInvinvible = true;
         Physics2D.IgnoreCollision(collider, player.GetComponentInChildren<CircleCollider2D>(), true);
         agent.velocity = Vector3.zero;
         agent.SetDestination(centerPoint.position);
         yield return new WaitForSeconds(2f);
-        
         agent.speed = 40;
         
         for(int i = 0; i < 5; i++)
         {
+            StartCoroutine(SpawnMines());
             gameManager.PlayBossTeleport();
-            for(int x = 0; x < 5; x++)
-            {
-                Instantiate(minePrefab, new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY)), Quaternion.identity);
-            }
             agent.isStopped = false;
             Vector2 bitePoint = player.transform.position + new Vector3(0, 2.3f, 0);
             agent.SetDestination(bitePoint);
@@ -536,5 +570,23 @@ public class BossController : MonoBehaviour
         agent.speed = 3.5f;
         isInvinvible = false;
         deathBite = false;
+    }
+
+    private IEnumerator SpawnMines()
+    {
+        List<GameObject> arrows = new List<GameObject>();
+        for (int x = 0; x < 4; x++)
+        {
+            arrows.Add(Instantiate(arrowPrefab, new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY)), Quaternion.identity));
+        }
+        yield return new WaitForSeconds(0.75f);
+        for (int x = 0; x < 4; x++)
+        {
+            Destroy(arrows[x]);
+        }
+        for (int x = 0; x < 4; x++)
+        {
+            Instantiate(minePrefab, arrows[x].transform.position, Quaternion.identity);
+        }
     }
 }

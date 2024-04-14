@@ -452,7 +452,8 @@ MonoBehaviour:
   maxX: 0
   minY: 0
   maxY: 0
-  minePrefab: {fileID: 0}
+  minePrefab: {fileID: 6270929811461782835, guid: e78e6d09f25c0d946ae25dabd1d7fc16, type: 3}
+  arrowPrefab: {fileID: 3580339556041617376, guid: 59a9dbb8680849f4fa090b08ffd32fd1, type: 3}
   shootSound: {fileID: 9205775170473928435}
   shootExplosive: {fileID: 1738095536015471271}
   laserSound: {fileID: 7741666495576216739}
@@ -1604,7 +1605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a2ca43590560a748a0e8a499eaa2f27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateSpeed: 2
+  rotateSpeed: 0.85
 --- !u!1 &4972323164232775047
 GameObject:
   m_ObjectHideFlags: 0
