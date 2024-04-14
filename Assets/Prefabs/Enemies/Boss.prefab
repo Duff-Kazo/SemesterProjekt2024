@@ -314,7 +314,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4558637609292570899}
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAggro: 0
-  bulletCoolDown: 0.1
+  bulletCoolDown: 0.5
   bloodDropAmount: 2000
   deathParticles: {fileID: 7789945669554595880, guid: 509d36811a4178348989bf30b4ab3adb, type: 3}
   bossBar: {fileID: 788314897942229894}
@@ -448,10 +448,10 @@ MonoBehaviour:
   direction2: {fileID: 9178307926266330818}
   direction3: {fileID: 1472267587789143074}
   direction4: {fileID: 8177520643940686827}
-  minX: 0
-  maxX: 0
-  minY: 0
-  maxY: 0
+  minX: -33.98
+  maxX: -11.93
+  minY: 26.1
+  maxY: 42.06
   minePrefab: {fileID: 6270929811461782835, guid: e78e6d09f25c0d946ae25dabd1d7fc16, type: 3}
   arrowPrefab: {fileID: 3580339556041617376, guid: 59a9dbb8680849f4fa090b08ffd32fd1, type: 3}
   shootSound: {fileID: 9205775170473928435}
@@ -481,10 +481,10 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 3
-  m_BaseOffset: 1.5
+  m_BaseOffset: 1.75
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!50 &5824992794997165101
@@ -543,7 +543,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.07800436, y: -0.2527356}
@@ -1662,7 +1662,7 @@ Transform:
   m_GameObject: {fileID: 5103377275963624290}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.046, y: -1.141, z: 0.0048064142}
+  m_LocalPosition: {x: 0.046, y: -1.34, z: 0.0048064142}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

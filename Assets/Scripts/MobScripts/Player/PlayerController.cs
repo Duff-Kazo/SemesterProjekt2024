@@ -172,7 +172,7 @@ public class PlayerController : MonoBehaviour
         magazineBullets = magazinesCount * maxBullets;
         acidUI.SetActive(false);
         bulletUI.SetActive(true);
-        aim.SetActive(true);
+        //aim.SetActive(true);
         xpRequirement = baseXpRequirement;
         largeMapOpen = false;
         CloseLargeMap();
@@ -424,36 +424,34 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ReloadWeapon()
     {
-        if(playerWeapon.enabled)
+        if (magazineBullets > 0 && bulletCount != maxBullets)
         {
-            if (magazineBullets > 0 && bulletCount != maxBullets)
+            magazinesCount -= 1;
+            isReloading = true;
+            playerWeapon.canShoot = false;
+            reloadAnimation.value = reloadAnimation.minValue;
+            reload.Play();
+            yield return new WaitForSeconds(reloadTime);
+            loaded.Play();
+            reloadAnimation.value = reloadAnimation.maxValue;
+            if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
             {
-                magazinesCount -= 1;
-                isReloading = true;
-                playerWeapon.canShoot = false;
-                reloadAnimation.value = reloadAnimation.minValue;
-                reload.Play();
-                yield return new WaitForSeconds(reloadTime);
-                loaded.Play();
-                reloadAnimation.value = reloadAnimation.maxValue;
-                if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
+                int test = magazineBullets - (maxBullets - bulletCount);
+                if (test < 0)
                 {
-                    int test = magazineBullets - (maxBullets - bulletCount);
-                    if (test < 0)
-                    {
-                        bulletCount += magazineBullets;
-                        magazineBullets = 0;
-                    }
-                    else
-                    {
-                        magazineBullets -= maxBullets - bulletCount;
-                        bulletCount += maxBullets - bulletCount;
-                    }
+                    bulletCount += magazineBullets;
+                    magazineBullets = 0;
                 }
-                playerWeapon.canShoot = true;
-                isReloading = false;
+                else
+                {
+                    magazineBullets -= maxBullets - bulletCount;
+                    bulletCount += maxBullets - bulletCount;
+                }
             }
+            playerWeapon.canShoot = true;
+            isReloading = false;
         }
+        //If weapon Enabled war da auch noch warum auch immer also so drum herum um alles
     }
 
     private void ShootExplosionBullet()
@@ -549,17 +547,17 @@ public class PlayerController : MonoBehaviour
         HeadMouthController[] headMouth = FindObjectsOfType<HeadMouthController>();
         for (int i = 0; i < headMouth.Length; i++)
         {
-            Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<CircleCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
+            Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
         }
         CrawlerController[] crawler = FindObjectsOfType<CrawlerController>();
         for (int i = 0; i < crawler.Length; i++)
         {
-            Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<CircleCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
+            Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
         }
         EyeController[] eye = FindObjectsOfType<EyeController>();
         for (int i = 0; i < eye.Length; i++)
         {
-            Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<CircleCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
+            Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
         }
         rb.velocity = moveDirection * dashSpeed;
         Debug.Log(moveDirection + "     " + dashSpeed);
@@ -568,21 +566,21 @@ public class PlayerController : MonoBehaviour
         {
             if (headMouth[i] != null)
             {
-                Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<CircleCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
+                Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
             }
         }
         for (int i = 0; i < crawler.Length; i++)
         {
             if (crawler[i] != null)
             {
-                Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<CircleCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
+                Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
             }
         }
         for (int i = 0; i < eye.Length; i++)
         {
             if(eye[i] != null)
             {
-                Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<CircleCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
+                Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
             }
         }
         canDash = false;

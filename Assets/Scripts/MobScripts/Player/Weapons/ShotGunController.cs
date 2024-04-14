@@ -1,46 +1,63 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Windows;
-using Input = UnityEngine.Input;
-using Random = UnityEngine.Random;
 
-public class PlayerWeaponAim : MonoBehaviour
+public class ShotGunController : MonoBehaviour
 {
-    private Transform aimTransform;
-    private Transform aimGunEndPointPosition;
-    private Transform gun;
+    private Transform shotGunTransform;
+    private Transform aimShotGunEndPointPosition;
+    private Transform shotgun;
     private SpriteRenderer gunSpriteRenderer;
     private PlayerController player;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private float shootCoolDown;
     public bool canShoot = true;
     public bool fullAuto = false;
     private bool flipped = false;
-    private float shootCoolDown;
+    
+
+    [Header("ShotGun")]
+    [SerializeField] private float spread;
+
+    public static bool gunEquiped = false;
+    public static bool MP40Equiped = false;
+    public static bool tommyGunEquiped = false;
+    public static bool shotgunEquiped = false;
 
     [Header("Sounds")]
     [SerializeField] private AudioSource playerShot;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
-        aimTransform = FindObjectOfType<Aim>().transform;
-        aimGunEndPointPosition = aimTransform.Find("GunEndPointPosition");
-        gun = aimTransform.Find("Gun");
-        gunSpriteRenderer = gun.GetComponent<SpriteRenderer>();
+        shotGunTransform = FindObjectOfType<ShotGunAim>().transform;
+        aimShotGunEndPointPosition = shotGunTransform.Find("ShotGunEndPointPosition");
+        shotgun = shotGunTransform.Find("ShotGun");
+        gunSpriteRenderer = shotgun.GetComponent<SpriteRenderer>();
     }
-    private void HandleAimingPistol()
+
+    void Update()
+    {
+        if (Interactable.gamePaused)
+        {
+            return;
+        }
+        HandleAimingShotgun();
+        if(canShoot)
+        {
+            HandleShootingShotGun();
+        }
+    }
+    private void HandleAimingShotgun()
     {
         Vector3 mousePosition = GetMouseWorldPosition();
 
         Vector3 aimDirection = (mousePosition - transform.position).normalized;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        aimTransform.eulerAngles = new Vector3(0, 0, angle);
+        shotGunTransform.eulerAngles = new Vector3(0, 0, angle);
         Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 
-        if(angle < 89 && angle > -89)
+        if (angle < 89 && angle > -89)
         {
             gunSpriteRenderer.flipY = false;
             if (!flipped)
@@ -57,62 +74,50 @@ public class PlayerWeaponAim : MonoBehaviour
             }
         }
     }
-    private void Update()
+
+
+    private void ShootShotGun()
     {
-        if(Interactable.gamePaused)
+        if (player.bulletCount >= 4)
         {
-            return;
+            player.bulletCount -= 4;
+            for (int i = -2; i < 2; i++)
+            {
+                GameObject bullet = Instantiate(bulletPrefab, aimShotGunEndPointPosition.position, Quaternion.Euler(0, 0, i * spread));
+                bullet.transform.up = shotGunTransform.up;
+                bullet.transform.Rotate(new Vector3(0, 0, -90));
+                bullet.transform.Rotate(new Vector3(0,0,i * spread));
+            }
         }
-        if(ShopButtons.fullAutoBought)
-        {
-            shootCoolDown = 0.1f;
-        }
-        else
-        {
-            shootCoolDown = 0.2f;
-        }
-        HandleAimingPistol();
-        HandleShootingPistol();
+        StartCoroutine(ShootCoolDown());
     }
 
-    private void HandleShootingPistol()
+    private void HandleShootingShotGun()
     {
-        if(ShopButtons.fullAutoBought)
+
+        if (ShopButtons.fullAutoBought)
         {
             if (Input.GetMouseButton(0) && canShoot && !player.isReloading)
             {
-                ShootPistol();
+                ShootShotGun();
             }
         }
         else
         {
             if (Input.GetMouseButtonDown(0) && canShoot && !player.isReloading)
             {
-                ShootPistol();
+                ShootShotGun();
             }
         }
-        
-    }
-    private void ShootPistol()
-    {
-        if (player.bulletCount > 0)
-        {
-            player.bulletCount -= 1;
-            playerShot.Play();
-            GameObject bullet = Instantiate(bulletPrefab, aimGunEndPointPosition.position, Quaternion.identity);
-            bullet.transform.up = aimTransform.up;
-            bullet.transform.Rotate(new Vector3(0, 0, -90));
 
-            StartCoroutine(ShootCoolDown());
-        }
     }
+
     private IEnumerator ShootCoolDown()
     {
         canShoot = false;
         yield return new WaitForSeconds(shootCoolDown);
         canShoot = true;
     }
-
 
     public static Vector3 GetMouseWorldPosition()
     {
