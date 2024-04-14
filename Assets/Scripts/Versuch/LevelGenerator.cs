@@ -14,6 +14,9 @@ public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
     public bool leftConnected;
     public bool rightConnected;
     public bool bottomConnected;
+    public bool isMainPath;
+    public bool isStartRoom;
+    public bool isEndRoom;
 
     public RoomType(Vector2Int position)
     {
@@ -22,6 +25,9 @@ public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
         leftConnected = false;
         rightConnected = false;
         bottomConnected = false;
+        isMainPath = false;
+        isStartRoom = false;
+        isEndRoom = false;
     }
 
     public RoomType(int x, int y) : this(new Vector2Int(x, y))
@@ -50,12 +56,14 @@ public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
         return other.pos.Equals(pos);
     }
 }
-public class Versuch : MonoBehaviour
+public class LevelGenerator : MonoBehaviour
 {
     [SerializeField] private int turns;
     [SerializeField] private int straights;
+    [SerializeField] private GameObject mainPathDot;
 
-    [SerializeField] private int walkLength;
+    [SerializeField] private int mainPathLength;
+    [SerializeField] private int nOfBranchRooms;
     [Header("Corner Tiles")]
     [SerializeField] private GameObject topLeftTile;
     [SerializeField] private GameObject topRightTile;
@@ -76,26 +84,72 @@ public class Versuch : MonoBehaviour
     [SerializeField] private GameObject LeftTopRight;
     [Header("Cross")]
     [SerializeField] private GameObject cross;
-    SimpleRandomWalkSO dings;
+
     void Start()
     {
-        dings = new SimpleRandomWalkSO();
-        dings.walkLength = 15;
-        dings.startRandomlyEachIteration = false;
-        HashSet<RoomType> rooms = new HashSet<RoomType>();
-        HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
-        var currentRoom = new RoomType(0, 0);
-        Vector2Int previousRoomPos = currentRoom.pos;
 
-        rooms.Add(currentRoom);
-        roomPositions.Add(currentRoom.pos);
-        GenerateBranch(currentRoom, previousRoomPos, roomPositions, rooms);
-
-
-        foreach (var pos in rooms)
+        List<RoomType> roomSet = null;
+        while(roomSet == null)
         {
-            Instantiate(ChooseTile(pos), new Vector3(pos.x * 12, pos.y * 12, 0), Quaternion.identity);
+            roomSet = GenerateRooms();
         }
+
+
+        foreach (var pos in roomSet)
+        {
+            GameObject newRoom = Instantiate(ChooseTile(pos), new Vector3(pos.x * 12, pos.y * 12, 0), Quaternion.identity);
+            if(pos.isMainPath)
+            {
+                Instantiate(mainPathDot, newRoom.transform.position, Quaternion.identity);
+            }
+        }
+    }
+
+    private List<RoomType> GenerateRooms()
+    {
+        List<RoomType> roomSet = new List<RoomType>();
+        HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
+        var startRoom = new RoomType(0, 0);
+        startRoom.isStartRoom = true;
+        Vector2Int previousRoomPos = startRoom.pos;
+
+        roomSet.Add(startRoom);
+        roomPositions.Add(startRoom.pos);
+
+        //Main Branch Generation
+        GenerateBranch(startRoom, previousRoomPos, roomPositions, roomSet, mainPathLength - 1);
+        foreach (var room in roomSet)
+        {
+            room.isMainPath = true;
+        }
+        roomSet.ElementAt(roomSet.Count - 1).isEndRoom = true;
+        List<RoomType> validBranchRooms = new List<RoomType>();
+        for (int i = 1; i < roomSet.Count - 1; i++)
+        {
+            validBranchRooms.Add(roomSet[i]);
+        }
+
+        //Branch Generation
+        while (roomSet.Count < mainPathLength + nOfBranchRooms)
+        {
+            int nextIndex = Random.Range(0, validBranchRooms.Count);
+            int branchLength = Random.Range(1, Mathf.RoundToInt(Mathf.Sqrt(nOfBranchRooms)) + 1);
+            if (roomSet.Count + branchLength > mainPathLength + nOfBranchRooms)
+            {
+                branchLength = mainPathLength + nOfBranchRooms - roomSet.Count;
+            }
+            int result = GenerateBranch(validBranchRooms[nextIndex], validBranchRooms[nextIndex].pos, roomPositions, roomSet, branchLength);
+            if (result < 1)
+            {
+                validBranchRooms.RemoveAt(nextIndex);
+                if (validBranchRooms.Count < 1)
+                {
+                    Debug.Log("ICh Wein JeTzT");
+                    return null;
+                }
+            }
+        }
+        return roomSet;
     }
 
     //Tatsächliches tile platzieren
@@ -164,25 +218,9 @@ public class Versuch : MonoBehaviour
         throw new Exception("Das jetzt kaka");
     }
 
-    private HashSet<Vector2Int> RunRandomWalk(SimpleRandomWalkSO parameters, Vector2Int position)
+    private int GenerateBranch(RoomType currentRoom,Vector2Int previousRoomPos, HashSet<Vector2Int> roomPositions, List<RoomType> rooms, int numOfRoomsToGenerate)
     {
-        var currentPosition = position;
-        HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
-        for (int i = 0; i < parameters.iterations; i++)
-        {
-            var path = ProcedualGenerationAlgorythms.SimpleRandomWalk(currentPosition, parameters.walkLength);
-            floorPositions.UnionWith(path);
-            if (parameters.startRandomlyEachIteration)
-            {
-                currentPosition = floorPositions.ElementAt(Random.Range(0, floorPositions.Count));
-            }
-        }
-        return floorPositions;
-    }
-
-    private void GenerateBranch(RoomType currentRoom,Vector2Int previousRoomPos, HashSet<Vector2Int> roomPositions, HashSet<RoomType> rooms)
-    {
-        for (int i = 0; i < walkLength; i++)
+        for (int i = 0; i < numOfRoomsToGenerate; i++)
         {
             List<RoomType> validNextRooms = new List<RoomType>(4);
             RoomType upRoom = new RoomType(currentRoom.x, currentRoom.y + 1);
@@ -264,8 +302,7 @@ public class Versuch : MonoBehaviour
 
             if (validNextRooms.Count == 0)
             {
-                Debug.Log("GABUD");
-                return;
+                return i;
             }
 
             int nextRoomIndex = Random.Range(0, validNextRooms.Count);
@@ -293,5 +330,6 @@ public class Versuch : MonoBehaviour
             previousRoomPos = currentRoom.pos;
             currentRoom = nextRoom;
         }
+        return numOfRoomsToGenerate;
     }
 }

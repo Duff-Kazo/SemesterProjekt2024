@@ -130,6 +130,26 @@ public class PlayerWeaponAim : MonoBehaviour
         
     }
 
+    private void HandleShootingShotGun()
+    {
+
+        if (ShopButtons.fullAutoBought)
+        {
+            if (Input.GetMouseButton(0) && canShoot && !player.isReloading)
+            {
+                ShootPistol();
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0) && canShoot && !player.isReloading)
+            {
+                ShootPistol();
+            }
+        }
+
+    }
+
     private void ShootPistol()
     {
         if (player.bulletCount > 0)
