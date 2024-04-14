@@ -89,11 +89,13 @@ public class LevelGenerator : MonoBehaviour
     {
 
         List<RoomType> roomSet = null;
+        int numOfCries = 0;
         while(roomSet == null)
         {
             roomSet = GenerateRooms();
+            numOfCries++;
         }
-
+        Debug.Log("Ich hab " + (numOfCries - 1) + " mal BUHUHUHUI ICh Wein JeTzT, gemacht >:[");
 
         foreach (var pos in roomSet)
         {
@@ -104,7 +106,7 @@ public class LevelGenerator : MonoBehaviour
             }
         }
     }
-
+    
     private List<RoomType> GenerateRooms()
     {
         List<RoomType> roomSet = new List<RoomType>();
@@ -118,6 +120,10 @@ public class LevelGenerator : MonoBehaviour
 
         //Main Branch Generation
         GenerateBranch(startRoom, previousRoomPos, roomPositions, roomSet, mainPathLength - 1);
+        if(roomSet.Count < mainPathLength)
+        {
+            return null;
+        }
         foreach (var room in roomSet)
         {
             room.isMainPath = true;
@@ -144,7 +150,6 @@ public class LevelGenerator : MonoBehaviour
                 validBranchRooms.RemoveAt(nextIndex);
                 if (validBranchRooms.Count < 1)
                 {
-                    Debug.Log("ICh Wein JeTzT");
                     return null;
                 }
             }
