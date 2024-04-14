@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
@@ -10,7 +11,13 @@ public class PlayerWeaponAim : MonoBehaviour
 {
     private Transform aimTransform;
     private Transform aimGunEndPointPosition;
+    private Transform aimMP40EndPointPosition;
+    private Transform aimTommyGunEndPointPosition;
+    private Transform aimShotGunEndPointPosition;
     private Transform gun;
+    private Transform MP40;
+    private Transform tommygun;
+    private Transform shotgun;
     private SpriteRenderer gunSpriteRenderer;
     private PlayerController player;
     [SerializeField] private GameObject bulletPrefab;
@@ -19,17 +26,32 @@ public class PlayerWeaponAim : MonoBehaviour
     private bool flipped = false;
     private float shootCoolDown;
 
+    public static bool gunEquiped = false;
+    public static bool MP40Equiped = false;
+    public static bool tommyGunEquiped = false;
+    public static bool shotgunEquiped = false;
+
     [Header("Sounds")]
     [SerializeField] private AudioSource playerShot;
     private void Start()
     {
+        PlayerWeaponAim.shotgunEquiped = false;
+        PlayerWeaponAim.gunEquiped = true;
+        PlayerWeaponAim.MP40Equiped = false;
+        PlayerWeaponAim.tommyGunEquiped = false;
         player = FindObjectOfType<PlayerController>();
         aimTransform = FindObjectOfType<Aim>().transform;
         aimGunEndPointPosition = aimTransform.Find("GunEndPointPosition");
+        aimMP40EndPointPosition = aimTransform.Find("MP40EndPointPosition");
+        aimTommyGunEndPointPosition = aimTransform.Find("TommyGunEndPointPosition");
+        aimShotGunEndPointPosition = aimTransform.Find("ShotGunEndPointPosition");
         gun = aimTransform.Find("Gun");
+        shotgun = aimTransform.Find("Shotgun");
+        MP40 = aimTransform.Find("MP40");
+        tommygun = aimTransform.Find("TommyGun");
         gunSpriteRenderer = gun.GetComponent<SpriteRenderer>();
     }
-    private void HandleAiming()
+    private void HandleAimingPistol()
     {
         Vector3 mousePosition = GetMouseWorldPosition();
 
@@ -69,30 +91,46 @@ public class PlayerWeaponAim : MonoBehaviour
         {
             shootCoolDown = 0.2f;
         }
-        HandleAiming();
-        HandleShooting();
+
+        if(PlayerWeaponAim.gunEquiped)
+        {
+            HandleAimingPistol();
+            HandleShootingPistol();
+        }
+        else if(PlayerWeaponAim.shotgunEquiped)
+        {
+
+        }
+        else if(PlayerWeaponAim.tommyGunEquiped)
+        {
+
+        }
+        else if(PlayerWeaponAim.shotgunEquiped)
+        {
+
+        }
     }
 
-    private void HandleShooting()
+    private void HandleShootingPistol()
     {
         if(ShopButtons.fullAutoBought)
         {
             if (Input.GetMouseButton(0) && canShoot && !player.isReloading)
             {
-                Shoot();
+                ShootPistol();
             }
         }
         else
         {
             if (Input.GetMouseButtonDown(0) && canShoot && !player.isReloading)
             {
-                Shoot();
+                ShootPistol();
             }
         }
         
     }
 
-    private void Shoot()
+    private void ShootPistol()
     {
         if (player.bulletCount > 0)
         {
