@@ -165,6 +165,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource loaded;
     [SerializeField] private AudioSource damageSound;
     public int bloodPoints = 0;
+    [SerializeField] private AudioSource reloadTommygun;
+    [SerializeField] private AudioSource reloadMP40;
+    [SerializeField] private AudioSource reloadShotgun;
+    private bool shotgun;
+    private bool mp;
+    private bool tommy;
+    private bool gun;
 
     //Map
     [Header("Map")]
@@ -199,11 +206,27 @@ public class PlayerController : MonoBehaviour
         mp40Aim = FindObjectOfType<MP40Aim>();
 
         playerAcidBall.enabled = false;
+        gun = true;
+        shotgun = false;
+        tommy = false;
+        mp = false;
+        gunEquiped = false;
         pistol.enabled = true;
         shotGun.enabled = false;
-        mp40.enabled = false;
         tommyGun.enabled = false;
         mp40.enabled = false;
+
+
+        pistolGraphic.SetActive(true);
+        shotgunGraphic.SetActive(false);
+        tommygunGraphic.SetActive(false);
+        mp40Graphic.SetActive(false);
+
+
+        playerWeaponAim.enabled = true;
+        shotGunAim.enabled = false;
+        tommyGunAim.enabled = false;
+        mp40Aim.enabled = false;
         CloseLargeMap();
     }
     void Update()
@@ -367,10 +390,12 @@ public class PlayerController : MonoBehaviour
             pistol.enabled = false;
             shotGun.enabled = false;
             tommyGun.enabled = false;
+            mp40.enabled = false;
             pistolGraphic.SetActive(false);
             shotgunGraphic.SetActive(false);
             tommygunGraphic.SetActive(false);
-            mp40.enabled = false;
+            mp40Graphic.SetActive(false);
+            
             playerAcidBall.enabled = true;
             bulletUI.SetActive(false);
             acidUI.SetActive(true);
@@ -476,9 +501,27 @@ public class PlayerController : MonoBehaviour
                 tommyGun.canShoot = false;
                 mp40.canShoot = false;
                 reloadAnimation.value = reloadAnimation.minValue;
-                reload.Play();
+                if(gun)
+                {
+                    reload.Play();
+                }
+                else if(shotgun)
+                {
+                    reloadShotgun.Play();
+                }
+                else if(tommy)
+                {
+                    reloadTommygun.Play();
+                }
+                else if(mp)
+                {
+                    reloadMP40.Play();
+                }
                 yield return new WaitForSeconds(reloadTime);
-                loaded.Play();
+                if(gun)
+                {
+                    loaded.Play();
+                }
                 reloadAnimation.value = reloadAnimation.maxValue;
                 if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
                 {
@@ -606,17 +649,17 @@ public class PlayerController : MonoBehaviour
         HeadMouthController[] headMouth = FindObjectsOfType<HeadMouthController>();
         for (int i = 0; i < headMouth.Length; i++)
         {
-            Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>());
+            Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CapsuleCollider2D>());
         }
         CrawlerController[] crawler = FindObjectsOfType<CrawlerController>();
         for (int i = 0; i < crawler.Length; i++)
         {
-            Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>());
+            Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CapsuleCollider2D>());
         }
         EyeController[] eye = FindObjectsOfType<EyeController>();
         for (int i = 0; i < eye.Length; i++)
         {
-            Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>());
+            Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CapsuleCollider2D>());
         }
         rb.velocity = moveDirection * dashSpeed;
         Debug.Log(moveDirection + "     " + dashSpeed);
@@ -625,21 +668,21 @@ public class PlayerController : MonoBehaviour
         {
             if (headMouth[i] != null)
             {
-                Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>(), false);
+                Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), false);
             }
         }
         for (int i = 0; i < crawler.Length; i++)
         {
             if (crawler[i] != null)
             {
-                Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>(), false);
+                Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), false);
             }
         }
         for (int i = 0; i < eye.Length; i++)
         {
             if(eye[i] != null)
             {
-                Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>(), false);
+                Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), false);
             }
         }
         canDash = false;
@@ -667,6 +710,10 @@ public class PlayerController : MonoBehaviour
     {
         if(gunEquiped)
         {
+            gun = true;
+            shotgun = false;
+            tommy = false;
+            mp = false;
             gunEquiped = false;
             pistol.enabled = true;
             shotGun.enabled = false;
@@ -687,6 +734,10 @@ public class PlayerController : MonoBehaviour
         }
         if (shotgunEquiped)
         {
+            shotgun = true;
+            gun = false;
+            tommy = false;
+            mp = false;
             shotgunEquiped = false;
             pistol.enabled = false;
             shotGun.enabled = true;
@@ -707,6 +758,10 @@ public class PlayerController : MonoBehaviour
         }
         if (tommyGunEquiped)
         {
+            tommy = true;
+            gun = false;
+            shotgun = false;
+            mp = false;
             tommyGunEquiped = false;
             pistol.enabled = false;
             shotGun.enabled = false;
@@ -727,6 +782,10 @@ public class PlayerController : MonoBehaviour
         }
         if (MP40Equiped)
         {
+            mp = true;
+            tommy = false;
+            gun = false;
+            shotgun = false;
             MP40Equiped = false;
             pistol.enabled = false;
             shotGun.enabled = false;

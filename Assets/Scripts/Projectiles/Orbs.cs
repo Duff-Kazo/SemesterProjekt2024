@@ -10,9 +10,9 @@ public class Orbs : MonoBehaviour
         player = FindObjectOfType<PlayerController>();   
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         transform.position = player.transform.position;
-        transform.Rotate(new Vector3(0, 0, 2f));
+        transform.Rotate(new Vector3(0, 0, 8f));
     }
 }

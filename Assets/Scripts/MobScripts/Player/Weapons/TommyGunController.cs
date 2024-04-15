@@ -71,6 +71,7 @@ public class TommyGunController : MonoBehaviour
         if (player.bulletCount > 0)
         {
             player.bulletCount -= 1;
+            playerShot.Play();
             GameObject bullet = Instantiate(bulletPrefab, aimTommyGunEndPointPosition.position, Quaternion.identity);
             PlayerBulletScript bulletScript = bullet.GetComponent<PlayerBulletScript>();
             bulletScript.applyTommyGunDamage = true;

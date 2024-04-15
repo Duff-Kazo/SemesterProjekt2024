@@ -28,12 +28,12 @@ public class CorpseController : MonoBehaviour
 
     public void EatCorpse()
     {
-        if(player.health < player.maxHealth)
+        Destroy(gameObject);
+        if (player.health < player.maxHealth)
         {
-            player.health += 1;
+            player.health++;
         }
         Instantiate(bloodParticles, transform.position, Quaternion.identity);
-        Destroy(gameObject);
     }
 
     private IEnumerator CorpseCoolDown()

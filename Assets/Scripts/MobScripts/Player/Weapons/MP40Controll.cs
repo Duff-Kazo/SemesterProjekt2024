@@ -70,6 +70,7 @@ public class MP40Controll : MonoBehaviour
     {
         if (player.bulletCount > 0)
         {
+            playerShot.Play();
             player.bulletCount -= 1;
             GameObject bullet = Instantiate(bulletPrefab, aimMP40EndPointPosition.position, Quaternion.identity);
             PlayerBulletScript bulletScript = bullet.GetComponent<PlayerBulletScript>();

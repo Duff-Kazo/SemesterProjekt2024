@@ -76,6 +76,7 @@ public class ShotGunController : MonoBehaviour
         if (player.bulletCount >= 4)
         {
             player.bulletCount -= 4;
+            playerShot.Play();
             for (int i = -2; i < 2; i++)
             {
                 GameObject bullet = Instantiate(bulletPrefab, aimShotGunEndPointPosition.position, Quaternion.Euler(0, 0, i * spread));
