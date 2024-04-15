@@ -36,5 +36,18 @@ public class InstantiateButtons : MonoBehaviour
         shopButtons.RemoveAt(index3);
         GameObject moreMagsItem = Instantiate(moreMagsButton, slot4.position, Quaternion.identity);
         moreMagsItem.transform.SetParent(slot4.transform, true);
+
+        if(firstItem.name == "Shotgun" || firstItem.name == "Tommygun" || firstItem.name == "FullAuto")
+        {
+            shopButtons.Remove(firstItem);
+        }
+        if (secondItem.name == "Shotgun" || secondItem.name == "Tommygun" || secondItem.name == "FullAuto")
+        {
+            shopButtons.Remove(secondItem);
+        }
+        if (thirdItem.name == "Shotgun" || thirdItem.name == "Tommygun" || thirdItem.name == "FullAuto")
+        {
+            shopButtons.Remove(thirdItem);
+        }
     }
 }

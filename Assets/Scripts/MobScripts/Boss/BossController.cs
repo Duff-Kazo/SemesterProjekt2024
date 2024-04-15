@@ -549,7 +549,7 @@ public class BossController : MonoBehaviour
         }
         deathBite = true;
         isInvinvible = true;
-        Physics2D.IgnoreCollision(collider, player.GetComponentInChildren<BoxCollider2D>(), true);
+        Physics2D.IgnoreCollision(collider, player.GetComponentInChildren<CapsuleCollider2D>(), true);
         agent.velocity = Vector3.zero;
         agent.SetDestination(centerPoint.position);
         yield return new WaitForSeconds(2f);
@@ -569,7 +569,7 @@ public class BossController : MonoBehaviour
             bite.Play();
             yield return new WaitForSeconds(1);
         }
-        Physics2D.IgnoreCollision(collider, player.GetComponentInChildren<BoxCollider2D>(), false);
+        Physics2D.IgnoreCollision(collider, player.GetComponentInChildren<CapsuleCollider2D>(), false);
         agent.speed = 3.5f;
         isInvinvible = false;
         deathBite = false;

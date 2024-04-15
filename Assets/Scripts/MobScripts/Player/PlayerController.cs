@@ -34,16 +34,33 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Slider reloadAnimation;
     [SerializeField] private GameObject bulletUI;
     [SerializeField] private GameObject acidUI;
-    [SerializeField] private GameObject aim;
     [SerializeField] private float reloadTime = 2;
     public bool isReloading = false;
-    private PlayerWeaponAim playerWeapon;
     private PlayerAcidBall playerAcidBall;
     public int bulletCount = 0;
     [SerializeField] private int maxMagazines = 4;
     private int maxBullets = 16;
     private int magazinesCount;
     private int magazineBullets;
+
+    [Header("Weapons")]
+    public static bool gunEquiped = true;
+    public static bool MP40Equiped = false;
+    public static bool tommyGunEquiped = false;
+    public static bool shotgunEquiped = false;
+    private MP40Controll mp40;
+    private ShotGunController shotGun;
+    private TommyGunController tommyGun;
+    private PlayerWeaponAim pistol;
+    private MP40Aim mp40Aim;
+    private ShotGunAim shotGunAim;
+    private TommyGunAim tommyGunAim;
+    private Aim playerWeaponAim;
+    [SerializeField] private GameObject shotgunGraphic;
+    [SerializeField] private GameObject pistolGraphic;
+    [SerializeField] private GameObject tommygunGraphic;
+    [SerializeField] private GameObject mp40Graphic;
+
 
     //Dash
     [Header("Dash")]
@@ -165,21 +182,40 @@ public class PlayerController : MonoBehaviour
         scaleX = transform.localScale.x;
         health = maxHealth;
         bulletCount = maxBullets;
-        playerWeapon = FindObjectOfType<PlayerWeaponAim>();
-        playerAcidBall = FindObjectOfType<PlayerAcidBall>();
-        playerAcidBall.enabled = false;
         magazinesCount = maxMagazines;
         magazineBullets = magazinesCount * maxBullets;
         acidUI.SetActive(false);
         bulletUI.SetActive(true);
-        //aim.SetActive(true);
         xpRequirement = baseXpRequirement;
         largeMapOpen = false;
+        pistol = GetComponent<PlayerWeaponAim>();
+        shotGun = GetComponent<ShotGunController>();
+        tommyGun = GetComponent<TommyGunController>();
+        mp40 = GetComponent<MP40Controll>();
+        playerAcidBall = FindObjectOfType<PlayerAcidBall>();
+        playerWeaponAim = FindObjectOfType<Aim>();
+        shotGunAim = FindObjectOfType<ShotGunAim>();
+        tommyGunAim = FindObjectOfType<TommyGunAim>();
+        mp40Aim = FindObjectOfType<MP40Aim>();
+
+        playerAcidBall.enabled = false;
+        pistol.enabled = true;
+        shotGun.enabled = false;
+        mp40.enabled = false;
+        tommyGun.enabled = false;
+        mp40.enabled = false;
         CloseLargeMap();
     }
     void Update()
     {
-
+        if(playerWeaponAim != null && shotGunAim != null && tommyGunAim != null && mp40Aim != null)
+        {
+            SelectWeapon();
+        }
+        else
+        {
+            Debug.Log("ICH BRING MICH UM");
+        }
         if (Interactable.gamePaused)
         {
             if(Input.GetKeyDown(KeyCode.Escape))
@@ -328,11 +364,16 @@ public class PlayerController : MonoBehaviour
         //HandleWeaponSelect
         if(monsterState == 3)
         {
-            playerWeapon.enabled = false;
+            pistol.enabled = false;
+            shotGun.enabled = false;
+            tommyGun.enabled = false;
+            pistolGraphic.SetActive(false);
+            shotgunGraphic.SetActive(false);
+            tommygunGraphic.SetActive(false);
+            mp40.enabled = false;
             playerAcidBall.enabled = true;
             bulletUI.SetActive(false);
             acidUI.SetActive(true);
-            aim.SetActive(false);
         }
 
         //HEALTHBAR
@@ -424,33 +465,43 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator ReloadWeapon()
     {
-        if (magazineBullets > 0 && bulletCount != maxBullets)
+        if(pistol.enabled || shotGun.enabled || tommyGun.enabled || mp40.enabled)
         {
-            magazinesCount -= 1;
-            isReloading = true;
-            playerWeapon.canShoot = false;
-            reloadAnimation.value = reloadAnimation.minValue;
-            reload.Play();
-            yield return new WaitForSeconds(reloadTime);
-            loaded.Play();
-            reloadAnimation.value = reloadAnimation.maxValue;
-            if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
+            if (magazineBullets > 0 && bulletCount != maxBullets)
             {
-                int test = magazineBullets - (maxBullets - bulletCount);
-                if (test < 0)
+                magazinesCount -= 1;
+                isReloading = true;
+                pistol.canShoot = false;
+                shotGun.canShoot = false;
+                tommyGun.canShoot = false;
+                mp40.canShoot = false;
+                reloadAnimation.value = reloadAnimation.minValue;
+                reload.Play();
+                yield return new WaitForSeconds(reloadTime);
+                loaded.Play();
+                reloadAnimation.value = reloadAnimation.maxValue;
+                if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
                 {
-                    bulletCount += magazineBullets;
-                    magazineBullets = 0;
+                    int test = magazineBullets - (maxBullets - bulletCount);
+                    if (test < 0)
+                    {
+                        bulletCount += magazineBullets;
+                        magazineBullets = 0;
+                    }
+                    else
+                    {
+                        magazineBullets -= maxBullets - bulletCount;
+                        bulletCount += maxBullets - bulletCount;
+                    }
                 }
-                else
-                {
-                    magazineBullets -= maxBullets - bulletCount;
-                    bulletCount += maxBullets - bulletCount;
-                }
+                pistol.canShoot = true;
+                shotGun.canShoot = true;
+                tommyGun.canShoot = true;
+                mp40.canShoot = true;
+                isReloading = false;
             }
-            playerWeapon.canShoot = true;
-            isReloading = false;
         }
+
         //If weapon Enabled war da auch noch warum auch immer also so drum herum um alles
     }
 
@@ -516,7 +567,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(itemName == "FullAuto")
         {
-            ShopButtons.fullAutoBought = true;
+            MP40Equiped = true;
         }
         else if (itemName == "MoreMags")
         {
@@ -539,6 +590,14 @@ public class PlayerController : MonoBehaviour
         {
             ShopButtons.bulletDamage += 1 * 0.25f;
         }
+        else if(itemName == "Shotgun")
+        {
+            shotgunEquiped = true;
+        }
+        else if(itemName == "Tommygun")
+        {
+            tommyGunEquiped = true;
+        }
     }
 
     IEnumerator Dash()
@@ -547,17 +606,17 @@ public class PlayerController : MonoBehaviour
         HeadMouthController[] headMouth = FindObjectsOfType<HeadMouthController>();
         for (int i = 0; i < headMouth.Length; i++)
         {
-            Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
+            Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>());
         }
         CrawlerController[] crawler = FindObjectsOfType<CrawlerController>();
         for (int i = 0; i < crawler.Length; i++)
         {
-            Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
+            Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>());
         }
         EyeController[] eye = FindObjectsOfType<EyeController>();
         for (int i = 0; i < eye.Length; i++)
         {
-            Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>());
+            Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>());
         }
         rb.velocity = moveDirection * dashSpeed;
         Debug.Log(moveDirection + "     " + dashSpeed);
@@ -566,21 +625,21 @@ public class PlayerController : MonoBehaviour
         {
             if (headMouth[i] != null)
             {
-                Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
+                Physics2D.IgnoreCollision(headMouth[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>(), false);
             }
         }
         for (int i = 0; i < crawler.Length; i++)
         {
             if (crawler[i] != null)
             {
-                Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
+                Physics2D.IgnoreCollision(crawler[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>(), false);
             }
         }
         for (int i = 0; i < eye.Length; i++)
         {
             if(eye[i] != null)
             {
-                Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<BoxCollider2D>(), transform.Find("Shadow").GetComponent<CircleCollider2D>(), false);
+                Physics2D.IgnoreCollision(eye[i].transform.Find("Shadow").GetComponent<CapsuleCollider2D>(), transform.Find("Shadow").GetComponent<BoxCollider2D>(), false);
             }
         }
         canDash = false;
@@ -601,6 +660,90 @@ public class PlayerController : MonoBehaviour
             dashCount = baseDashCount;
             canDash = true;
             dashCoolDownText.text = "";
+        }
+    }
+
+    private void SelectWeapon()
+    {
+        if(gunEquiped)
+        {
+            gunEquiped = false;
+            pistol.enabled = true;
+            shotGun.enabled = false;
+            tommyGun.enabled = false;
+            mp40.enabled = false;
+
+
+            pistolGraphic.SetActive(true);
+            shotgunGraphic.SetActive(false);
+            tommygunGraphic.SetActive(false);
+            mp40Graphic.SetActive(false);
+
+
+            playerWeaponAim.enabled = true;
+            shotGunAim.enabled = false;
+            tommyGunAim.enabled = false;
+            mp40Aim.enabled = false;
+        }
+        if (shotgunEquiped)
+        {
+            shotgunEquiped = false;
+            pistol.enabled = false;
+            shotGun.enabled = true;
+            tommyGun.enabled = false;
+            mp40.enabled = false;
+
+
+            pistolGraphic.SetActive(false);
+            shotgunGraphic.SetActive(true);
+            tommygunGraphic.SetActive(false);
+            mp40Graphic.SetActive(false);
+
+
+            playerWeaponAim.enabled = false;
+            shotGunAim.enabled = true;
+            tommyGunAim.enabled = false;
+            mp40Aim.enabled = false;
+        }
+        if (tommyGunEquiped)
+        {
+            tommyGunEquiped = false;
+            pistol.enabled = false;
+            shotGun.enabled = false;
+            tommyGun.enabled = true;
+            mp40.enabled = false;
+
+
+            pistolGraphic.SetActive(false);
+            shotgunGraphic.SetActive(false);
+            tommygunGraphic.SetActive(true);
+            mp40Graphic.SetActive(false);
+
+
+            playerWeaponAim.enabled = false;
+            shotGunAim.enabled = false;
+            tommyGunAim.enabled = true;
+            mp40Aim.enabled = false;
+        }
+        if (MP40Equiped)
+        {
+            MP40Equiped = false;
+            pistol.enabled = false;
+            shotGun.enabled = false;
+            tommyGun.enabled = false;
+            mp40.enabled = true;
+
+
+            pistolGraphic.SetActive(false);
+            shotgunGraphic.SetActive(false);
+            tommygunGraphic.SetActive(false);
+            mp40Graphic.SetActive(true);
+
+
+            playerWeaponAim.enabled = false;
+            shotGunAim.enabled = false;
+            tommyGunAim.enabled = false;
+            mp40Aim.enabled = true;
         }
     }
 

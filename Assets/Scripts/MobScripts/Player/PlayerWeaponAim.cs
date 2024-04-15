@@ -63,14 +63,6 @@ public class PlayerWeaponAim : MonoBehaviour
         {
             return;
         }
-        if(ShopButtons.fullAutoBought)
-        {
-            shootCoolDown = 0.1f;
-        }
-        else
-        {
-            shootCoolDown = 0.2f;
-        }
         HandleAimingPistol();
         HandleShootingPistol();
     }

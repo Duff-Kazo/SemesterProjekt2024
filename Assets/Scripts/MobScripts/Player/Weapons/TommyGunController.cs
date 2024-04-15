@@ -1,34 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class ShotGunController : MonoBehaviour
+public class TommyGunController : MonoBehaviour
 {
-    private Transform shotGunTransform;
-    private Transform aimShotGunEndPointPosition;
-    private Transform shotgun;
-    private SpriteRenderer gunSpriteRenderer;
+    private Transform tommyGunTransform;
+    private Transform aimTommyGunEndPointPosition;
+    private Transform tommyGun;
+    private SpriteRenderer tommyGunSpriteRenderer;
     private PlayerController player;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private float shootCoolDown;
     public bool canShoot = true;
     public bool fullAuto = false;
     private bool flipped = false;
-    
-
-    [Header("ShotGun")]
-    [SerializeField] private float spread;
 
     [Header("Sounds")]
     [SerializeField] private AudioSource playerShot;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
-        shotGunTransform = FindObjectOfType<ShotGunAim>().transform;
-        aimShotGunEndPointPosition = shotGunTransform.Find("ShotGunEndPointPosition");
-        shotgun = shotGunTransform.Find("ShotGun");
-        gunSpriteRenderer = shotgun.GetComponent<SpriteRenderer>();
+        tommyGunTransform = FindObjectOfType<TommyGunAim>().transform;
+        aimTommyGunEndPointPosition = tommyGunTransform.Find("TommyGunEndPointPosition");
+        tommyGun = tommyGunTransform.Find("TommyGun");
+        tommyGunSpriteRenderer = tommyGun.GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -37,24 +32,24 @@ public class ShotGunController : MonoBehaviour
         {
             return;
         }
-        HandleAimingShotgun();
-        if(canShoot)
+        HandleAimingTommyGun();
+        if (canShoot)
         {
-            HandleShootingShotGun();
+            HandleShootingTommyGun();
         }
     }
-    private void HandleAimingShotgun()
+    private void HandleAimingTommyGun()
     {
         Vector3 mousePosition = GetMouseWorldPosition();
 
         Vector3 aimDirection = (mousePosition - transform.position).normalized;
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
-        shotGunTransform.eulerAngles = new Vector3(0, 0, angle);
+        tommyGunTransform.eulerAngles = new Vector3(0, 0, angle);
         Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 
         if (angle < 89 && angle > -89)
         {
-            gunSpriteRenderer.flipY = false;
+            tommyGunSpriteRenderer.flipY = false;
             if (!flipped)
             {
                 flipped = true;
@@ -62,7 +57,7 @@ public class ShotGunController : MonoBehaviour
         }
         else
         {
-            gunSpriteRenderer.flipY = true;
+            tommyGunSpriteRenderer.flipY = true;
             if (flipped)
             {
                 flipped = false;
@@ -71,32 +66,26 @@ public class ShotGunController : MonoBehaviour
     }
 
 
-    private void ShootShotGun()
+    private void ShootTommyGun()
     {
-        if (player.bulletCount >= 4)
+        if (player.bulletCount > 0)
         {
-            player.bulletCount -= 4;
-            for (int i = -2; i < 2; i++)
-            {
-                GameObject bullet = Instantiate(bulletPrefab, aimShotGunEndPointPosition.position, Quaternion.Euler(0, 0, i * spread));
-                PlayerBulletScript bulletScript = bullet.GetComponent<PlayerBulletScript>();
-                bulletScript.shotGunDamage = 0.25f;
-                bullet.transform.up = shotGunTransform.up;
-                bullet.transform.Rotate(new Vector3(0, 0, -90));
-                bullet.transform.Rotate(new Vector3(0,0,i * spread));
-            }
+            player.bulletCount -= 1;
+            GameObject bullet = Instantiate(bulletPrefab, aimTommyGunEndPointPosition.position, Quaternion.identity);
+            PlayerBulletScript bulletScript = bullet.GetComponent<PlayerBulletScript>();
+            bulletScript.applyTommyGunDamage = true;
+            bullet.transform.up = tommyGunTransform.up;
+            bullet.transform.Rotate(new Vector3(0, 0, -90));
         }
         StartCoroutine(ShootCoolDown());
     }
 
-    private void HandleShootingShotGun()
+    private void HandleShootingTommyGun()
     {
-
-        if (Input.GetMouseButtonDown(0) && canShoot && !player.isReloading)
+        if (Input.GetMouseButton(0) && canShoot && !player.isReloading)
         {
-            ShootShotGun();
+            ShootTommyGun();
         }
-
     }
 
     private IEnumerator ShootCoolDown()

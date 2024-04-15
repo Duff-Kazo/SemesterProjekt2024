@@ -16,11 +16,15 @@ public class ShopButtons : MonoBehaviour
     [SerializeField] private AudioSource click;
 
     [SerializeField] private int usesMoreMags;
-    [SerializeField] private int usesFullAuto;
+    
     [SerializeField] private int usesMagUpgrade;
     [SerializeField] private int usesMaxHealth;
     [SerializeField] private int usesUpDamage;
     [SerializeField] private int usesLegMods;
+
+    [SerializeField] private int usesShotgun;
+    [SerializeField] private int usesTommyGun;
+    [SerializeField] private int usesMP40;
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
@@ -72,10 +76,10 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesFullAuto >= 1)
+        if (usesMP40 >= 1)
         {
-            usesFullAuto--;
-            usesText.text = usesFullAuto.ToString();
+            usesMP40--;
+            usesText.text = usesMP40.ToString();
             if (player.bloodPoints >= 200)
             {
                 PlayClickSound();
@@ -83,7 +87,7 @@ public class ShopButtons : MonoBehaviour
                 Debug.Log("FullAuto");
                 player.BuyItem("FullAuto", 200);
             }
-            if (usesFullAuto <= 0)
+            if (usesMP40 <= 0)
             {
                 button.interactable = false;
                 GameObject description = button.transform.Find("Description").gameObject;
@@ -250,6 +254,90 @@ public class ShopButtons : MonoBehaviour
                 player.BuyItem("LegMods", 100);
             }
             if(usesLegMods <= 0)
+            {
+                button.interactable = false;
+                GameObject description = button.transform.Find("Description").gameObject;
+                description.SetActive(false);
+                GameObject background = button.transform.Find("Background").gameObject;
+                background.SetActive(false);
+                GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+                SoldOutbutton.SetActive(true);
+                usesText.text = "0";
+                ShopButtons.soldOutCount++;
+            }
+        }
+        else
+        {
+            button.interactable = false;
+            GameObject description = button.transform.Find("Description").gameObject;
+            description.SetActive(false);
+            GameObject background = button.transform.Find("Background").gameObject;
+            background.SetActive(false);
+            GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+            SoldOutbutton.SetActive(true);
+            usesText.text = "0";
+            ShopButtons.soldOutCount++;
+        }
+    }
+
+    public void ShotGun()
+    {
+        Button button = GetComponentInParent<Button>();
+        TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
+        if (usesShotgun >= 1)
+        {
+            usesShotgun--;
+            usesText.text = usesShotgun.ToString();
+            if (player.bloodPoints >= 300)
+            {
+                PlayClickSound();
+                player.bloodPoints -= 300;
+                Debug.Log("Shotgun");
+                player.BuyItem("Shotgun", 300);
+            }
+            if (usesShotgun <= 0)
+            {
+                button.interactable = false;
+                GameObject description = button.transform.Find("Description").gameObject;
+                description.SetActive(false);
+                GameObject background = button.transform.Find("Background").gameObject;
+                background.SetActive(false);
+                GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+                SoldOutbutton.SetActive(true);
+                usesText.text = "0";
+                ShopButtons.soldOutCount++;
+            }
+        }
+        else
+        {
+            button.interactable = false;
+            GameObject description = button.transform.Find("Description").gameObject;
+            description.SetActive(false);
+            GameObject background = button.transform.Find("Background").gameObject;
+            background.SetActive(false);
+            GameObject SoldOutbutton = button.transform.Find("SoldOutText").gameObject;
+            SoldOutbutton.SetActive(true);
+            usesText.text = "0";
+            ShopButtons.soldOutCount++;
+        }
+    }
+
+    public void Tommygun()
+    {
+        Button button = GetComponentInParent<Button>();
+        TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
+        if (usesTommyGun >= 1)
+        {
+            usesTommyGun--;
+            usesText.text = usesShotgun.ToString();
+            if (player.bloodPoints >= 400)
+            {
+                PlayClickSound();
+                player.bloodPoints -= 400;
+                Debug.Log("Tommygun");
+                player.BuyItem("Tommygun", 400);
+            }
+            if (usesTommyGun <= 0)
             {
                 button.interactable = false;
                 GameObject description = button.transform.Find("Description").gameObject;
