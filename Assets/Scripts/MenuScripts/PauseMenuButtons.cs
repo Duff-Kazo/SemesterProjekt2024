@@ -17,6 +17,7 @@ public class PauseMenuButtons : MonoBehaviour
     private void Start()
     {
         myEventSystem = GameObject.Find("EventSystem");
+        StartButton();
     }
 
     private void Update()

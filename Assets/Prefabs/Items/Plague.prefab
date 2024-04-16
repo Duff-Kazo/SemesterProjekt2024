@@ -542,6 +542,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RadiationEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 4045344211046706132, guid: 2a30e741d3843be479304cc25c3f15bb, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6337294259999702306, guid: 2a30e741d3843be479304cc25c3f15bb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

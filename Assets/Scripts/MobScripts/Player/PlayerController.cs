@@ -209,7 +209,6 @@ public class PlayerController : MonoBehaviour
         shotGunAim = FindObjectOfType<ShotGunAim>();
         tommyGunAim = FindObjectOfType<TommyGunAim>();
         mp40Aim = FindObjectOfType<MP40Aim>();
-
         playerAcidBall.enabled = false;
         gun = true;
         shotgun = false;
@@ -220,14 +219,10 @@ public class PlayerController : MonoBehaviour
         shotGun.enabled = false;
         tommyGun.enabled = false;
         mp40.enabled = false;
-
-
         pistolGraphic.SetActive(true);
         shotgunGraphic.SetActive(false);
         tommygunGraphic.SetActive(false);
         mp40Graphic.SetActive(false);
-
-
         playerWeaponAim.enabled = true;
         shotGunAim.enabled = false;
         tommyGunAim.enabled = false;
@@ -536,7 +531,7 @@ public class PlayerController : MonoBehaviour
                 if (gun)
                 {
                     loaded.Play();
-                    tommyGunUI.SetActive(true);
+                    pistolUI.SetActive(true);
                 }
                 else if (shotgun)
                 {
@@ -738,11 +733,11 @@ public class PlayerController : MonoBehaviour
     {
         if(gunEquiped)
         {
+            gunEquiped = false;
             gun = true;
             shotgun = false;
             tommy = false;
             mp = false;
-            gunEquiped = false;
             pistol.enabled = true;
             shotGun.enabled = false;
             tommyGun.enabled = false;
@@ -769,11 +764,11 @@ public class PlayerController : MonoBehaviour
         }
         if (shotgunEquiped)
         {
+            shotgunEquiped = false;
             shotgun = true;
             gun = false;
             tommy = false;
             mp = false;
-            shotgunEquiped = false;
             pistol.enabled = false;
             shotGun.enabled = true;
             tommyGun.enabled = false;
@@ -800,11 +795,11 @@ public class PlayerController : MonoBehaviour
         }
         if (tommyGunEquiped)
         {
+            tommyGunEquiped = false;
             tommy = true;
             gun = false;
             shotgun = false;
             mp = false;
-            tommyGunEquiped = false;
             pistol.enabled = false;
             shotGun.enabled = false;
             tommyGun.enabled = true;
@@ -831,11 +826,11 @@ public class PlayerController : MonoBehaviour
         }
         if (MP40Equiped)
         {
+            MP40Equiped = false;
             mp = true;
             tommy = false;
             gun = false;
             shotgun = false;
-            MP40Equiped = false;
             pistol.enabled = false;
             shotGun.enabled = false;
             tommyGun.enabled = false;
