@@ -81,7 +81,7 @@ public class ShotGunController : MonoBehaviour
             {
                 GameObject bullet = Instantiate(bulletPrefab, aimShotGunEndPointPosition.position, Quaternion.Euler(0, 0, i * spread));
                 PlayerBulletScript bulletScript = bullet.GetComponent<PlayerBulletScript>();
-                bulletScript.shotGunDamage = 0.25f;
+                bulletScript.shotGunDamage = 0.5f;
                 bullet.transform.up = shotGunTransform.up;
                 bullet.transform.Rotate(new Vector3(0, 0, -90));
                 bullet.transform.Rotate(new Vector3(0,0,i * spread));

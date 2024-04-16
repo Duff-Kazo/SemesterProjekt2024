@@ -22,7 +22,7 @@ public class PlayerBulletScript : MonoBehaviour
 
         if(applyTommyGunDamage)
         {
-            if(bonusDamage <= 1 && apply)
+            if(bonusDamage <= 0.5 && apply)
             {
                 StartCoroutine(ApplyBonusDamage());
             }

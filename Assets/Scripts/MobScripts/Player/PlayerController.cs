@@ -61,6 +61,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject tommygunGraphic;
     [SerializeField] private GameObject mp40Graphic;
 
+    [SerializeField] private GameObject shotGunUI, shotGunUIBackground;
+    [SerializeField] private GameObject pistolUI, pistolUIBackground;
+    [SerializeField] private GameObject tommyGunUI, tommyGunUIBackground;
+    [SerializeField] private GameObject mp40UI, mp40UIBackground;
+
 
     //Dash
     [Header("Dash")]
@@ -320,11 +325,10 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         bloodPointsText.text = ("" + bloodPoints);
-        //AbilityUI
-        explosionBulletUI.SetActive(explosionBulletEnabled);
-        explosionIcon.SetActive(canShootExplosionBullet);
         dashUI.SetActive(dashEnabled);
-        dashIcon.SetActive(canDash);
+        explosionBulletUI.SetActive(explosionBulletEnabled);
+
+        //AbilityUI
         acidFullAutoText.SetActive(AcidFullAutoEnabled);
         if (Interactable.gamePaused || isDashing)
         {
@@ -470,6 +474,13 @@ public class PlayerController : MonoBehaviour
         {
             magazinesText.text = ("0" + magazineBullets);
         }
+        if(shotgun)
+        {
+            if(bulletCount < 4 && !isReloading)
+            {
+                StartCoroutine(ReloadWeapon());
+            }
+        }
         if(bulletCount <= 0 && !isReloading)
         {
             StartCoroutine(ReloadWeapon());
@@ -504,23 +515,40 @@ public class PlayerController : MonoBehaviour
                 if(gun)
                 {
                     reload.Play();
+                    pistolUI.SetActive(false);
                 }
                 else if(shotgun)
                 {
                     reloadShotgun.Play();
+                    shotGunUI.SetActive(false);
                 }
                 else if(tommy)
                 {
                     reloadTommygun.Play();
+                    tommyGunUI.SetActive(false);
                 }
                 else if(mp)
                 {
                     reloadMP40.Play();
+                    mp40UI.SetActive(false);
                 }
                 yield return new WaitForSeconds(reloadTime);
-                if(gun)
+                if (gun)
                 {
                     loaded.Play();
+                    tommyGunUI.SetActive(true);
+                }
+                else if (shotgun)
+                {
+                    shotGunUI.SetActive(true);
+                }
+                else if (tommy)
+                {
+                    tommyGunUI.SetActive(true);
+                }
+                else if (mp)
+                {
+                    mp40UI.SetActive(true);
                 }
                 reloadAnimation.value = reloadAnimation.maxValue;
                 if (magazineBullets > maxBullets || magazineBullets < maxBullets || maxBullets == magazineBullets)
@@ -720,12 +748,19 @@ public class PlayerController : MonoBehaviour
             tommyGun.enabled = false;
             mp40.enabled = false;
 
-
             pistolGraphic.SetActive(true);
             shotgunGraphic.SetActive(false);
             tommygunGraphic.SetActive(false);
             mp40Graphic.SetActive(false);
 
+            pistolUI.SetActive(true);
+            pistolUIBackground.SetActive(true);
+            tommyGunUI.SetActive(false);
+            tommyGunUIBackground.SetActive(false);
+            shotGunUI.SetActive(false);
+            shotGunUIBackground.SetActive(false);
+            mp40UI.SetActive(false);
+            mp40UIBackground.SetActive(false);
 
             playerWeaponAim.enabled = true;
             shotGunAim.enabled = false;
@@ -744,12 +779,19 @@ public class PlayerController : MonoBehaviour
             tommyGun.enabled = false;
             mp40.enabled = false;
 
-
             pistolGraphic.SetActive(false);
             shotgunGraphic.SetActive(true);
             tommygunGraphic.SetActive(false);
             mp40Graphic.SetActive(false);
 
+            pistolUI.SetActive(false);
+            pistolUIBackground.SetActive(false);
+            tommyGunUI.SetActive(false);
+            tommyGunUIBackground.SetActive(false);
+            shotGunUI.SetActive(true);
+            shotGunUIBackground.SetActive(true);
+            mp40UI.SetActive(false);
+            mp40UIBackground.SetActive(false);
 
             playerWeaponAim.enabled = false;
             shotGunAim.enabled = true;
@@ -768,12 +810,19 @@ public class PlayerController : MonoBehaviour
             tommyGun.enabled = true;
             mp40.enabled = false;
 
-
             pistolGraphic.SetActive(false);
             shotgunGraphic.SetActive(false);
             tommygunGraphic.SetActive(true);
             mp40Graphic.SetActive(false);
 
+            pistolUI.SetActive(false);
+            pistolUIBackground.SetActive(false);
+            tommyGunUI.SetActive(true);
+            tommyGunUIBackground.SetActive(true);
+            shotGunUI.SetActive(false);
+            shotGunUIBackground.SetActive(false);
+            mp40UI.SetActive(false);
+            mp40UIBackground.SetActive(false);
 
             playerWeaponAim.enabled = false;
             shotGunAim.enabled = false;
@@ -798,6 +847,14 @@ public class PlayerController : MonoBehaviour
             tommygunGraphic.SetActive(false);
             mp40Graphic.SetActive(true);
 
+            pistolUI.SetActive(false);
+            pistolUIBackground.SetActive(false);
+            tommyGunUI.SetActive(false);
+            tommyGunUIBackground.SetActive(false);
+            shotGunUI.SetActive(false);
+            shotGunUIBackground.SetActive(false);
+            mp40UI.SetActive(true);
+            mp40UIBackground.SetActive(true);
 
             playerWeaponAim.enabled = false;
             shotGunAim.enabled = false;
