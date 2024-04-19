@@ -94,7 +94,7 @@ public class PlayerWeaponAim : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, aimGunEndPointPosition.position, Quaternion.identity);
             bullet.transform.up = aimTransform.up;
             bullet.transform.Rotate(new Vector3(0, 0, -90));
-
+            CinemachineShake.instance.ShakeCamera(2, 0.1f);
             StartCoroutine(ShootCoolDown());
         }
     }

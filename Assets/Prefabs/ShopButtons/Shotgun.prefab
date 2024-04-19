@@ -201,9 +201,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'description:
 
-    Shoots 4 Bullets at a time. Good for close range. NOTE:
-    you are not able to switch back to your old weapon. You can buy this item only
-    ONCE.'
+    Shoots 4 Bullets at a time. Very good for close range.
+    Cant be bought twice'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
   m_sharedMaterial: {fileID: -4120092739136832317, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
@@ -517,7 +516,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -461.00003, y: 246.0903}
-  m_SizeDelta: {x: 200, y: 400}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &153218115032173023
 CanvasRenderer:
@@ -547,7 +546,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 70799b3141116b04bbfe18b86b2e4cc1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61d32de93f830cc4d8bc78bcf469212f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

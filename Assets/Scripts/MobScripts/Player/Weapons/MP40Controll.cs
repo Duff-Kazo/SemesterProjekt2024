@@ -77,6 +77,7 @@ public class MP40Controll : MonoBehaviour
             bulletScript.applyTommyGunDamage = true;
             bullet.transform.up = MP40Transform.up;
             bullet.transform.Rotate(new Vector3(0, 0, -90));
+            CinemachineShake.instance.ShakeCamera(2, 0.1f);
         }
         StartCoroutine(ShootCoolDown());
     }

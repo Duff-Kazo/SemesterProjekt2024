@@ -10647,7 +10647,7 @@ MonoBehaviour:
   straights: 5
   mainPathDot: {fileID: 1684783968980739866, guid: ca142966567767d45b90fc3fb5d4b1e5, type: 3}
   mainPathLength: 25
-  nOfBranchRooms: 25
+  nOfBranchRooms: 20
   topLeftTile: {fileID: 6460230389132486428, guid: 23088414873f1764ea3840bce7242dda, type: 3}
   topRightTile: {fileID: 6460230389132486428, guid: 81ce6bc5a4d2122469acaaeca64821bb, type: 3}
   bottomLeftTile: {fileID: 6460230389132486428, guid: 164c23d775a78214ba988e40550c8e57, type: 3}
@@ -13276,6 +13276,14 @@ MonoBehaviour:
   pistolGraphic: {fileID: 0}
   tommygunGraphic: {fileID: 0}
   mp40Graphic: {fileID: 0}
+  shotGunUI: {fileID: 0}
+  shotGunUIBackground: {fileID: 0}
+  pistolUI: {fileID: 0}
+  pistolUIBackground: {fileID: 0}
+  tommyGunUI: {fileID: 0}
+  tommyGunUIBackground: {fileID: 0}
+  mp40UI: {fileID: 0}
+  mp40UIBackground: {fileID: 0}
   isDashing: 0
   dashLength: 100
   dashCount: 0
@@ -13315,6 +13323,9 @@ MonoBehaviour:
   loaded: {fileID: 2045760230}
   damageSound: {fileID: 2045760229}
   bloodPoints: 1000
+  reloadTommygun: {fileID: 0}
+  reloadMP40: {fileID: 0}
+  reloadShotgun: {fileID: 0}
   largeMap: {fileID: 0}
   miniMap: {fileID: 0}
 --- !u!95 &2045760243

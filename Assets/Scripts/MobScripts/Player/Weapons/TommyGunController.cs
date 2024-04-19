@@ -77,6 +77,7 @@ public class TommyGunController : MonoBehaviour
             bulletScript.applyTommyGunDamage = true;
             bullet.transform.up = tommyGunTransform.up;
             bullet.transform.Rotate(new Vector3(0, 0, -90));
+            CinemachineShake.instance.ShakeCamera(4, 0.1f);
         }
         StartCoroutine(ShootCoolDown());
     }

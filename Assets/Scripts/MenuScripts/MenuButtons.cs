@@ -14,6 +14,11 @@ public class MenuButtons : MonoBehaviour
         ShopButtons.fullAutoBought = false;
         SceneManager.LoadScene("Dungeons");
     }
+
+    public void StartFirstCutscene()
+    {
+        SceneManager.LoadScene("CutScene");
+    }
     public void CreditsButton()
     {
         SceneManager.LoadScene("Credits");

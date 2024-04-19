@@ -134,7 +134,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &542305242518081931
+--- !u!1 &2793912133602122168
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,9 +142,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 565562037241806527}
-  - component: {fileID: 1889144946291777173}
-  - component: {fileID: 133925506390917515}
+  - component: {fileID: 3051216471844511209}
+  - component: {fileID: 1770583409646396745}
+  - component: {fileID: 276770142645599996}
   m_Layer: 0
   m_Name: Description
   m_TagString: Untagged
@@ -152,13 +152,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &565562037241806527
+--- !u!224 &3051216471844511209
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542305242518081931}
+  m_GameObject: {fileID: 2793912133602122168}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8026356, y: 0.8026356, z: 0.8026356}
@@ -171,21 +171,21 @@ RectTransform:
   m_AnchoredPosition: {x: -462.69992, y: 309.70764}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1889144946291777173
+--- !u!222 &1770583409646396745
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542305242518081931}
+  m_GameObject: {fileID: 2793912133602122168}
   m_CullTransparentMesh: 1
---- !u!114 &133925506390917515
+--- !u!114 &276770142645599996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542305242518081931}
+  m_GameObject: {fileID: 2793912133602122168}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -201,9 +201,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'description:
 
-    Shoots slower than the pistol. Deals more damage on
-    range. NOTE: you are not able to switch back to your old weapon. You can buy
-    this item only ONCE.'
+    Deals more damage on high range. Shoots faster than
+    any pistol. Cant be bought twice'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
   m_sharedMaterial: {fileID: -4120092739136832317, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
@@ -516,8 +515,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -461.00003, y: 246.09029}
-  m_SizeDelta: {x: 200, y: 400}
+  m_AnchoredPosition: {x: -461.00003, y: 258}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8217781322028342417
 CanvasRenderer:
@@ -547,7 +546,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 70799b3141116b04bbfe18b86b2e4cc1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 61d32de93f830cc4d8bc78bcf469212f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -729,7 +728,7 @@ RectTransform:
   - {fileID: 8560508608214416422}
   - {fileID: 8098207874037999031}
   - {fileID: 2412173943842930246}
-  - {fileID: 565562037241806527}
+  - {fileID: 3051216471844511209}
   - {fileID: 9176796973294655872}
   - {fileID: 4562774428512797081}
   - {fileID: 7414126758495440577}

@@ -77,6 +77,7 @@ public class EyeController : MonoBehaviour
 
     private void Update()
     {
+        healthBar.updateHealthBar(health, maxHealth);
         light.SetActive(PlayerController.eyesActivated);
         mapIcon.SetActive(PlayerController.eyesActivated);
         if (Interactable.gamePaused || isShooting || !isAggro)
@@ -104,7 +105,6 @@ public class EyeController : MonoBehaviour
         {
             //lineRenderer.enabled = false;
         }
-        healthBar.updateHealthBar(health, maxHealth);
     }
 
     private void FixedUpdate()

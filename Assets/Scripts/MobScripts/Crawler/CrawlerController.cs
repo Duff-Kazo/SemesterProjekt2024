@@ -62,6 +62,7 @@ public class CrawlerController : MonoBehaviour
 
     private void Update()
     {
+        healthBar.updateHealthBar(health, maxHealth);
         light.SetActive(PlayerController.eyesActivated);
         mapIcon.SetActive(PlayerController.eyesActivated);
         if (Interactable.gamePaused)
@@ -84,7 +85,6 @@ public class CrawlerController : MonoBehaviour
                 playerInSight = false;
             }
         }
-        healthBar.updateHealthBar(health, maxHealth);
     }
 
     private void FixedUpdate()

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -86,6 +87,7 @@ public class ShotGunController : MonoBehaviour
                 bullet.transform.Rotate(new Vector3(0, 0, -90));
                 bullet.transform.Rotate(new Vector3(0,0,i * spread));
             }
+            CinemachineShake.instance.ShakeCamera(15, 0.1f);
         }
         StartCoroutine(ShootCoolDown());
     }

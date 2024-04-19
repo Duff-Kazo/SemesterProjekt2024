@@ -796,7 +796,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'description:
 
-    A light weight weapon with a very high shooting rate'
+    A light weight weapon with a very high shooting rate.
+    Cant be bought twice'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
   m_sharedMaterial: {fileID: -4120092739136832317, guid: 16f5358512c90ed4682b2ae8acc33a78, type: 2}
