@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource explosionSound;
     [SerializeField] private AudioSource enemyDeathSound;
     [SerializeField] private AudioSource teleport;
+    [SerializeField] private AudioSource eatBody;
 
     private Orbs orbs;
 
@@ -33,5 +34,10 @@ public class GameManager : MonoBehaviour
     public void PlayBossTeleport()
     {
         teleport.Play();
+    }
+
+    public void EatBody()
+    {
+        eatBody.Play();
     }
 }

@@ -38,7 +38,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private float damage = 4;
 
     [Header("SpawnEnemies")]
-    [SerializeField] private Transform centerPoint;
+    private Vector2 centerPoint;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private GameObject headMouthPrefab;
     [SerializeField] private GameObject crawlerPrefab;
@@ -105,12 +105,13 @@ public class BossController : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         gameManager = FindObjectOfType<GameManager>();
+        centerPoint = transform.position;
         StartCoroutine(WaitForStart());
     }
 
     private void Update()
     {
-        if (Interactable.gamePaused)
+        if (Interactable.gamePaused || !isAggro)
         {
             agent.isStopped = true;
             return;
@@ -386,7 +387,7 @@ public class BossController : MonoBehaviour
         agent.velocity = Vector3.zero;
         agent.ResetPath();
         agent.isStopped = false;
-        agent.SetDestination(centerPoint.position);
+        agent.SetDestination(centerPoint);
         yield return new WaitForSeconds(2f);
         float enemyCount = 0;
         while (true)
@@ -433,7 +434,7 @@ public class BossController : MonoBehaviour
         agent.velocity = Vector3.zero;
         agent.ResetPath();
         agent.isStopped = false;
-        agent.SetDestination(centerPoint.position);
+        agent.SetDestination(centerPoint);
         yield return new WaitForSeconds(2f);
 
         for (int i = 1; i <= 6; i++)
@@ -520,7 +521,7 @@ public class BossController : MonoBehaviour
         agent.velocity = Vector3.zero;
         agent.ResetPath();
         agent.isStopped = false;
-        agent.SetDestination(centerPoint.position);
+        agent.SetDestination(centerPoint);
         float originalShootingSpeed = bulletCoolDown;
         yield return new WaitForSeconds(2f);
         bulletCoolDown = 0.1f;
@@ -551,7 +552,7 @@ public class BossController : MonoBehaviour
         isInvinvible = true;
         Physics2D.IgnoreCollision(collider, player.GetComponentInChildren<CapsuleCollider2D>(), true);
         agent.velocity = Vector3.zero;
-        agent.SetDestination(centerPoint.position);
+        agent.SetDestination(centerPoint);
         yield return new WaitForSeconds(2f);
         agent.speed = 40;
         

@@ -6,11 +6,13 @@ using UnityEngine;
 public class CorpseController : MonoBehaviour
 {
     private PlayerController player;
+    private GameManager gameManager;
     [SerializeField] private GameObject bloodParticles;
     [SerializeField] private TextMeshProUGUI corpseText;
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
+        gameManager = FindObjectOfType<GameManager>();
         StartCoroutine(CorpseCoolDown());
     }
 
@@ -34,6 +36,7 @@ public class CorpseController : MonoBehaviour
             player.health++;
         }
         Instantiate(bloodParticles, transform.position, Quaternion.identity);
+        gameManager.EatBody();
     }
 
     private IEnumerator CorpseCoolDown()

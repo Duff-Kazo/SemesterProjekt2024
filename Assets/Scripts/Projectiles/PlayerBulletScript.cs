@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerBulletScript : MonoBehaviour
 {
     private Rigidbody2D rb;
+    [SerializeField] private float knockBackForce;
     public float bonusDamage = 0;
     public float shotGunDamage = 0;
     public bool applyTommyGunDamage = false;
@@ -37,24 +38,44 @@ public class PlayerBulletScript : MonoBehaviour
         else if (collision.gameObject.CompareTag("HeadMouth"))
         {
             HeadMouthController headMouth = collision.gameObject.GetComponent<HeadMouthController>();
+            if(shotGunDamage > 0)
+            {
+                Rigidbody2D rb = headMouth.gameObject.GetComponent<Rigidbody2D>();
+                rb.velocity = transform.up * knockBackForce;
+            }
             headMouth.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
             Destroy(gameObject);
         }
         else if (collision.gameObject.CompareTag("Crawler"))
         {
             CrawlerController crawler = collision.gameObject.GetComponent<CrawlerController>();
+            if (shotGunDamage > 0)
+            {
+                Rigidbody2D rb = crawler.gameObject.GetComponent<Rigidbody2D>();
+                rb.velocity = transform.up * knockBackForce * 1.1f;
+            }
             crawler.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
             Destroy(gameObject);
         }
         else if (collision.gameObject.CompareTag("Eye"))
         {
             EyeController eye = collision.gameObject.GetComponent<EyeController>();
+            if (shotGunDamage > 0)
+            {
+                Rigidbody2D rb = eye.gameObject.GetComponent<Rigidbody2D>();
+                rb.velocity = transform.up * knockBackForce * 0.9f;
+            }
             eye.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
             Destroy(gameObject);
         }
         else if (collision.gameObject.CompareTag("Boss"))
         {
             BossController boss = collision.gameObject.GetComponent<BossController>();
+            if (shotGunDamage > 0)
+            {
+                Rigidbody2D rb = boss.gameObject.GetComponent<Rigidbody2D>();
+                rb.velocity = transform.up * knockBackForce / 2;
+            }
             boss.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
             Destroy(gameObject);
         }

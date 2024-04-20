@@ -66,6 +66,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject tommyGunUI, tommyGunUIBackground;
     [SerializeField] private GameObject mp40UI, mp40UIBackground;
 
+    //Shield
+    [Header("Shield")]
+    [SerializeField] private Slider shieldSlider;
+    [SerializeField] private Slider easeShieldSlider;
+    [SerializeField] private GameObject shieldGraphic;
+    [SerializeField] private GameObject shieldBackground;
+    public bool shieldEnabled = false;
+    private float shieldMaxHealth = 3;
+    private float shieldCurrentHealth;
+    private bool isRegenerating = false;
+    private bool breakShield = false;
 
     //Dash
     [Header("Dash")]
@@ -124,6 +135,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Slider easeHealthBarSlider;
     [SerializeField] private TextMeshProUGUI maxHealthText;
     [SerializeField] private TextMeshProUGUI currentHealthText;
+    [SerializeField] private GameObject currentHealthTextInstance;
+    [SerializeField] private GameObject maxHealthTextInstance;
     public float maxHealth = 10;
 
     //Xp System
@@ -227,6 +240,8 @@ public class PlayerController : MonoBehaviour
         shotGunAim.enabled = false;
         tommyGunAim.enabled = false;
         mp40Aim.enabled = false;
+        shieldCurrentHealth = shieldMaxHealth;
+        shieldGraphic.SetActive(false);
         CloseLargeMap();
     }
     void Update()
@@ -412,6 +427,53 @@ public class PlayerController : MonoBehaviour
             easeHealthBarSlider.value = Mathf.Lerp(easeHealthBarSlider.value, health, lerpSpeed);
         }
 
+        //ShieldBar
+        if(shieldEnabled)
+        {
+            if (shieldCurrentHealth > 0)
+            {
+                currentHealthTextInstance.SetActive(false);
+                maxHealthTextInstance.SetActive(false);
+                shieldGraphic.SetActive(true);
+                shieldBackground.SetActive(true);
+                shieldGraphic.transform.localScale = new Vector3(0.5f * shieldCurrentHealth, 0.5f * shieldCurrentHealth, 0);
+            }
+            else
+            {
+                currentHealthTextInstance.SetActive(true);
+                maxHealthTextInstance.SetActive(true);
+                shieldGraphic.SetActive(false);
+                shieldBackground.SetActive(false);
+            }
+            if (shieldSlider.value != shieldCurrentHealth)
+            {
+                shieldSlider.value = shieldCurrentHealth;
+            }
+            if (shieldSlider.value != easeShieldSlider.value)
+            {
+                easeShieldSlider.value = Mathf.Lerp(easeShieldSlider.value, shieldCurrentHealth, lerpSpeed);
+            }
+        }
+        else
+        {
+            shieldSlider.value = 0;
+            easeShieldSlider.value = 0;
+        }
+
+
+
+        
+
+        //RegenerateShield
+        if(shieldCurrentHealth < shieldMaxHealth)
+        {
+            if(!isRegenerating)
+            {
+                StartCoroutine(RegenerateShield());
+            }
+        }
+
+
 
         //Xp Bar
         if(level < maxLevel)
@@ -482,15 +544,48 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator RegenerateShield()
+    {
+        isRegenerating = true;
+        for(int i = 0; i < shieldMaxHealth; i++)
+        {
+            if(breakShield)
+            {
+                breakShield = false;
+                break;
+            }
+            yield return new WaitForSeconds(3f);
+            if (breakShield)
+            {
+                breakShield = false;
+                break;
+            }
+            if (shieldCurrentHealth < shieldMaxHealth)
+            {
+                shieldCurrentHealth++;
+            }
+        }
+        isRegenerating = false;
+    }
+
     public void TakeDamage(float damage)
     {
-        damageSound.Play();
-        StartCoroutine(DamageAnimation());
-        Instantiate(blood, transform.position, Quaternion.identity);
-        health -= damage;
-        if (health <= 0)
+        if(shieldEnabled && shieldCurrentHealth > 0)
         {
-            Die();
+            shieldCurrentHealth--;
+            breakShield = true;
+        }
+        else
+        {
+            breakShield = true;
+            damageSound.Play();
+            StartCoroutine(DamageAnimation());
+            Instantiate(blood, transform.position, Quaternion.identity);
+            health -= damage;
+            if (health <= 0)
+            {
+                Die();
+            }
         }
     }
 
