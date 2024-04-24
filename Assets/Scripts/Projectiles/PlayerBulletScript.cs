@@ -79,6 +79,17 @@ public class PlayerBulletScript : MonoBehaviour
             boss.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
             Destroy(gameObject);
         }
+        else if (collision.gameObject.CompareTag("ShopKeeper"))
+        {
+            ShopKeeperController shopKeeper = collision.gameObject.GetComponent<ShopKeeperController>();
+            if (shotGunDamage > 0)
+            {
+                Rigidbody2D rb = shopKeeper.gameObject.GetComponent<Rigidbody2D>();
+                rb.velocity = transform.up * knockBackForce / 2;
+            }
+            shopKeeper.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator ApplyBonusDamage()

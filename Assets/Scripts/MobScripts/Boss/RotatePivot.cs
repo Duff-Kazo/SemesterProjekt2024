@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class RotatePivot : MonoBehaviour
 {
-    private bool isRotating = false;
     private bool notInCoroutine = true;
     [SerializeField] private float rotateSpeed;
     private int rotateDirection = 1;
 
     private void FixedUpdate()
     {
-        isRotating = true;
         transform.Rotate(new Vector3(0, 0, rotateDirection) * rotateSpeed);
         if (notInCoroutine)
         {

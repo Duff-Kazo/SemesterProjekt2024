@@ -5,7 +5,6 @@ using UnityEngine;
 public class FogOfWar : MonoBehaviour
 {
     [SerializeField] private GameObject spriteMask;
-    GameObject gameObject;
     private bool canSpawn = true;
 
     void Update()

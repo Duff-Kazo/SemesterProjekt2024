@@ -9352,6 +9352,7 @@ MonoBehaviour:
   explosionSound: {fileID: 1586520673}
   enemyDeathSound: {fileID: 1586520672}
   teleport: {fileID: 1586520671}
+  eatBody: {fileID: 0}
 --- !u!1 &1598266789
 GameObject:
   m_ObjectHideFlags: 0
@@ -13284,6 +13285,11 @@ MonoBehaviour:
   tommyGunUIBackground: {fileID: 0}
   mp40UI: {fileID: 0}
   mp40UIBackground: {fileID: 0}
+  shieldSlider: {fileID: 0}
+  easeShieldSlider: {fileID: 0}
+  shieldGraphic: {fileID: 0}
+  shieldBackground: {fileID: 0}
+  shieldEnabled: 0
   isDashing: 0
   dashLength: 100
   dashCount: 0
@@ -13302,6 +13308,8 @@ MonoBehaviour:
   easeHealthBarSlider: {fileID: 0}
   maxHealthText: {fileID: 0}
   currentHealthText: {fileID: 0}
+  currentHealthTextInstance: {fileID: 0}
+  maxHealthTextInstance: {fileID: 0}
   maxHealth: 10
   xpSlider: {fileID: 0}
   easeXpSlider: {fileID: 0}

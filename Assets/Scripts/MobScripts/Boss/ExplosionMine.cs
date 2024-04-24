@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 public class ExplosionMine : MonoBehaviour
 {
     private Rigidbody2D rb;
-    [SerializeField] private Light2D light;
+    [SerializeField] private new Light2D light;
     [SerializeField] private float speed;
     [SerializeField] private GameObject explosion;
     [SerializeField] private float explosionTimer = 3f;

@@ -21,5 +21,15 @@ public class OrbDamage : MonoBehaviour
             EyeController eye = collision.gameObject.GetComponent<EyeController>();
             eye.TakeDamage(1f);
         }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossController boss = collision.gameObject.GetComponent<BossController>();
+            boss.TakeDamage(1f);
+        }
+        if (collision.gameObject.CompareTag("ShopKeeper"))
+        {
+            ShopKeeperController shopKeeper = collision.gameObject.GetComponent<ShopKeeperController>();
+            shopKeeper.TakeDamage(1f);
+        }
     }
 }

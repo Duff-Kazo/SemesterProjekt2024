@@ -46,5 +46,11 @@ public class PlayerAcidBallPrefab : MonoBehaviour
             boss.TakeDamage(ShopButtons.bulletDamage);
             Destroy(gameObject);
         }
+        else if (collision.gameObject.CompareTag("ShopKeeper"))
+        {
+            ShopKeeperController shopKeeper = collision.gameObject.GetComponent<ShopKeeperController>();
+            shopKeeper.TakeDamage(ShopButtons.bulletDamage);
+            Destroy(gameObject);
+        }
     }
 }

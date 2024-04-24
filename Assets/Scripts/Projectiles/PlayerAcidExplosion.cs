@@ -41,6 +41,11 @@ public class PlayerAcidExplosion : MonoBehaviour
                     BossController boss = hit[i].transform.gameObject.GetComponent<BossController>();
                     boss.TakeDamage(damage);
                 }
+                if (hit[i].transform.gameObject.CompareTag("ShopKeeper"))
+                {
+                    ShopKeeperController shopKeeper = hit[i].transform.gameObject.GetComponent<ShopKeeperController>();
+                    shopKeeper.TakeDamage(damage);
+                }
             }
             
         }

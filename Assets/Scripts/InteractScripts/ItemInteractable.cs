@@ -66,7 +66,6 @@ public class ItemInteractable : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             isInRange = true;
-            Debug.Log("Player is in range");
         }
 
     }
@@ -74,7 +73,6 @@ public class ItemInteractable : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         isInRange = false;
-        Debug.Log("Player is out of range");
     }
 
 }

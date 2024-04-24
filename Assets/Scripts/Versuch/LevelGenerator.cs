@@ -85,6 +85,12 @@ public class LevelGenerator : MonoBehaviour
     [Header("Cross")]
     [SerializeField] private GameObject cross;
 
+
+    private Vector3 leftRotation = new Vector3(0, 0, 90);
+    private Vector3 rightRotation = new Vector3(0, 0, -90);
+    private Vector3 turn = new Vector3(0, 0, 180);
+
+
     void Start()
     {
 

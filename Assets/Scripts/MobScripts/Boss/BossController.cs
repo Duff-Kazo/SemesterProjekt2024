@@ -87,7 +87,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject explosionBulletPrefab;
-    [SerializeField] private BoxCollider2D collider;
+    [SerializeField] private new BoxCollider2D collider;
     [SerializeField] private GameObject shieldSprite;
     private bool switchPhase = true;
 

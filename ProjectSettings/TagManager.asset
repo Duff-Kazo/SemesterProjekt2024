@@ -15,6 +15,7 @@ TagManager:
   - CrawlerPlagueZone
   - EyePlagueZone
   - FogSpriteMask
+  - ShopKeeper
   layers:
   - Default
   - TransparentFX

@@ -42,7 +42,7 @@ public class CrawlerController : MonoBehaviour
 
     //ItemEffects
     [Header("ItemEffects")]
-    [SerializeField] private GameObject light;
+    [SerializeField] private new GameObject light;
     [SerializeField] private GameObject mapIcon;
     private bool plagueActivated = false;
     void Start()
