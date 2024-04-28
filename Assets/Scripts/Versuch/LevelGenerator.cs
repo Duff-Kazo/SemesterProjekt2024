@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
@@ -58,6 +62,9 @@ public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
 }
 public class LevelGenerator : MonoBehaviour
 {
+    [SerializeField] private Tilemap miniMapTileMap;
+    [SerializeField] private TileBase mapTile;
+
     [SerializeField] private int turns;
     [SerializeField] private int straights;
     [SerializeField] private GameObject mainPathDot;
@@ -65,54 +72,57 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private int mainPathLength;
     [SerializeField] private int nOfBranchRooms;
     [Header("Corner Tiles")]
-    [SerializeField] private GameObject topLeftTile;
-    [SerializeField] private GameObject topRightTile;
-    [SerializeField] private GameObject bottomLeftTile;
-    [SerializeField] private GameObject bottomRightTile;
+    [SerializeField] private List<GameObject> topLeftTile;
     [Header("Corridor Tiles")]
-    [SerializeField] private GameObject topBottomTile;
-    [SerializeField] private GameObject leftRightTile;
+    [SerializeField] private List<GameObject> leftRightTile;
     [Header("DeadEnds")]
-    [SerializeField] private GameObject topTile;
-    [SerializeField] private GameObject bottomTile;
-    [SerializeField] private GameObject leftTile;
-    [SerializeField] private GameObject rightTile;
+    [SerializeField] private List<GameObject> leftTile;
     [Header("T-Cross")]
-    [SerializeField] private GameObject topRightDown;
-    [SerializeField] private GameObject rightDownLeft;
-    [SerializeField] private GameObject DownLeftTop;
-    [SerializeField] private GameObject LeftTopRight;
+    [SerializeField] private List<GameObject> leftTopRight;
     [Header("Cross")]
-    [SerializeField] private GameObject cross;
+    [SerializeField] private List<GameObject> cross;
 
 
     private Vector3 leftRotation = new Vector3(0, 0, 90);
     private Vector3 rightRotation = new Vector3(0, 0, -90);
     private Vector3 turn = new Vector3(0, 0, 180);
 
+    public const int TILE_SIZE = 24;
+
+    public enum RotationType
+    {
+        None,
+        Degree90,
+        Degree180,
+        Degree270
+    }
 
     void Start()
     {
-
         List<RoomType> roomSet = null;
         int numOfCries = 0;
-        while(roomSet == null)
+        while (roomSet == null)
         {
             roomSet = GenerateRooms();
             numOfCries++;
         }
         Debug.Log("Ich hab " + (numOfCries - 1) + " mal BUHUHUHUI ICh Wein JeTzT, gemacht >:[");
-
+        HashSet<Vector2Int> tilePositions = new HashSet<Vector2Int>();
         foreach (var pos in roomSet)
         {
-            GameObject newRoom = Instantiate(ChooseTile(pos), new Vector3(pos.x * 12, pos.y * 12, 0), Quaternion.identity);
-            if(pos.isMainPath)
-            {
-                Instantiate(mainPathDot, newRoom.transform.position, Quaternion.identity);
-            }
+            tilePositions.UnionWith(GenerateFloorPositions(pos));
+            //if(pos.isMainPath)
+            //{
+            //    Instantiate(mainPathDot, newRoom.transform.position, Quaternion.identity);
+            //}
         }
+
+        TileMapVisualizer visualizer = GetComponentInChildren<TileMapVisualizer>();
+        visualizer.PaintFloorTiles(tilePositions);
+        TileMapVisualizer.PaintTiles(tilePositions, miniMapTileMap, mapTile);
+        WallGenerator.CreateWalls(tilePositions, visualizer);
     }
-    
+
     private List<RoomType> GenerateRooms()
     {
         List<RoomType> roomSet = new List<RoomType>();
@@ -126,7 +136,7 @@ public class LevelGenerator : MonoBehaviour
 
         //Main Branch Generation
         GenerateBranch(startRoom, previousRoomPos, roomPositions, roomSet, mainPathLength - 1);
-        if(roomSet.Count < mainPathLength)
+        if (roomSet.Count < mainPathLength)
         {
             return null;
         }
@@ -164,72 +174,131 @@ public class LevelGenerator : MonoBehaviour
     }
 
     //Tatsächliches tile platzieren
-    private GameObject ChooseTile(RoomType room)
+    private List<Vector2Int> GenerateFloorPositions(RoomType room)
     {
-        if(room.leftConnected && room.rightConnected && !room.topConnected && !room.bottomConnected)
+        GameObject prefab;
+        RotationType rotation = RotationType.None;
+        if (room.leftConnected && room.rightConnected && !room.topConnected && !room.bottomConnected)
         {
-            return leftRightTile;
+            prefab = ChooseRandomFrom(leftRightTile);
         }
-        if (!room.leftConnected && !room.rightConnected && room.topConnected && room.bottomConnected)
+        else if (!room.leftConnected && !room.rightConnected && room.topConnected && room.bottomConnected)
         {
-            return topBottomTile;
+            prefab = ChooseRandomFrom(leftRightTile);
+            rotation = RotationType.Degree90;
         }
-        if (room.leftConnected && !room.rightConnected && room.topConnected && !room.bottomConnected)
+        else if (room.leftConnected && !room.rightConnected && room.topConnected && !room.bottomConnected)
         {
-            return topLeftTile;
+            prefab = ChooseRandomFrom(topLeftTile);
         }
-        if (!room.leftConnected && room.rightConnected && room.topConnected && !room.bottomConnected)
+        else if (!room.leftConnected && room.rightConnected && room.topConnected && !room.bottomConnected)
         {
-            return topRightTile;
+            prefab = ChooseRandomFrom(topLeftTile);
+            rotation = RotationType.Degree90;
         }
-        if (room.leftConnected && !room.rightConnected && !room.topConnected && room.bottomConnected)
+        else if (room.leftConnected && !room.rightConnected && !room.topConnected && room.bottomConnected)
         {
-            return bottomLeftTile;
+            prefab = ChooseRandomFrom(topLeftTile);
+            rotation = RotationType.Degree270;
         }
-        if (!room.leftConnected && room.rightConnected && !room.topConnected && room.bottomConnected)
+        else if (!room.leftConnected && room.rightConnected && !room.topConnected && room.bottomConnected)
         {
-            return bottomRightTile;
+            prefab = ChooseRandomFrom(topLeftTile);
+            rotation = RotationType.Degree180;
         }
-        if (room.leftConnected && !room.rightConnected && !room.topConnected && !room.bottomConnected)
+        else if (room.leftConnected && !room.rightConnected && !room.topConnected && !room.bottomConnected)
         {
-            return leftTile;
+            prefab = ChooseRandomFrom(leftTile);
         }
-        if (!room.leftConnected && room.rightConnected && !room.topConnected && !room.bottomConnected)
+        else if (!room.leftConnected && room.rightConnected && !room.topConnected && !room.bottomConnected)
         {
-            return rightTile;
+            prefab = ChooseRandomFrom(leftTile);
+            rotation = RotationType.Degree180;
         }
-        if (!room.leftConnected && !room.rightConnected && room.topConnected && !room.bottomConnected)
+        else if (!room.leftConnected && !room.rightConnected && room.topConnected && !room.bottomConnected)
         {
-            return topTile;
+            prefab = ChooseRandomFrom(leftTile);
+            rotation = RotationType.Degree90;
         }
-        if (!room.leftConnected && !room.rightConnected && !room.topConnected && room.bottomConnected)
+        else if (!room.leftConnected && !room.rightConnected && !room.topConnected && room.bottomConnected)
         {
-            return bottomTile;
+            prefab = ChooseRandomFrom(leftTile);
+            rotation = RotationType.Degree270;
         }
-        if (!room.leftConnected && room.rightConnected && room.topConnected && room.bottomConnected)
+        else if (!room.leftConnected && room.rightConnected && room.topConnected && room.bottomConnected)
         {
-            return topRightDown;
+            prefab = ChooseRandomFrom(leftTopRight);
+            rotation = RotationType.Degree90;
         }
-        if (room.leftConnected && !room.rightConnected && room.topConnected && room.bottomConnected)
+        else if (room.leftConnected && !room.rightConnected && room.topConnected && room.bottomConnected)
         {
-            return DownLeftTop;
+            prefab = ChooseRandomFrom(leftTopRight);
+            rotation = RotationType.Degree270;
         }
-        if (room.leftConnected && room.rightConnected && !room.topConnected && room.bottomConnected)
+        else if (room.leftConnected && room.rightConnected && !room.topConnected && room.bottomConnected)
         {
-            return rightDownLeft;
+            prefab = ChooseRandomFrom(leftTopRight);
+            rotation = RotationType.Degree180;
         }
-        if (room.leftConnected && room.rightConnected && room.topConnected && !room.bottomConnected)
+        else if (room.leftConnected && room.rightConnected && room.topConnected && !room.bottomConnected)
         {
-            return LeftTopRight;
+            prefab = ChooseRandomFrom(leftTopRight);
         }
-        if (room.leftConnected && room.rightConnected && room.topConnected && room.bottomConnected)
+        else if (room.leftConnected && room.rightConnected && room.topConnected && room.bottomConnected)
         {
-            return cross;
+            prefab = ChooseRandomFrom(cross);
         }
-        throw new Exception("Das jetzt kaka");
+        else
+        {
+            throw new Exception("Das jetzt kaka (er hat nix gefundndnnd)");
+        }
+        List<Vector2Int> roomFloorTilePositions = new List<Vector2Int>();
+        Tilemap roomTilemap = prefab.GetComponentInChildren<Tilemap>();
+        BoundsInt roomBounds = roomTilemap.cellBounds;
+        foreach (var tilePos in roomBounds.allPositionsWithin)
+        {
+            TileBase tileBase = roomTilemap.GetTile(tilePos);
+            if (tileBase != null)
+            {
+                Vector2Int pos = new Vector2Int(tilePos.x, tilePos.y);
+                switch (rotation)
+                {
+                    case RotationType.Degree90:
+                        {
+                            int temp = pos.x;
+                            pos.x = pos.y;
+                            pos.y = temp * -1;
+                            pos.y -= 1;
+                            break;
+                        }
+                    case RotationType.Degree180:
+                        {
+                            pos.x *= -1;
+                            pos.y *= -1;
+                            pos.x -= 1;
+                            pos.y -= 1;
+                            break;
+                        }
+                    case RotationType.Degree270:
+                        {
+                            int temp = pos.x;
+                            pos.x = pos.y * -1;
+                            pos.y = temp;
+                            pos.x -= 1;
+                            break;
+                        }
+                }
+                pos.x += room.pos.x * TILE_SIZE;
+                pos.y += room.pos.y * TILE_SIZE;
+                roomFloorTilePositions.Add(pos);
+            }
+        }
+        Debug.Log("roomFloorList " + roomFloorTilePositions.Count);
+        //Destroy(newRoom);
+        return roomFloorTilePositions;
     }
 
-    private int GenerateBranch(RoomType currentRoom,Vector2Int previousRoomPos, HashSet<Vector2Int> roomPositions, List<RoomType> rooms, int numOfRoomsToGenerate)
+    private int GenerateBranch(RoomType currentRoom, Vector2Int previousRoomPos, HashSet<Vector2Int> roomPositions, List<RoomType> rooms, int numOfRoomsToGenerate)
     {
         for (int i = 0; i < numOfRoomsToGenerate; i++)
         {
@@ -342,5 +411,12 @@ public class LevelGenerator : MonoBehaviour
             currentRoom = nextRoom;
         }
         return numOfRoomsToGenerate;
+    }
+
+
+    private GameObject ChooseRandomFrom(List<GameObject> gameObjects)
+    {
+        int random = Random.Range(0, gameObjects.Count);
+        return gameObjects[random];
     }
 }

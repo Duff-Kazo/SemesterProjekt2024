@@ -169,6 +169,7 @@ MonoBehaviour:
         m_CallState: 2
   circle: {fileID: 1956785523}
   skippingText: {fileID: 1907865258}
+  timeToSkip: 1.5
 --- !u!4 &167682564
 Transform:
   m_ObjectHideFlags: 0

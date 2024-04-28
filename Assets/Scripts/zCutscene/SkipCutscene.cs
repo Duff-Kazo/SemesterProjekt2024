@@ -10,6 +10,7 @@ public class SkipCutscene : MonoBehaviour
     private float skipCount = 0;
     [SerializeField] private Image circle;
     [SerializeField] private GameObject skippingText;
+    [SerializeField] private float timeToSkip;
     private void Start()
     {
         skippingText.SetActive(false);
@@ -17,17 +18,17 @@ public class SkipCutscene : MonoBehaviour
 
     private void Update()
     {
-        circle.fillAmount = skipCount / 1;
+        circle.fillAmount = skipCount / timeToSkip;
         if(Input.GetKey(KeyCode.Space))
         {
-            skipCount += 0.0025f;
+            skipCount += Time.deltaTime;
         }
         if(Input.GetKeyUp(KeyCode.Space))
         {
             skipCount = 0;
         }
 
-        if(skipCount >= 1)
+        if(skipCount >= timeToSkip)
         {
             circle.fillAmount = 1;
             skippingText.SetActive(true);
