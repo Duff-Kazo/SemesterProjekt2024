@@ -16,14 +16,13 @@ public class PlayerBulletScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
-    void Update()
+    private void FixedUpdate()
     {
         rb.velocity = transform.up * speed;
 
-        if(applyTommyGunDamage)
+        if (applyTommyGunDamage)
         {
-            if(bonusDamage <= 0.5 && apply)
+            if (bonusDamage <= 0.5 && apply)
             {
                 StartCoroutine(ApplyBonusDamage());
             }

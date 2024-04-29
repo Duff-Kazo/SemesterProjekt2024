@@ -517,7 +517,7 @@ MonoBehaviour:
   wallSideRight: {fileID: 11400000, guid: 19a9d8c46fb615e488ee7eac5c1bf895, type: 2}
   wallSideLeft: {fileID: 11400000, guid: 7210eb57c9b73994c815ad38e1e9afe9, type: 2}
   wallBottom: {fileID: 11400000, guid: 82e3f3b10669f674f9b6d826620eb702, type: 2}
-  wallFull: {fileID: 11400000, guid: 9bd9b91a7e97483419306d5b0c9c37ec, type: 2}
+  wallFull: {fileID: 11400000, guid: 784bad626cd74ae4d95d0002856074d7, type: 2}
   wallInnerCornerDownLeft: {fileID: 11400000, guid: e831d4f40b9f4d2498ed3eb978b5ed46, type: 2}
   wallInnerCornerDownRight: {fileID: 11400000, guid: 26fc242620b140d4e9276374f568cde1, type: 2}
   wallDiagonalCornerDownRight: {fileID: 11400000, guid: 2f0b3fc00cf1d95439af71f54cc9a942, type: 2}
