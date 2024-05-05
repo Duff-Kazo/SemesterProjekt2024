@@ -1,3 +1,4 @@
+using NavMeshPlus.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,30 +12,37 @@ using UnityEngine.Tilemaps;
 using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
-public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
+public enum RoomType
+{
+    BranchRoom,
+    MainPath,
+    StartRoom,
+    EndRoom,
+    ShopRoom,
+    BossRoom
+}
+public class RoomDefinition : IEquatable<Vector2Int>, IEquatable<RoomDefinition>
 {
     public Vector2Int pos;
     public bool topConnected;
     public bool leftConnected;
     public bool rightConnected;
     public bool bottomConnected;
-    public bool isMainPath;
-    public bool isStartRoom;
-    public bool isEndRoom;
+    public RoomType roomType;
+    public List<Vector2Int> tilePositions = null;
+    public List<Vector2Int> enemySpawnPoints = null;
 
-    public RoomType(Vector2Int position)
+    public RoomDefinition(Vector2Int position)
     {
         pos = position;
         topConnected = false;
         leftConnected = false;
         rightConnected = false;
-        bottomConnected = false;
-        isMainPath = false;
-        isStartRoom = false;
-        isEndRoom = false;
+        bottomConnected = false;    
+        roomType = RoomType.BranchRoom;
     }
 
-    public RoomType(int x, int y) : this(new Vector2Int(x, y))
+    public RoomDefinition(int x, int y) : this(new Vector2Int(x, y))
     {
     }
 
@@ -55,10 +63,20 @@ public class RoomType : IEquatable<Vector2Int>, IEquatable<RoomType>
         return pos.Equals(other);
     }
 
-    public bool Equals(RoomType other)
+    public bool Equals(RoomDefinition other)
     {
         return other.pos.Equals(pos);
     }
+}
+
+public class LevelDefinition
+{
+    public int mainPathLength;
+    public int branchLength;
+    public int enemyCount;
+    public int headMouthWeight;
+    public int crawlerWeight;
+    public int eyeWeigth;
 }
 public class LevelGenerator : MonoBehaviour
 {
@@ -82,6 +100,13 @@ public class LevelGenerator : MonoBehaviour
     [Header("Cross")]
     [SerializeField] private List<GameObject> cross;
 
+    [Header("Enemies")]
+    [SerializeField] private GameObject headMouth;
+    [SerializeField] private GameObject eye;
+    [SerializeField] private GameObject crawler;
+
+    private NavMeshSurface navMesh;
+
 
     private Vector3 leftRotation = new Vector3(0, 0, 90);
     private Vector3 rightRotation = new Vector3(0, 0, -90);
@@ -99,7 +124,15 @@ public class LevelGenerator : MonoBehaviour
 
     void Start()
     {
-        List<RoomType> roomSet = null;
+        navMesh = GetComponentInChildren<NavMeshSurface>();
+        LevelDefinition level = new LevelDefinition();
+        level.headMouthWeight = 10;
+        level.crawlerWeight = 7;
+        level.eyeWeigth = 5;
+        level.mainPathLength = mainPathLength;
+        level.branchLength = nOfBranchRooms;
+        level.enemyCount = 50;
+        List<RoomDefinition> roomSet = null;
         int numOfCries = 0;
         while (roomSet == null)
         {
@@ -110,25 +143,72 @@ public class LevelGenerator : MonoBehaviour
         HashSet<Vector2Int> tilePositions = new HashSet<Vector2Int>();
         foreach (var pos in roomSet)
         {
-            tilePositions.UnionWith(GenerateFloorPositions(pos));
-            //if(pos.isMainPath)
-            //{
-            //    Instantiate(mainPathDot, newRoom.transform.position, Quaternion.identity);
-            //}
+            GenerateFloorPositions(pos);
+            tilePositions.UnionWith(pos.tilePositions);
         }
 
         TileMapVisualizer visualizer = GetComponentInChildren<TileMapVisualizer>();
         visualizer.PaintFloorTiles(tilePositions);
         TileMapVisualizer.PaintTiles(tilePositions, miniMapTileMap, mapTile);
         WallGenerator.CreateWalls(tilePositions, visualizer);
+        navMesh.BuildNavMesh();
+        SpawnEnemies(roomSet, level);
     }
 
-    private List<RoomType> GenerateRooms()
+    private void SpawnEnemies(List<RoomDefinition> rooms, LevelDefinition level)
     {
-        List<RoomType> roomSet = new List<RoomType>();
+        int enemiesToSpawn = level.enemyCount;
+        List<Vector2Int> spawnPoints = new List<Vector2Int>();
+        foreach (var room in rooms)
+        {
+            if(enemiesToSpawn <= 0)
+            {
+                return;
+            }
+            if(room.enemySpawnPoints != null && room.enemySpawnPoints.Count > 0)
+            {
+                int index = Random.Range(0,room.enemySpawnPoints.Count);
+                Vector2 enemyPos = room.enemySpawnPoints[index];
+                SpawnSingleEnemy(enemyPos, level);
+                room.enemySpawnPoints.RemoveAt(index);
+                enemiesToSpawn--;
+                spawnPoints.AddRange(room.enemySpawnPoints);
+            }
+        }
+        if(enemiesToSpawn > spawnPoints.Count)
+        {
+            throw new Exception("Not enough spawn points left");
+        }
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            int randomIndex = Random.Range(0, spawnPoints.Count);
+            SpawnSingleEnemy(spawnPoints[randomIndex], level);
+            spawnPoints.RemoveAt(randomIndex);
+        }
+    }
+
+    private void SpawnSingleEnemy(Vector2 pos, LevelDefinition level)
+    {
+        int enemyType = Random.Range(0, level.eyeWeigth + level.headMouthWeight + level.crawlerWeight);
+        if(enemyType < level.eyeWeigth)
+        {
+            Instantiate(eye, pos, Quaternion.identity);
+        }
+        else if(enemyType < level.eyeWeigth + level.headMouthWeight)
+        {
+            Instantiate(headMouth, pos, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(crawler, pos, Quaternion.identity);
+        }
+    }
+
+    private List<RoomDefinition> GenerateRooms()
+    {
+        List<RoomDefinition> roomSet = new List<RoomDefinition>();
         HashSet<Vector2Int> roomPositions = new HashSet<Vector2Int>();
-        var startRoom = new RoomType(0, 0);
-        startRoom.isStartRoom = true;
+        var startRoom = new RoomDefinition(0, 0);
         Vector2Int previousRoomPos = startRoom.pos;
 
         roomSet.Add(startRoom);
@@ -142,10 +222,11 @@ public class LevelGenerator : MonoBehaviour
         }
         foreach (var room in roomSet)
         {
-            room.isMainPath = true;
+            room.roomType = RoomType.MainPath;
         }
-        roomSet.ElementAt(roomSet.Count - 1).isEndRoom = true;
-        List<RoomType> validBranchRooms = new List<RoomType>();
+        startRoom.roomType = RoomType.StartRoom;
+        roomSet.ElementAt(roomSet.Count - 1).roomType = RoomType.EndRoom;
+        List<RoomDefinition> validBranchRooms = new List<RoomDefinition>();
         for (int i = 1; i < roomSet.Count - 1; i++)
         {
             validBranchRooms.Add(roomSet[i]);
@@ -174,7 +255,7 @@ public class LevelGenerator : MonoBehaviour
     }
 
     //Tatsächliches tile platzieren
-    private List<Vector2Int> GenerateFloorPositions(RoomType room)
+    private void GenerateFloorPositions(RoomDefinition room)
     {
         GameObject prefab;
         RotationType rotation = RotationType.None;
@@ -252,12 +333,42 @@ public class LevelGenerator : MonoBehaviour
         {
             throw new Exception("Das jetzt kaka (er hat nix gefundndnnd)");
         }
+        Tilemap[] tileMaps = prefab.GetComponentsInChildren <Tilemap>();
+        Tilemap roomTileMap = null;
+        Tilemap spawnPointTileMap = null;
+        foreach (var tileMap in tileMaps)
+        {
+            if(tileMap.name == "Floor")
+            {
+                roomTileMap = tileMap;
+            }
+            else if(tileMap.name == "EnemySpawnPoints")
+            {
+                spawnPointTileMap = tileMap;
+            }
+        }
+        if(roomTileMap == null)
+        {
+            throw new Exception("the requested tilemap named Floor was not found in prefab");
+        }
+        if (spawnPointTileMap == null)
+        {
+            throw new Exception("the requested tilemap named EnemySpawnPoints was not found in prefab");
+        }
+        room.tilePositions = GetTilePositionsInRoomTileMap(roomTileMap, room, rotation);
+        if(room.roomType == RoomType.MainPath || room.roomType == RoomType.BranchRoom)
+        {
+            room.enemySpawnPoints = GetTilePositionsInRoomTileMap(spawnPointTileMap, room, rotation);
+        }
+    }
+
+    private List<Vector2Int> GetTilePositionsInRoomTileMap(Tilemap tilemap, RoomDefinition room, RotationType rotation)
+    {
         List<Vector2Int> roomFloorTilePositions = new List<Vector2Int>();
-        Tilemap roomTilemap = prefab.GetComponentInChildren<Tilemap>();
-        BoundsInt roomBounds = roomTilemap.cellBounds;
+        BoundsInt roomBounds = tilemap.cellBounds;
         foreach (var tilePos in roomBounds.allPositionsWithin)
         {
-            TileBase tileBase = roomTilemap.GetTile(tilePos);
+            TileBase tileBase = tilemap.GetTile(tilePos);
             if (tileBase != null)
             {
                 Vector2Int pos = new Vector2Int(tilePos.x, tilePos.y);
@@ -293,23 +404,23 @@ public class LevelGenerator : MonoBehaviour
                 roomFloorTilePositions.Add(pos);
             }
         }
-        Debug.Log("roomFloorList " + roomFloorTilePositions.Count);
-        //Destroy(newRoom);
         return roomFloorTilePositions;
     }
 
-    private int GenerateBranch(RoomType currentRoom, Vector2Int previousRoomPos, HashSet<Vector2Int> roomPositions, List<RoomType> rooms, int numOfRoomsToGenerate)
+
+
+    private int GenerateBranch(RoomDefinition currentRoom, Vector2Int previousRoomPos, HashSet<Vector2Int> roomPositions, List<RoomDefinition> rooms, int numOfRoomsToGenerate)
     {
         for (int i = 0; i < numOfRoomsToGenerate; i++)
         {
-            List<RoomType> validNextRooms = new List<RoomType>(4);
-            RoomType upRoom = new RoomType(currentRoom.x, currentRoom.y + 1);
+            List<RoomDefinition> validNextRooms = new List<RoomDefinition>(4);
+            RoomDefinition upRoom = new RoomDefinition(currentRoom.x, currentRoom.y + 1);
             upRoom.bottomConnected = true;
-            RoomType downRoom = new RoomType(currentRoom.x, currentRoom.y - 1);
+            RoomDefinition downRoom = new RoomDefinition(currentRoom.x, currentRoom.y - 1);
             downRoom.topConnected = true;
-            RoomType leftRoom = new RoomType(currentRoom.x - 1, currentRoom.y);
+            RoomDefinition leftRoom = new RoomDefinition(currentRoom.x - 1, currentRoom.y);
             leftRoom.rightConnected = true;
-            RoomType rightRoom = new RoomType(currentRoom.x + 1, currentRoom.y);
+            RoomDefinition rightRoom = new RoomDefinition(currentRoom.x + 1, currentRoom.y);
             rightRoom.leftConnected = true;
             if (!roomPositions.Contains(upRoom.pos))
             {
