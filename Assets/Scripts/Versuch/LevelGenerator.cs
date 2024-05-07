@@ -131,7 +131,7 @@ public class LevelGenerator : MonoBehaviour
         level.eyeWeigth = 5;
         level.mainPathLength = mainPathLength;
         level.branchLength = nOfBranchRooms;
-        level.enemyCount = 50;
+        level.enemyCount = 75;
         List<RoomDefinition> roomSet = null;
         int numOfCries = 0;
         while (roomSet == null)
