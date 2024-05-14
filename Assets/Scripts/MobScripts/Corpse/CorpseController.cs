@@ -6,13 +6,13 @@ using UnityEngine;
 public class CorpseController : MonoBehaviour
 {
     private PlayerController player;
-    private GameManager gameManager;
+    private SoundManager gameManager;
     [SerializeField] private GameObject bloodParticles;
     [SerializeField] private TextMeshProUGUI corpseText;
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<SoundManager>();
         StartCoroutine(CorpseCoolDown());
     }
 

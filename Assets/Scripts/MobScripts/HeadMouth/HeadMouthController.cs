@@ -36,7 +36,7 @@ public class HeadMouthController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private GameManager gameManager;
+    private SoundManager gameManager;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject plagueZone;
@@ -58,7 +58,7 @@ public class HeadMouthController : MonoBehaviour
         agent.updateUpAxis = false;
         health = maxHealth;
         healthBar = GetComponentInChildren<FloatingHealthBar>();
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<SoundManager>();
         plagueZone.SetActive(false);
     }
 
@@ -182,7 +182,8 @@ public class HeadMouthController : MonoBehaviour
             player.GetXp(25);
         }
         Instantiate(bloodParticles, transform.position, Quaternion.identity);
-        Instantiate(corpse, transform.position, Quaternion.identity);
+        GameObject spawned = Instantiate(corpse, transform.position, Quaternion.identity);
+        spawned.transform.parent = transform.parent;
         Destroy(gameObject);
     }
 

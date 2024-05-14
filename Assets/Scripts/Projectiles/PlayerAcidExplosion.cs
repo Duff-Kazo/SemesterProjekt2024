@@ -10,10 +10,10 @@ public class PlayerAcidExplosion : MonoBehaviour
     private List<HeadMouthController> headMouthList = new List<HeadMouthController>();
     private List<CrawlerController> crawlerList = new List<CrawlerController>();
     private List<EyeController> eyeList = new List<EyeController>();
-    GameManager gameManager;
+    SoundManager gameManager;
     void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<SoundManager>();
         gameManager.PlayExplosionSound();
         StartCoroutine(KillOnAnimationFinished());
         Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position, distance, layerMask);

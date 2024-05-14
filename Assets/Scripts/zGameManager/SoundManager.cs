@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioSource explosionSound;
     [SerializeField] private AudioSource enemyDeathSound;

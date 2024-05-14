@@ -19,6 +19,10 @@ public class TileMapVisualizer : MonoBehaviour
 
     public static void PaintTiles(IEnumerable<Vector2Int> positions, Tilemap tilemap, TileBase tile)
     {
+        if(positions == null)
+        {
+            return;
+        }
         foreach (var position in positions)
         {
             PaintSingleTile(tilemap, tile, position);

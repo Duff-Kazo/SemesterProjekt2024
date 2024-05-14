@@ -42,7 +42,7 @@ public class EyeController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private GameManager gameManager;
+    private SoundManager gameManager;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private LineRenderer lineRenderer;
@@ -71,7 +71,7 @@ public class EyeController : MonoBehaviour
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         healthBarScalex = scaleX * 0.5f;
         healthBarScaley = transform.localScale.y * 0.5f;
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<SoundManager>();
         plagueZone.SetActive(false);
     }
 
@@ -229,7 +229,8 @@ public class EyeController : MonoBehaviour
             player.GetXp(25);
         }
         Instantiate(bloodParticles, transform.position, Quaternion.identity);
-        Instantiate(corpse, transform.position, Quaternion.identity);
+        GameObject spawned = Instantiate(corpse, transform.position, Quaternion.identity);
+        spawned.transform.parent = transform.parent;
         Destroy(gameObject);
     }
 

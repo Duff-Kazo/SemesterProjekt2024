@@ -38,10 +38,10 @@ public class PlayerController : MonoBehaviour
     public bool isReloading = false;
     private PlayerAcidBall playerAcidBall;
     public int bulletCount = 0;
-    [SerializeField] private int maxMagazines = 4;
-    private int maxBullets = 16;
-    private int magazinesCount;
-    private int magazineBullets;
+    [SerializeField] public int maxMagazines = 4;
+    public int maxBullets = 16;
+    public int magazinesCount;
+    public int magazineBullets;
 
     [Header("Weapons")]
     public static bool gunEquiped = true;
@@ -416,6 +416,10 @@ public class PlayerController : MonoBehaviour
         }
 
         //HEALTHBAR
+        if(health > maxHealth)
+        {
+            health = maxHealth;
+        }
         maxHealthText.text = ("" + maxHealth);
         currentHealthText.text = (health + "/");
         if (healthSlider.value != health)
@@ -485,7 +489,7 @@ public class PlayerController : MonoBehaviour
                 int xpRemaining = xp - xpRequirement;
                 xp = 0;
                 level += 1;
-                GetHealth(1);
+                GetMaxHealth(1);
                 ShopButtons.bulletDamage += 0.01f;
                 xpRequirement = baseXpRequirement * 2;
                 xp += xpRemaining;
@@ -507,7 +511,7 @@ public class PlayerController : MonoBehaviour
             if(!gotLastHp)
             {
                 gotLastHp = true;
-                GetHealth(1);
+                GetMaxHealth(1);
             }
             levelText.text = "Max Level";
         }
@@ -706,11 +710,16 @@ public class PlayerController : MonoBehaviour
         bloodPoints += amount;
     }
 
-    public void GetHealth(int amount)
+    public void GetMaxHealth(int amount)
     {
         maxHealth += amount;
         healthSlider.maxValue = maxHealth;
         easeHealthBarSlider.maxValue = maxHealth;
+        health += amount;
+    }
+
+    public void GetHealth(int amount)
+    {
         health += amount;
     }
 

@@ -7,10 +7,10 @@ public class AcidExplosion : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float distance = 2;
     [SerializeField] private float damage = 5;
-    GameManager gameManager;
+    SoundManager gameManager;
     void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<SoundManager>();
         gameManager.PlayExplosionSound();
         StartCoroutine(KillOnAnimationFinished());
         Collider2D hit = Physics2D.OverlapCircle(transform.position, distance, layerMask);

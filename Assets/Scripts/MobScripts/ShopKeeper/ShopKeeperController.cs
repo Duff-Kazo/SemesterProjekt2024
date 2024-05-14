@@ -28,7 +28,7 @@ public class ShopKeeperController : MonoBehaviour
     //Components
     private SpriteRenderer spriteRenderer;
     private PlayerController player;
-    private GameManager gameManager;
+    private SoundManager gameManager;
     private NavMeshAgent agent;
     private Rigidbody2D rb;
     private Animator animator;
@@ -42,7 +42,7 @@ public class ShopKeeperController : MonoBehaviour
         agent.updateUpAxis = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         player = FindObjectOfType<PlayerController>();
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<SoundManager>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 

@@ -83,7 +83,7 @@ public class BossController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private GameManager gameManager;
+    private SoundManager gameManager;
     [SerializeField] private Transform bulletSpawn;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject explosionBulletPrefab;
@@ -104,7 +104,7 @@ public class BossController : MonoBehaviour
         scaleX = transform.localScale.x;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<SoundManager>();
         centerPoint = transform.position;
         StartCoroutine(WaitForStart());
     }
