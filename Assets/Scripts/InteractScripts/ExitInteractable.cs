@@ -13,6 +13,8 @@ public class ExitInteractable : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     private PlayerController player;
 
+    private BossController boss;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,7 @@ public class ExitInteractable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        boss = FindObjectOfType<BossController>();
         Vector2 direction = player.transform.position - transform.position;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, rayDistance, layerMask);
         if (hit)
@@ -35,7 +38,7 @@ public class ExitInteractable : MonoBehaviour
             isInRange = false;
         }
 
-        if (isInRange)
+        if (isInRange && boss == null)
         {
             canvas.enabled = true;
             if (Input.GetKeyDown(interactKey))

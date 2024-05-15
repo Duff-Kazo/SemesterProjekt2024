@@ -104,6 +104,10 @@ public class PlayerController : MonoBehaviour
     //Animations
     [Header("Animations")]
     [SerializeField] public int monsterState = 0;
+    private int tempMonsterState = 0;
+    [SerializeField] private TextMeshProUGUI currentMonsterState;
+    [SerializeField] private TextMeshProUGUI newMonsterState;
+    [SerializeField] private GameObject monsterStatePanel;
     private string currentState = "";
     private Animator playerAnimator;
 
@@ -243,6 +247,7 @@ public class PlayerController : MonoBehaviour
         shieldCurrentHealth = shieldMaxHealth;
         shieldGraphic.SetActive(false);
         CloseLargeMap();
+        monsterStatePanel.SetActive(false);
     }
     void Update()
     {
@@ -546,6 +551,28 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(ReloadWeapon());
         }
+    }
+
+    public void ChangeMonsterState()
+    {
+        if(monsterState < 3)
+        {
+            tempMonsterState = monsterState;
+            monsterState++;
+            StartCoroutine(MonsterStateAnimation());
+        }
+    }
+
+    private IEnumerator MonsterStateAnimation()
+    {
+        monsterStatePanel.SetActive(true);
+        Animator monsterStateAnimator = monsterStatePanel.GetComponent<Animator>();
+        currentMonsterState.text = tempMonsterState.ToString();
+        newMonsterState.text = monsterState.ToString();
+        monsterStateAnimator.SetTrigger("ChangeMonsterState");
+        CinemachineShake.instance.ShakeCamera(4, 1.99f);
+        yield return new WaitForSeconds(1.99f);
+        monsterStatePanel.SetActive(false);
     }
 
     private IEnumerator RegenerateShield()

@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour
                         break;
                 }
                 bossTrigger.transform.position = triggerPos;
+                bossTrigger.SetActive(true);
             }
             else
             {
@@ -224,7 +225,7 @@ public class GameManager : MonoBehaviour
             int positionIndex = Random.Range(0, validRooms[roomIndex].itemPositions.Count);
             RoomDefinition currentRoom = validRooms[roomIndex];
             Vector2Int pos = currentRoom.itemPositions[positionIndex];
-            Vector3 propPos = new Vector3(pos.x + 0.5f, pos.y + 1.5f, 0);
+            Vector3 propPos = new Vector3(pos.x + 1f, pos.y + 1.5f, 0);
             if(itemsLeft > 0)
             {
                 SpawnSingleItem(propPos);

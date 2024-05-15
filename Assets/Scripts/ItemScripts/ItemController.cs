@@ -11,41 +11,27 @@ public class ItemController : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
     }
 
-
-
     public void ActivateEyes()
     {
         PlayerController.eyesActivated = true;
-        if(player.monsterState < 3 )
-        {
-            player.monsterState++;
-        }
+        player.ChangeMonsterState();
     }
 
     public void ActivateShield()
     {
         PlayerController.shieldActivated = true;
-        if (player.monsterState < 3)
-        {
-            player.monsterState++;
-        }
+        player.ChangeMonsterState();
     }
 
     public void ActivateOrbs()
     {
         PlayerController.orbsActivated = true;
-        if (player.monsterState < 3)
-        {
-            player.monsterState++;
-        }
+        player.ChangeMonsterState();
     }
 
     public void ActivatePlague()
     {
         PlayerController.plagueActivated = true;
-        if (player.monsterState < 3)
-        {
-            player.monsterState++;
-        }
+        player.ChangeMonsterState();
     }
 }
