@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,38 +18,55 @@ public class InstantiateButtons : MonoBehaviour
 
     public Transform descriptionPosition;
 
-    private void Start()
+    List<GameObject> buttons = new List<GameObject>();
+
+    //private void Start()
+    //{
+    //    GenerateShop();
+    //}
+
+    public void GenerateShop()
     {
-        if(ShopButtons.fullAutoBought)
+        foreach (var button in buttons)
         {
-            shopButtons.RemoveAt(0);
+            Destroy(button);
         }
-        int index1 = Mathf.RoundToInt(Random.Range(0, shopButtons.Count));
-        GameObject firstItem = Instantiate(shopButtons[index1], slot1.position, Quaternion.identity);
+        buttons.Clear();
+        List<GameObject> validButtons = new List<GameObject>();
+        validButtons.AddRange(shopButtons);
+        if (ShopButtons.fullAutoBought)
+        {
+            validButtons.RemoveAt(0);
+        }
+        int index1 = Random.Range(0, validButtons.Count);
+        GameObject firstItem = Instantiate(validButtons[index1], slot1.position, Quaternion.identity);
         firstItem.transform.SetParent(slot1.transform, true);
-        shopButtons.RemoveAt(index1);
-        int index2 = Mathf.RoundToInt(Random.Range(0, shopButtons.Count));
-        GameObject secondItem = Instantiate(shopButtons[index2], slot2.position, Quaternion.identity);
+        buttons.Add(firstItem);
+        validButtons.RemoveAt(index1);
+        int index2 = Random.Range(0, validButtons.Count);
+        GameObject secondItem = Instantiate(validButtons[index2], slot2.position, Quaternion.identity);
         secondItem.transform.SetParent(slot2.transform, true);
-        shopButtons.RemoveAt(index2);
-        int index3 = Mathf.RoundToInt(Random.Range(0, shopButtons.Count));
-        GameObject thirdItem = Instantiate(shopButtons[index3], slot3.position, Quaternion.identity);
+        buttons.Add(secondItem);
+        validButtons.RemoveAt(index2);
+        int index3 = Random.Range(0, validButtons.Count);
+        GameObject thirdItem = Instantiate(validButtons[index3], slot3.position, Quaternion.identity);
         thirdItem.transform.SetParent(slot3.transform, true);
-        shopButtons.RemoveAt(index3);
+        buttons.Add(thirdItem);
+        validButtons.RemoveAt(index3);
         GameObject moreMagsItem = Instantiate(moreMagsButton, slot4.position, Quaternion.identity);
         moreMagsItem.transform.SetParent(slot4.transform, true);
 
-        if(firstItem.name == "Shotgun" || firstItem.name == "Tommygun" || firstItem.name == "FullAuto")
+        if (firstItem.name == "Shotgun" || firstItem.name == "Tommygun" || firstItem.name == "FullAuto")
         {
-            shopButtons.Remove(firstItem);
+            validButtons.Remove(firstItem);
         }
         if (secondItem.name == "Shotgun" || secondItem.name == "Tommygun" || secondItem.name == "FullAuto")
         {
-            shopButtons.Remove(secondItem);
+            validButtons.Remove(secondItem);
         }
         if (thirdItem.name == "Shotgun" || thirdItem.name == "Tommygun" || thirdItem.name == "FullAuto")
         {
-            shopButtons.Remove(thirdItem);
+            validButtons.Remove(thirdItem);
         }
     }
 }

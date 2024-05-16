@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     [Header("ShopRoom")]
     [SerializeField] private List<GameObject> shopRoom;
     [SerializeField] private GameObject shop;
+    [SerializeField] private GameObject shopButtonSpawner;
     [Header("BossRoom")]
     [SerializeField] private GameObject bossRoom;
 
@@ -72,7 +73,8 @@ public class GameManager : MonoBehaviour
     public void SpawnNextLevel()
     {
         Debug.Log(levelDefinitions.Count + " " + currentLevel);
-        
+        InstantiateButtons buttonSpawner = shopButtonSpawner.GetComponent<InstantiateButtons>();
+        buttonSpawner.GenerateShop();
         ClearLevel();
         player.transform.position = transform.position;
         if (levelDefinitions.Count > currentLevel)

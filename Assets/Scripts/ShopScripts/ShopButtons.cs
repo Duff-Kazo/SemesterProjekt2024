@@ -29,17 +29,24 @@ public class ShopButtons : MonoBehaviour
     {
         player = FindObjectOfType<PlayerController>();
         ShopButtons.soldOutCount = 0;
+        usesMagUpgrade = 3;
+        usesMaxHealth = 3;
+        usesUpDamage = 2;
+        usesLegMods = 1;
+        usesShotgun = 1;
+        usesTommyGun = 1;
+        usesMP40 = 1;
     }
     public void MoreMags()
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesMoreMags > 1)
+        if ((usesMoreMags > 1))
         {
-            usesMoreMags--;
             usesText.text = usesMoreMags.ToString();
             if (player.bloodPoints >= 10)
             {
+                usesMoreMags--;
                 PlayClickSound();
                 player.bloodPoints -= 10;
                 Debug.Log("MoreMags");
@@ -76,12 +83,12 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesMP40 >= 1)
+        if ((usesMP40 >= 1))
         {
-            usesMP40--;
             usesText.text = usesMP40.ToString();
             if (player.bloodPoints >= 200)
             {
+                usesMP40--;
                 PlayClickSound();
                 player.bloodPoints -= 200;
                 Debug.Log("FullAuto");
@@ -117,12 +124,12 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesMagUpgrade >= 1)
+        if ((usesMagUpgrade >= 1))
         {
-            usesMagUpgrade--;
             usesText.text = usesMagUpgrade.ToString();
             if (player.bloodPoints >= 125)
             {
+                usesMagUpgrade--;
                 PlayClickSound();
                 player.bloodPoints -= 125;
                 Debug.Log("MagUpgrade");
@@ -159,12 +166,12 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesMaxHealth >= 1)
+        if ((usesMaxHealth >= 1))
         {
-            usesMaxHealth--;
             usesText.text = usesMaxHealth.ToString();
             if (player.bloodPoints >= 80)
             {
+                usesMaxHealth--;
                 PlayClickSound();
                 player.bloodPoints -= 80;
                 player.BuyItem("Health", 80);
@@ -200,12 +207,12 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesUpDamage >= 1)
+        if ((usesUpDamage >= 1))
         {
-            usesUpDamage--;
             usesText.text = usesUpDamage.ToString();
             if (player.bloodPoints >= 110)
             {
+                usesUpDamage--;
                 PlayClickSound();
                 player.bloodPoints -= 110;
                 Debug.Log("UpDamage");
@@ -242,12 +249,12 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesLegMods >= 1)
+        if ((usesLegMods >= 1))
         {
-            usesLegMods--;
             usesText.text = usesLegMods.ToString();
             if (player.bloodPoints >= 100)
             {
+                usesLegMods--;
                 PlayClickSound();
                 player.bloodPoints -= 100;
                 Debug.Log("LegMods");
@@ -284,12 +291,12 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesShotgun >= 1)
+        if ((usesShotgun >= 1))
         {
-            usesShotgun--;
             usesText.text = usesShotgun.ToString();
             if (player.bloodPoints >= 300)
             {
+                usesShotgun--;
                 PlayClickSound();
                 player.bloodPoints -= 300;
                 Debug.Log("Shotgun");
@@ -326,12 +333,12 @@ public class ShopButtons : MonoBehaviour
     {
         Button button = GetComponentInParent<Button>();
         TextMeshProUGUI usesText = button.transform.Find("UsesText").GetComponent<TextMeshProUGUI>();
-        if (usesTommyGun >= 1)
+        if ((usesTommyGun >= 1))
         {
-            usesTommyGun--;
             usesText.text = usesShotgun.ToString();
             if (player.bloodPoints >= 400)
             {
+                usesTommyGun--;
                 PlayClickSound();
                 player.bloodPoints -= 400;
                 Debug.Log("Tommygun");

@@ -1645,8 +1645,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.0030500293, y: 0.0025999844, z: 0}
-    m_Extent: {x: 0.99795, y: 1.0021, z: 0}
+    m_Center: {x: -0.0030500293, y: -0.00049996376, z: 0}
+    m_Extent: {x: 1.00565, y: 1.0021, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -4824,6 +4824,9 @@ MonoBehaviour:
   dashCoolDownText: {fileID: 1448198205}
   dashEnabled: 0
   monsterState: 0
+  currentMonsterState: {fileID: 0}
+  newMonsterState: {fileID: 0}
+  monsterStatePanel: {fileID: 0}
   blood: {fileID: 7789945669554595880, guid: 8f79a35a5bcf8444da154a09a0556e96, type: 3}
   health: 0
   lerpSpeed: 0.05
@@ -5538,6 +5541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMask: {fileID: 1657723985515663114, guid: 16332f2f9b80a7b44b4d00c6c816b4ce, type: 3}
+  parentGameObject: {fileID: 0}
 --- !u!114 &610252423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92004,8 +92008,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.0032000244, y: -0.0042999983, z: 0}
-    m_Extent: {x: 1.0007, y: 0.9994, z: 0}
+    m_Center: {x: 0.0011000037, y: 0.00024998188, z: 0}
+    m_Extent: {x: 1.0002999, y: 1.00945, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0

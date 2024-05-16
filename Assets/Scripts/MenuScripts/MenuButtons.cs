@@ -12,7 +12,7 @@ public class MenuButtons : MonoBehaviour
         PlayerController.plagueActivated = false;
         PlayerController.shieldActivated = false;
         ShopButtons.fullAutoBought = false;
-        SceneManager.LoadScene("Dungeons");
+        SceneManager.LoadScene("Rooms");
     }
 
     public void StartFirstCutscene()

@@ -2634,7 +2634,7 @@ GameObject:
   - component: {fileID: 348533083}
   - component: {fileID: 348533082}
   m_Layer: 13
-  m_Name: PausePenal
+  m_Name: PausePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4182,7 +4182,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -5022,7 +5022,6 @@ Transform:
   - {fileID: 858214285}
   - {fileID: 899035535}
   - {fileID: 1717402903}
-  - {fileID: 807530557}
   - {fileID: 1101649696}
   - {fileID: 1128649943}
   - {fileID: 1664904569}
@@ -5770,7 +5769,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 348533081}
-  m_Father: {fileID: 646293116}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13346,8 +13345,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.004999995, y: 0.0042000115, z: 0}
-    m_Extent: {x: 1.0028, y: 0.99950004, z: 0}
+    m_Center: {x: 0.00454998, y: -0.0022500157, z: 0}
+    m_Extent: {x: 1.00165, y: 1.0065501, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -14417,8 +14416,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.00085002184, y: 0.00090003014, z: 0}
-    m_Extent: {x: 0.99925, y: 1.003, z: 0}
+    m_Center: {x: -0.0012500286, y: -0.0031999946, z: 0}
+    m_Extent: {x: 1.00335, y: 1.0033, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -16330,6 +16329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMask: {fileID: 1657723985515663114, guid: 16332f2f9b80a7b44b4d00c6c816b4ce, type: 3}
+  parentGameObject: {fileID: 199691747}
 --- !u!114 &1803833214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16835,6 +16835,7 @@ MonoBehaviour:
   shopRoom:
   - {fileID: 6460230389132486428, guid: eadee7c6a0e9fa8458585b61ab33455e, type: 3}
   shop: {fileID: 1101649690}
+  shopButtonSpawner: {fileID: 1529167791}
   bossRoom: {fileID: 6460230389132486428, guid: 813195cf03f357341a2acccd79fccc47, type: 3}
   locker: {fileID: 2015757979912338559, guid: 0f24b0ab0a407bc4db37cbce5373918a, type: 3}
   items:
@@ -18393,8 +18394,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.005100012, y: 0.0037499964, z: 0}
-    m_Extent: {x: 1.0031, y: 0.99705005, z: 0}
+    m_Center: {x: 0.0013000369, y: 0.00014996529, z: 0}
+    m_Extent: {x: 1.0069001, y: 1.00695, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -19650,3 +19651,4 @@ SceneRoots:
   - {fileID: 1717139372}
   - {fileID: 646293116}
   - {fileID: 201607182}
+  - {fileID: 807530557}
