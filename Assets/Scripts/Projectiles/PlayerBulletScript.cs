@@ -51,7 +51,7 @@ public class PlayerBulletScript : MonoBehaviour
             if (shotGunDamage > 0)
             {
                 Rigidbody2D rb = crawler.gameObject.GetComponent<Rigidbody2D>();
-                rb.velocity = transform.up * knockBackForce * 1.1f;
+                rb.velocity = transform.up * knockBackForce / 2;
             }
             crawler.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
             Destroy(gameObject);
@@ -62,7 +62,7 @@ public class PlayerBulletScript : MonoBehaviour
             if (shotGunDamage > 0)
             {
                 Rigidbody2D rb = eye.gameObject.GetComponent<Rigidbody2D>();
-                rb.velocity = transform.up * knockBackForce * 0.9f;
+                rb.velocity = transform.up * knockBackForce /2;
             }
             eye.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
             Destroy(gameObject);

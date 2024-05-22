@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     private float dashTimer = 0;
 
     //MonsterItems
-    public static bool eyesActivated;
+    public static bool eyesActivated = false;
     public static bool shieldActivated = false;
     public static bool orbsActivated = false;
     public static bool plagueActivated = false;

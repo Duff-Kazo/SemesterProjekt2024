@@ -22,21 +22,20 @@ public class CorpseController : MonoBehaviour
         {
             corpseText.text = "F - Eat Corpse";
         }
-        else
-        {
-            corpseText.text = "F - Inject Corpse Blood";
-        }
     }
 
     public void EatCorpse()
     {
-        Destroy(gameObject);
-        if (player.health < player.maxHealth)
+        if(player.monsterState == 3)
         {
-            player.health++;
+            Destroy(gameObject);
+            if (player.health < player.maxHealth)
+            {
+                player.health++;
+            }
+            Instantiate(bloodParticles, transform.position, Quaternion.identity);
+            gameManager.EatBody();
         }
-        Instantiate(bloodParticles, transform.position, Quaternion.identity);
-        gameManager.EatBody();
     }
 
     private IEnumerator CorpseCoolDown()

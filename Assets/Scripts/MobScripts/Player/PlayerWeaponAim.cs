@@ -19,7 +19,7 @@ public class PlayerWeaponAim : MonoBehaviour
     public bool canShoot = true;
     public bool fullAuto = false;
     private bool flipped = false;
-    private float shootCoolDown;
+    [SerializeField] private float shootCoolDown;
 
     [Header("Sounds")]
     [SerializeField] private AudioSource playerShot;

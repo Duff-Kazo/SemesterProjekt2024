@@ -47,6 +47,7 @@ public class ShopButtons : MonoBehaviour
             if (player.bloodPoints >= 10)
             {
                 usesMoreMags--;
+                usesText.text = usesMoreMags.ToString();
                 PlayClickSound();
                 player.bloodPoints -= 10;
                 Debug.Log("MoreMags");
@@ -89,6 +90,7 @@ public class ShopButtons : MonoBehaviour
             if (player.bloodPoints >= 200)
             {
                 usesMP40--;
+                usesText.text = usesMP40.ToString();
                 PlayClickSound();
                 player.bloodPoints -= 200;
                 Debug.Log("FullAuto");
@@ -130,6 +132,7 @@ public class ShopButtons : MonoBehaviour
             if (player.bloodPoints >= 125)
             {
                 usesMagUpgrade--;
+                usesText.text = usesMagUpgrade.ToString();
                 PlayClickSound();
                 player.bloodPoints -= 125;
                 Debug.Log("MagUpgrade");
@@ -172,6 +175,7 @@ public class ShopButtons : MonoBehaviour
             if (player.bloodPoints >= 80)
             {
                 usesMaxHealth--;
+                usesText.text = usesMaxHealth.ToString();
                 PlayClickSound();
                 player.bloodPoints -= 80;
                 player.BuyItem("Health", 80);
@@ -213,6 +217,7 @@ public class ShopButtons : MonoBehaviour
             if (player.bloodPoints >= 110)
             {
                 usesUpDamage--;
+                usesText.text = usesUpDamage.ToString();
                 PlayClickSound();
                 player.bloodPoints -= 110;
                 Debug.Log("UpDamage");
@@ -255,6 +260,7 @@ public class ShopButtons : MonoBehaviour
             if (player.bloodPoints >= 100)
             {
                 usesLegMods--;
+                usesText.text = usesLegMods.ToString();
                 PlayClickSound();
                 player.bloodPoints -= 100;
                 Debug.Log("LegMods");
@@ -297,6 +303,7 @@ public class ShopButtons : MonoBehaviour
             if (player.bloodPoints >= 300)
             {
                 usesShotgun--;
+                usesText.text = usesShotgun.ToString();
                 PlayClickSound();
                 player.bloodPoints -= 300;
                 Debug.Log("Shotgun");
@@ -339,6 +346,7 @@ public class ShopButtons : MonoBehaviour
             if (player.bloodPoints >= 400)
             {
                 usesTommyGun--;
+                usesText.text = usesShotgun.ToString();
                 PlayClickSound();
                 player.bloodPoints -= 400;
                 Debug.Log("Tommygun");

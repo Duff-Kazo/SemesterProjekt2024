@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7632136774375400199}
   - component: {fileID: 8098295080255469374}
-  - component: {fileID: 4026605875257205269}
   - component: {fileID: 5391612390122309316}
   - component: {fileID: 2561960239861830509}
+  - component: {fileID: 9160781470948404771}
   m_Layer: 0
   m_Name: HeadMouthCorpse
   m_TagString: Untagged
@@ -90,39 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4026605875257205269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4367839879113131134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89f75704cdaf52141aab3d8dc41e2954, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInRange: 0
-  interactKey: 102
-  interactAction:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5391612390122309316}
-        m_TargetAssemblyTypeName: CorpseController, Assembly-CSharp
-        m_MethodName: EatCorpse
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  canvas: {fileID: 1979437712230448960}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 264
 --- !u!114 &5391612390122309316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +149,39 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.1729565, y: 1.4346485}
   m_EdgeRadius: 0
+--- !u!114 &9160781470948404771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4367839879113131134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8d5544d73b93647a1dc6f7bde3a67f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInRange: 0
+  interactKey: 102
+  interactAction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5391612390122309316}
+        m_TargetAssemblyTypeName: CorpseController, Assembly-CSharp
+        m_MethodName: EatCorpse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  canvas: {fileID: 1979437712230448960}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &4525178274835856791
 GameObject:
   m_ObjectHideFlags: 0

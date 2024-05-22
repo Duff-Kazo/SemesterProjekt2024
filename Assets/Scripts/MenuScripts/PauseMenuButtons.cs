@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class PauseMenuButtons : MonoBehaviour
 {
     GameObject myEventSystem;
+    AudioReverbFilter reverb;
+    [SerializeField] AudioSource ambience;
     private void OnEnable()
     {
         Time.timeScale = 0f;
@@ -17,6 +19,7 @@ public class PauseMenuButtons : MonoBehaviour
     private void Start()
     {
         myEventSystem = GameObject.Find("EventSystem");
+        reverb = FindObjectOfType<AudioReverbFilter>();
         StartButton();
     }
 
@@ -48,5 +51,13 @@ public class PauseMenuButtons : MonoBehaviour
         Application.Quit();
         Time.timeScale = 1f;
         Interactable.gamePaused = false;
+    }
+
+    public void PauseGame()
+    {
+        ambience.enabled = false;
+        reverb.enabled = false;
+        Time.timeScale = 0f;
+        Interactable.gamePaused = true;
     }
 }

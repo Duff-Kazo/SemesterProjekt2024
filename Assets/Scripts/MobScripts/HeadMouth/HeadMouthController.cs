@@ -64,8 +64,9 @@ public class HeadMouthController : MonoBehaviour
 
     private void Update()
     {
+        transform.rotation = Quaternion.identity;
         healthBar.updateHealthBar(health, maxHealth);
-        light.SetActive(PlayerController.eyesActivated);
+        //light.SetActive(PlayerController.eyesActivated);
         mapIcon.SetActive(PlayerController.eyesActivated);
         if (Interactable.gamePaused)
         {

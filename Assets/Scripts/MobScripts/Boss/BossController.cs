@@ -62,10 +62,8 @@ public class BossController : MonoBehaviour
     [SerializeField] private Transform direction4;
 
     [Header("Mines")]
-    [SerializeField] private float minX;
-    [SerializeField] private float maxX;
-    [SerializeField] private float minY;
-    [SerializeField] private float maxY;
+    [SerializeField] private GameObject point1;
+    [SerializeField] private GameObject point2;
     [SerializeField] private GameObject minePrefab;
     [SerializeField] private GameObject arrowPrefab;
 
@@ -111,6 +109,7 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
+        transform.rotation = Quaternion.identity;
         if (Interactable.gamePaused || !isAggro)
         {
             agent.isStopped = true;
@@ -581,7 +580,7 @@ public class BossController : MonoBehaviour
         List<GameObject> arrows = new List<GameObject>();
         for (int x = 0; x < 4; x++)
         {
-            arrows.Add(Instantiate(arrowPrefab, new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY)), Quaternion.identity));
+            arrows.Add(Instantiate(arrowPrefab, new Vector3(Random.Range(point1.transform.position.x, point2.transform.position.x), Random.Range(point2.transform.position.y, point1.transform.position.y)), Quaternion.identity));
         }
         yield return new WaitForSeconds(0.75f);
         for (int x = 0; x < 4; x++)

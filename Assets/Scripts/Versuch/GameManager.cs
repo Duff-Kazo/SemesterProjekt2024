@@ -3,10 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using static Cinemachine.DocumentationSortingAttribute;
 using Random = UnityEngine.Random;
@@ -50,6 +49,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Cutscenes")]
     [SerializeField] private PlayableDirector endCutScene;
+    [SerializeField] private TextMeshProUGUI floorCount;
+    [SerializeField] private Animator levelTransitionAnimator;
 
     private NavMeshSurface navMesh;
     private GameObject spawnedContent;
@@ -72,6 +73,8 @@ public class GameManager : MonoBehaviour
 
     public void SpawnNextLevel()
     {
+        levelTransitionAnimator.SetTrigger("NextLevel");
+        floorCount.text = currentLevel.ToString("floor - 0");
         Debug.Log(levelDefinitions.Count + " " + currentLevel);
         InstantiateButtons buttonSpawner = shopButtonSpawner.GetComponent<InstantiateButtons>();
         buttonSpawner.GenerateShop();
@@ -149,9 +152,10 @@ public class GameManager : MonoBehaviour
         TileMapVisualizer.PaintTiles(tilePositions, miniMapTileMap, mapTile);
         WallGenerator.CreateWalls(tilePositions, visualizer);
         navMesh.BuildNavMesh();
+        SpawnEnemies(roomSet, level);
         SpawnProps(roomSet, level);
         SpawnItems(roomSet, level);
-        SpawnEnemies(roomSet, level);
+        
     }
 
     private void ClearLevel()
