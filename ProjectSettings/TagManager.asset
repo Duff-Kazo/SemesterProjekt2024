@@ -16,6 +16,7 @@ TagManager:
   - EyePlagueZone
   - FogSpriteMask
   - ShopKeeper
+  - ApproveButton
   layers:
   - Default
   - TransparentFX

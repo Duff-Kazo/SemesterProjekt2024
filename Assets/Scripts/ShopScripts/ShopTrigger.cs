@@ -7,6 +7,7 @@ public class ShopTrigger : MonoBehaviour
 {
     [SerializeField] private GameObject shop;
     private AudioReverbFilter reverbFilter;
+    [SerializeField] private GameObject warningPanel;
 
     private void Start()
     {
@@ -16,6 +17,14 @@ public class ShopTrigger : MonoBehaviour
     }
     public void OpenShop()
     {
+        if(WarningPanel.numOfAssignations == 4)
+        {
+            warningPanel.SetActive(false);
+        }
+        else
+        {
+            warningPanel.SetActive(true);
+        }
         reverbFilter.enabled = false;
         Interactable.gamePaused = true;
         Interactable.wasActivated = true;
@@ -24,6 +33,7 @@ public class ShopTrigger : MonoBehaviour
 
     public void CloseShop()
     {
+        warningPanel.SetActive(false);
         reverbFilter.enabled = true;
         Interactable.gamePaused = false;
         Interactable.wasActivated = false;

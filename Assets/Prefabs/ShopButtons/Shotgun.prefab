@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8375863722964182602}
   - component: {fileID: 1288754523464350377}
   - component: {fileID: 3006504453473985172}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: UsesText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 565562037241806527}
   - component: {fileID: 1889144946291777173}
   - component: {fileID: 133925506390917515}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 7414126758495440577}
   - component: {fileID: 7914929363493999577}
   - component: {fileID: 7590490883536956435}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SoldOutText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 8098207874037999031}
   - component: {fileID: 3236895862460060624}
   - component: {fileID: 8949283896263151525}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Price
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,7 +492,7 @@ GameObject:
   - component: {fileID: 3881244190112859479}
   - component: {fileID: 153218115032173023}
   - component: {fileID: 374718986167269986}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +567,7 @@ GameObject:
   - component: {fileID: 5112651084026972907}
   - component: {fileID: 1082235201525319399}
   - component: {fileID: 6247888405552012169}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -706,7 +706,7 @@ GameObject:
   - component: {fileID: 5413534832097904797}
   - component: {fileID: 7572153894745401932}
   - component: {fileID: 1872543075500444001}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,14 +824,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4701917543348929426}
         m_TargetAssemblyTypeName: ShopButtons, Assembly-CSharp
-        m_MethodName: ShotGun
-        m_Mode: 1
+        m_MethodName: WarningWeapon
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Shotgun
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &3131269485097210198
@@ -1011,7 +1011,7 @@ GameObject:
   - component: {fileID: 8560508608214416422}
   - component: {fileID: 320874973573559286}
   - component: {fileID: 4589275959915631607}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1145,7 +1145,7 @@ GameObject:
   - component: {fileID: 9176796973294655872}
   - component: {fileID: 415257879817582179}
   - component: {fileID: 6558686971059205749}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1220,6 +1220,10 @@ PrefabInstance:
     - target: {fileID: 2270352150606552799, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
       propertyPath: m_Name
       value: ShopManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2270352150606552799, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2512210173961222351, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
       propertyPath: m_LocalPosition.x

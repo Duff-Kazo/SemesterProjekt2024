@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4435087615756354043}
   - component: {fileID: 9200036962230566227}
   - component: {fileID: 6280055540979750331}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 5916221818504097619}
   - component: {fileID: 3905312049703746364}
   - component: {fileID: 3754402000870822365}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 286664380431944021}
   - component: {fileID: 8715071736042075520}
   - component: {fileID: 1874241718075816733}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SoldOutText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 3659373614514761303}
   - component: {fileID: 1095451132791220385}
   - component: {fileID: 2434593027479822157}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Price
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 6987798449675457998}
   - component: {fileID: 3317961828932107237}
   - component: {fileID: 3886026227777281345}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: FullAuto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,14 +553,14 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2091938948656244325}
         m_TargetAssemblyTypeName: ShopButtons, Assembly-CSharp
-        m_MethodName: FullAuto
-        m_Mode: 1
+        m_MethodName: WarningWeapon
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: MP40
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &3262919671325283757
@@ -740,7 +740,7 @@ GameObject:
   - component: {fileID: 425276107630182615}
   - component: {fileID: 8572953213299711240}
   - component: {fileID: 1766314886151358840}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -877,7 +877,7 @@ GameObject:
   - component: {fileID: 7793694839571645021}
   - component: {fileID: 252130292229995818}
   - component: {fileID: 1394004411310175228}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -952,7 +952,7 @@ GameObject:
   - component: {fileID: 7786918881740433492}
   - component: {fileID: 5642510148463250609}
   - component: {fileID: 6467952850606908093}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: UsesText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1086,7 +1086,7 @@ GameObject:
   - component: {fileID: 1455508567046842460}
   - component: {fileID: 5069517850193889410}
   - component: {fileID: 2304314821036480053}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Sold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1221,6 +1221,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2270352150606552799, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 2512210173961222351, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.07
@@ -1260,6 +1264,50 @@ PrefabInstance:
     - target: {fileID: 2512210173961222351, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: mp40Clicked.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: shotGunClicked.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: tommyGunClicked.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: mp40Clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: mp40Clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2091938948656244325}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: mp40Clicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: mp40Clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FullAuto
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: shotGunClicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: tommyGunClicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: mp40Clicked.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShopButtons, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687708990229772996, guid: 2b03268f6fa90d64cbe4ec56b8ac7cbe, type: 3}
+      propertyPath: mp40Clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

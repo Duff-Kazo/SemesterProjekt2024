@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,9 @@ public class ShopButtons : MonoBehaviour
     public static bool fullAutoBought = false;
     public static int soldOutCount = 0;
     public static float bulletDamage = 1;
+
+    WarningPanel warningPanel;
+
     [SerializeField] private AudioSource click;
 
     [SerializeField] private int usesMoreMags;
@@ -25,6 +29,13 @@ public class ShopButtons : MonoBehaviour
     [SerializeField] private int usesShotgun;
     [SerializeField] private int usesTommyGun;
     [SerializeField] private int usesMP40;
+
+    private Button approveButton;
+
+    [SerializeField] private UnityEngine.UI.Button.ButtonClickedEvent shotGunClicked;
+    [SerializeField] private UnityEngine.UI.Button.ButtonClickedEvent tommyGunClicked;
+    [SerializeField] private UnityEngine.UI.Button.ButtonClickedEvent mp40Clicked;
+
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
@@ -36,6 +47,14 @@ public class ShopButtons : MonoBehaviour
         usesShotgun = 1;
         usesTommyGun = 1;
         usesMP40 = 1;
+        warningPanel = FindObjectOfType<WarningPanel>();
+        approveButton = FindObjectOfType<YesButton>().gameObject.GetComponent<Button>();
+        WarningPanel.numOfAssignations += 1;
+        if(WarningPanel.numOfAssignations == 4)
+        {
+            warningPanel.ClosePanel();
+            //WarningPanel.numOfAssignations = 0;
+        }
     }
     public void MoreMags()
     {
@@ -89,6 +108,7 @@ public class ShopButtons : MonoBehaviour
             usesText.text = usesMP40.ToString();
             if (player.bloodPoints >= 200)
             {
+                warningPanel.gameObject.SetActive(false);
                 usesMP40--;
                 usesText.text = usesMP40.ToString();
                 PlayClickSound();
@@ -293,6 +313,25 @@ public class ShopButtons : MonoBehaviour
         }
     }
 
+    public void WarningWeapon(string name)
+    {   
+        if (name == "Shotgun" && player.bloodPoints >= 300)
+        {
+            approveButton.onClick = shotGunClicked;
+            warningPanel.gameObject.SetActive(true);
+        }
+        if (name == "Tommygun" && player.bloodPoints >= 400)
+        {
+            approveButton.onClick = tommyGunClicked;
+            warningPanel.gameObject.SetActive(true);
+        }
+        if (name == "MP40" && player.bloodPoints >= 200)
+        {
+            approveButton.onClick = mp40Clicked;
+            warningPanel.gameObject.SetActive(true);
+        }
+    }
+
     public void ShotGun()
     {
         Button button = GetComponentInParent<Button>();
@@ -302,6 +341,7 @@ public class ShopButtons : MonoBehaviour
             usesText.text = usesShotgun.ToString();
             if (player.bloodPoints >= 300)
             {
+                warningPanel.gameObject.SetActive(false);
                 usesShotgun--;
                 usesText.text = usesShotgun.ToString();
                 PlayClickSound();
@@ -345,6 +385,7 @@ public class ShopButtons : MonoBehaviour
             usesText.text = usesShotgun.ToString();
             if (player.bloodPoints >= 400)
             {
+                warningPanel.gameObject.SetActive(false);
                 usesTommyGun--;
                 usesText.text = usesShotgun.ToString();
                 PlayClickSound();

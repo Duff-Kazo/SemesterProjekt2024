@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnNextLevel()
     {
+        WarningPanel.numOfAssignations = 0;
         levelTransitionAnimator.SetTrigger("NextLevel");
         floorCount.text = currentLevel.ToString("floor - 0");
         Debug.Log(levelDefinitions.Count + " " + currentLevel);

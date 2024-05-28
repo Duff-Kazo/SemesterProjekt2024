@@ -190,6 +190,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioSource reloadTommygun;
     [SerializeField] private AudioSource reloadMP40;
     [SerializeField] private AudioSource reloadShotgun;
+    [SerializeField] private AudioSource monsterStateUp;
     private bool shotgun;
     private bool mp;
     private bool tommy;
@@ -557,6 +558,7 @@ public class PlayerController : MonoBehaviour
     {
         if(monsterState < 3)
         {
+            //monsterStateUp.Play();
             tempMonsterState = monsterState;
             monsterState++;
             StartCoroutine(MonsterStateAnimation());
