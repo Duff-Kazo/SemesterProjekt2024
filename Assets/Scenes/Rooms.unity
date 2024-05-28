@@ -2729,7 +2729,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1525088283}
           m_TargetAssemblyTypeName: PauseMenuButtons, Assembly-CSharp
-          m_MethodName: PauseGame
+          m_MethodName: ExitCreditsButton
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -15129,8 +15129,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.0014500022, y: 0.0024500191, z: 0}
-    m_Extent: {x: 1.00175, y: 0.99995005, z: 0}
+    m_Center: {x: 0.00024998188, y: 0.0055000186, z: 0}
+    m_Extent: {x: 1.00015, y: 0.9991, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -16330,8 +16330,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.0009999871, y: 0.008649975, z: 0}
-    m_Extent: {x: 1.0026, y: 1.00115, z: 0}
+    m_Center: {x: 0.002399981, y: -0.0022000074, z: 0}
+    m_Extent: {x: 1.0011001, y: 1.0036, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -18667,7 +18667,7 @@ MonoBehaviour:
   reload: {fileID: 1803833200}
   loaded: {fileID: 1803833209}
   damageSound: {fileID: 1803833208}
-  bloodPoints: 1000
+  bloodPoints: 0
   reloadTommygun: {fileID: 1803833202}
   reloadMP40: {fileID: 1803833201}
   reloadShotgun: {fileID: 1803833206}
@@ -20729,8 +20729,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.001850009, y: 0.00045001507, z: 0}
-    m_Extent: {x: 1.00335, y: 1.00345, z: 0}
+    m_Center: {x: -0.0015000105, y: -0.0029499829, z: 0}
+    m_Extent: {x: 1.0015, y: 1.00105, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
