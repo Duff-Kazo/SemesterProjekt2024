@@ -100,6 +100,12 @@ public class PlayerController : MonoBehaviour
     public static bool orbsActivated = false;
     public static bool plagueActivated = false;
 
+    [Header("ItemUI")]
+    [SerializeField] private GameObject eyesUI;
+    [SerializeField] private GameObject shieldUI;
+    [SerializeField] private GameObject orbUI;
+    [SerializeField] private GameObject plagueUI;
+
 
     //Animations
     [Header("Animations")]
@@ -344,6 +350,11 @@ public class PlayerController : MonoBehaviour
         dashUI.SetActive(dashEnabled);
         explosionBulletUI.SetActive(explosionBulletEnabled);
 
+        plagueUI.SetActive(plagueActivated);
+        shieldUI.SetActive(shieldActivated);
+        orbUI.SetActive(orbsActivated);
+        eyesUI.SetActive(eyesActivated);
+
         //AbilityUI
         acidFullAutoText.SetActive(AcidFullAutoEnabled);
         if (Interactable.gamePaused || isDashing)
@@ -558,7 +569,7 @@ public class PlayerController : MonoBehaviour
     {
         if(monsterState < 3)
         {
-            //monsterStateUp.Play();
+            monsterStateUp.Play();
             tempMonsterState = monsterState;
             monsterState++;
             StartCoroutine(MonsterStateAnimation());
@@ -573,7 +584,7 @@ public class PlayerController : MonoBehaviour
         newMonsterState.text = monsterState.ToString();
         monsterStateAnimator.SetTrigger("ChangeMonsterState");
         CinemachineShake.instance.ShakeCamera(4, 1.99f);
-        yield return new WaitForSeconds(1.99f);
+        yield return new WaitForSeconds(1.98f);
         monsterStatePanel.SetActive(false);
     }
 

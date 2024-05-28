@@ -40,7 +40,7 @@ public class PlayerBulletScript : MonoBehaviour
             if(shotGunDamage > 0)
             {
                 Rigidbody2D rb = headMouth.gameObject.GetComponent<Rigidbody2D>();
-                rb.velocity = transform.up * knockBackForce;
+                rb.velocity = transform.up * knockBackForce / 2;
             }
             headMouth.TakeDamage(ShopButtons.bulletDamage + bonusDamage + shotGunDamage);
             Destroy(gameObject);

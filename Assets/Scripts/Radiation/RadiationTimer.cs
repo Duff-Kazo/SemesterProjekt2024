@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class RadiationTimer : MonoBehaviour
 {
-    private float remainingTime = 300;
-    private float baseRemainingTime = 300;
+    private float remainingTime = 120;
+    private float baseRemainingTime = 120;
     private PlayerController player;
     private bool wasActivated = false;
     [SerializeField] private TextMeshProUGUI radiationText;

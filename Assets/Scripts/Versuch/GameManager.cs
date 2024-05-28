@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour
 
     public void SpawnNextLevel()
     {
-        WarningPanel.numOfAssignations = 0;
         levelTransitionAnimator.SetTrigger("NextLevel");
         floorCount.text = currentLevel.ToString("floor - 0");
         Debug.Log(levelDefinitions.Count + " " + currentLevel);
@@ -94,8 +93,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator OpenShop(ShopTrigger shopTrigger)
+    {
+        shopTrigger.OpenShop();
+        yield return new WaitForSeconds(0.05f);
+        shopTrigger.CloseShop();
+    }
+
     private void GenerateLevel(LevelDefinition level)
     {
+        //Sehr beschissener Code:
+        WarningPanel.numOfAssignations = 0;
+        ShopTrigger shopTrigger = FindObjectOfType<ShopTrigger>();
+        AudioListener audioListener = FindObjectOfType<AudioListener>();
+        audioListener.enabled = false;
+        StartCoroutine(OpenShop(shopTrigger));
+        audioListener.enabled = true;
+        //Sehr beschissener Code ende
+
+
         List<RoomDefinition> roomSet = null;
         int numOfCries = 0;
         while (roomSet == null)

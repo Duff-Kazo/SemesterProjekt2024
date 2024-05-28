@@ -50,12 +50,12 @@ public class ShopButtons : MonoBehaviour
         warningPanel = FindObjectOfType<WarningPanel>();
         approveButton = FindObjectOfType<YesButton>().gameObject.GetComponent<Button>();
         WarningPanel.numOfAssignations += 1;
-        if(WarningPanel.numOfAssignations == 4)
+        if(WarningPanel.numOfAssignations >= 4)
         {
             warningPanel.ClosePanel();
-            //WarningPanel.numOfAssignations = 0;
         }
     }
+
     public void MoreMags()
     {
         Button button = GetComponentInParent<Button>();

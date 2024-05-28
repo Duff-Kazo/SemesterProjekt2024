@@ -17,7 +17,8 @@ public class ShopTrigger : MonoBehaviour
     }
     public void OpenShop()
     {
-        if(WarningPanel.numOfAssignations == 4)
+        Debug.Log(WarningPanel.numOfAssignations);
+        if(WarningPanel.numOfAssignations >= 4)
         {
             warningPanel.SetActive(false);
         }
