@@ -22,7 +22,7 @@ public class PlayerMonsterLevelSystem : MonoBehaviour
 
     void Update()
     {
-        if (player.level >= 5)
+        if (player.level >= 2)
         {
             player.dashEnabled = true;
             if (!ability1)
@@ -32,7 +32,7 @@ public class PlayerMonsterLevelSystem : MonoBehaviour
             }
             
         }
-        if (player.level >= 10)
+        if (player.level >= 4)
         {
             player.explosionBulletEnabled = true;
             if (!ability2)
@@ -41,7 +41,7 @@ public class PlayerMonsterLevelSystem : MonoBehaviour
                 StartCoroutine(LevelUpAnimation());
             }
         }
-        if (player.level >= 15)
+        if (player.level >= 6)
         {
             player.shieldEnabled = true;
             if (!ability3)
@@ -50,7 +50,7 @@ public class PlayerMonsterLevelSystem : MonoBehaviour
                 StartCoroutine(LevelUpAnimation());
             }
         }
-        if (player.level >= 20)
+        if (player.level >= 8)
         {
             player.AcidFullAutoEnabled = true;
             if (!ability4)

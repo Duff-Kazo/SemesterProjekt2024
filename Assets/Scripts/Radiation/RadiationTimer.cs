@@ -6,11 +6,12 @@ using UnityEngine.UI;
 
 public class RadiationTimer : MonoBehaviour
 {
-    private float remainingTime = 120;
-    private float baseRemainingTime = 120;
+    private float remainingTime = 210;
+    private float baseRemainingTime = 210;
     private PlayerController player;
     private bool wasActivated = false;
     [SerializeField] private TextMeshProUGUI radiationText;
+    private bool isActive = false;
     void Start()
     {
         remainingTime = baseRemainingTime;
@@ -35,8 +36,21 @@ public class RadiationTimer : MonoBehaviour
 
             if (remainingTime <= 1)
             {
-                player.Die();
+                radiationText.text = "0:00";
+                //player.Die();
+                if(!isActive)
+                {
+                    StartCoroutine(DamagePlayer());
+                }
             }
         }
+    }
+
+    private IEnumerator DamagePlayer()
+    {
+        isActive = true;
+        player.TakeDamage(2f);
+        yield return new WaitForSeconds(1f);
+        isActive = false;
     }
 }
